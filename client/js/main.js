@@ -79,20 +79,25 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
             m1[3]   ),
       h('p', ' ',  ),
       h('button', {on: { mouseenter: update12e, mouseleave: update12l, click: updateOp }, style: style12},
-            m7[0]   ),
+            m17[0]   ),
       h('button', {on: { mouseenter: update13e, mouseleave: update13l, click: updateOp }, style: style13},
-            m7[1]   ),
+            m17[1]   ),
       h('button', {on: { mouseenter: update14e, mouseleave: update14l, click: updateOp }, style: style14},
-            m7[2]   ),
+            m17[2]   ),
       h('button', {on: { mouseenter: update15e, mouseleave: update15l, click: updateOp }, style: style15},
-            m7[3]   ),
+            m17[3]   ),
       h('button', {on: { mouseenter: update16e, mouseleave: update16l, click: updateOp }, style: style16},
-            m7[4]   ),
+            m17[4]   ),
       h('p', '  '  ),
 
-          h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: send }, style: style5},
+      h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: send }, style: style5},
                      `ROLL`   ),
-
+/*
+      h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: updateScore }, style: style5},
+                     `SCORE`   ),
+      h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: updateImpossible }, style: style5},
+                     `IMPOSSIBLE`   ),
+*/
 
       h('p', 'Now click ROLL. '  ),
       h('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. ',  ),
@@ -199,27 +204,36 @@ function update0() {
 
 function updateNums(e) {
   mM2.ret([e.target.value, e.target.textContent]) 
-  .bnd(() => mM3).bnd(push,mM2.x[1]).bnd(() => {mM1.x[mM2.x[0]] = ""; return mMI1;})
-      .block()
-      .bnd(() => mM3
-      .bnd(toFloat)
-      .bnd(() => mM1
-      .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])
-      .bnd(clean)
-      .bnd(displayOff, mM1.x.length)
-      .bnd(() => mM3
-      .ret([])
-      .bnd(() => mM4
-      .ret(0).bnd(mM8.ret)
-      .bnd(() => mM5.ret('Done')
-      .bnd(update)   )) ))  
-      .bnd(() => mMI2.block()
-      .bnd(() => mM13.ret(mM13.x + 1).bnd(() => send()))))
-
-  mM5.ret('Waiting')     
+  .bnd(() => mM3)
+  .bnd(push,mM2.x[1])
+  .bnd(() => {mM1.x[mM2.x[0]] = ""; return mM5;})
+  .bnd(update)
   .bnd(next,(mM8.x !== 0 && mM3.x.length === 2), mMI1)
-  .bnd(next, (mM1.x[mM1.x.length - 1] == 20), mMI2)
-  .bnd(update) 
+  .bnd(next, (mM1.x[mM1.x.length - 1] == 18), mMI4).bnd(update)
+  .bnd(next, (mM1.x[mM1.x.length - 1] == 20), mMI2).bnd(update) 
+  .bnd(() => 
+      ( mMI1.block()
+                    .bnd(() => mM3
+                    .bnd(toFloat)
+                    .bnd(() => mM1
+                    .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])
+                    .bnd(clean)
+                    .bnd(displayOff, mM1.x.length)
+                    .bnd(() => mM3
+                    .ret([])
+                    .bnd(() => mM4
+                    .ret(0).bnd(mM8.ret)
+                    .bnd(() => mM5.ret('Done')
+                    .bnd(update)   ))))) ),
+      ( mMI2.block()
+                    .bnd(() => mM13
+                    .ret(mM13.x + 1)
+                    .bnd(() => send())) ),
+      ( mMI4.block()
+                    .bnd(() => mM13
+                    .ret(mM13.x + 3)
+                    .bnd(() => send())) )
+  )   
 }
 
 function updateOp(e) {
@@ -254,7 +268,6 @@ function updateLogin(e) {
        return;
      } 
      if( e.keyCode == 13 ) {
-       mM9.ret(v);
        console.log("CC#$42" + v);
        socket.send("CC#$42" + v);
        LoginName = v;
@@ -342,6 +355,7 @@ socket.onmessage = function(event) {
             }
             else {
               mM6.ret(sender + '\'s socket is now open');
+              // mM9.ret([
               update0();
             }
       
@@ -352,7 +366,7 @@ socket.onmessage = function(event) {
           
           case "CA#$42":                             // Triggedarkred by ROLL
               mM1.ret([extra,  ext4,  ext5,  ext6]);
-              mM7.ret(['add', 'subtract', 'mult', 'div', 'concat']); 
+              mM17.ret(['add', 'subtract', 'mult', 'div', 'concat']); 
               mM3.ret([]);
               mM8.ret(0);
               mM6.bnd(displayInline,1);
