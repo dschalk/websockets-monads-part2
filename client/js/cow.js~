@@ -154,16 +154,26 @@ const dice = h('pre', {style: {color: '#AFEEEE' }}, `
   }
 ` );  
 
-const next = h('pre', {style: {color: '#AFEEEE' }}, `
-    var next = function next(x,mon,bool,mon2) {  
+const next = h('pre', {style: {color: '#AFEEEE' }}, 
+`    var next = function next(x,mon,bool,mon2) {  
       if (bool) {
         mon2.release();
       }
       return mon
-    }
+    }`
+);  
+
+
+const send = h('pre', {style: {color: '#AFEEEE' }}, `
+    var send = function(event) {
+        socket.send("CA#$42,solo," + LoginName +",6,6,12,20");
+    };
 ` );  
 
-export default {monad, monadIter, steps, next, dice};
+
+
+
+export default {monad, monadIter, steps, next, dice, send};
 
 
 

@@ -62,8 +62,8 @@ const monadIter = h('pre', {style: {color: '#AFEEEE' }}, `    class MonadIter {
     };
 ` );  
 
-const steps = h('pre', {style: {color: '#AFEEEE' }}, `
-    mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret)
+const steps = h('pre', {style: {color: '#AFEEEE' }}, 
+`    mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret)
      .bnd(() => mM1
      .ret('Click mMI2.release() to proceed')
      .bnd(refresh)
@@ -85,11 +85,11 @@ const steps = h('pre', {style: {color: '#AFEEEE' }}, `
          .block()
      .bnd(() => mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret)
      .bnd(mM4.ret).bnd(refresh)
-      ))))))))) 
-` );  
+      ))))))))) `
+ );  
 
-const dice = h('pre', {style: {color: '#AFEEEE' }}, `
-  function updateNums(e) {
+const dice = h('pre', {style: {color: '#AFEEEE' }}, 
+`  function updateNums(e) {
     mM2.ret([e.target.value, e.target.textContent]) 
     .bnd(() => mM3)
     .bnd(push,mM2.x[1])
@@ -151,19 +151,29 @@ const dice = h('pre', {style: {color: '#AFEEEE' }}, `
                       .ret(mM13.x + 3)
                       .bnd(() => send())) )
     )   
-  }
-` );  
+  } `
+);  
 
-const next = h('pre', {style: {color: '#AFEEEE' }}, `
-    var next = function next(x,mon,bool,mon2) {  
+const next = h('pre', {style: {color: '#AFEEEE' }}, 
+`    var next = function next(x,mon,bool,mon2) {  
       if (bool) {
         mon2.release();
       }
       return mon
-    }
-` );  
+    }`
+);  
 
-export default {monad, monadIter, steps, next, dice};
+
+const send = h('pre', {style: {color: '#AFEEEE' }}, 
+`    var send = function(event) {
+        socket.send("CA#$42,solo," + LoginName +",6,6,12,20");
+    };`
+);  
+
+
+
+
+export default {monad, monadIter, steps, next, dice, send};
 
 
 

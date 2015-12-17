@@ -8,7 +8,7 @@ import cow from './cow.js';
 function createWebSocket(path) {
     let host = window.location.hostname;
     if(host == '') host = 'localhost';
-    let uri = 'ws://' + host + ':4002' + path;
+    let uri = 'ws://' + host + ':4003' + path;
 
     let Socket = "MozWebSocket" in window ? MozWebSocket : WebSocket;
     return new Socket(uri);
@@ -101,17 +101,17 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
 
       h('p', 'Now click ROLL. '  ),
       h('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. ',  ),
-      h('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. They are integral to the "Game of Score" application, in which players gain points by making the number "20". '  ),
-      h('p', 'Every time you compute the number 20, mM13.x gets incremented by 1 and the mM14.x display on the right shows "<login_name>\'s score: <score>". As you can see in the click handlers below below, there are two chains for number clicks and two chains for operator clicks. In each case, the top chain is the execution path and the bottom chain uses boolean tests to control when the chain should compute a result and when the player should be given a point. Blocking and releasing is implemented with instances of MonadIter.'  ),
-      h('p', 'I have written algorithms for such behavior in the past. Never before has the code been so concise and well organized. First I\'ll show the two click handlers; one for numbers and the other for operators. '    ),
+      h('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. '  ),
+      h('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. I think the code (below) rather plainly predicts this behavior. Certain conditions release certain MonadIter instances. Look down several lines and you see what happens after the release. ' ),
       cow.dice,
       h('p', 'When numbers are clicked, they get pushed into mM3.x, an initially empty array. When an operator is clicked, it replaces "0" as the value of mM8. So when mM3.x.length === 2 and mM8.x !== 0, it is time for the computation to go forward. '  ),
-      h('p', 'mM1 hold the initial dice roll and the subsequent arrays of available numbers. When the last element in the mM1.x array (mMx.x[mM1.x.length -1] is "20", the player get an additional point and a new roll.'   ), 
-      h('p', 'My first "Game of Score" application ran on a Node.js server. The algorithm for the successive computations was a convoluted mess of callbacks between modules. Later, I re-made the application using a modified Haskell Wai-Websockets server with React in the browser. That was less of a mess, but there were plenty of calls to "React.setState" and the code wasn\'t real easy to follow. Using these monads, the main function calls are organized in one chain and timing decisions are organized in another. Once you get used to it, the code is very easy to follow. Identify the blocks in one chain and see when they are released in the other.'  ),
-      h('p', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. Here is the code for the decision function "next": '    ),
+      h('p', 'mM1 hold the initial dice roll and the subsequent arrays of available numbers. When the last element in the mM1.x array (mMx.x[mM1.x.length -1] is "20", the player get an additional point and a new roll of the dice. The same holds for the number 18, only you get three points for that. '   ), 
+      h('span', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. Here is the code for the decision function "next": '    ),
       cow.next,
-      h('p', 'Using "bnd" with "next", any monad can release any block. '    ),
-      h('span', 'In "Page 3" of this series, "Websockets-monads-II", I will embellish the dice roll algorithm with more feature. All of the code is available at '   ),
+      h('span', 'And here is "send": '  ),
+      cow.send,
+      h('p', 'Using "bnd" with "next", any monad can release any block. A chain in the tree (sorry about the mixed metaphore) can branch into 2, 3, or any number of chains you decide to place in a tupple. You wouldn\'t be required to do it, but it seems that any application could be organized into one tree. '  ),
+      h('span', 'The code for this along with some other demonstrations can be found at ' ),
       h('a', {props: {href: 'https://github.com/dschalk'}, style: {color: '#EECCFF'}}, 'github.com/dschalk'  ),
       h('div', {style: {height: '300px'}} ),
         ] ), 
