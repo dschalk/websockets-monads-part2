@@ -50,7 +50,7 @@ var _cowJs2 = _interopRequireDefault(_cowJs);
 function createWebSocket(path) {
   var host = window.location.hostname;
   if (host == '') host = 'localhost';
-  var uri = 'ws://' + host + ':4002' + path;
+  var uri = 'ws://' + host + ':4003' + path;
 
   var Socket = "MozWebSocket" in window ? MozWebSocket : WebSocket;
   return new Socket(uri);

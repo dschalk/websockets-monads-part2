@@ -8,7 +8,7 @@ import cow from './cow.js';
 function createWebSocket(path) {
     let host = window.location.hostname;
     if(host == '') host = 'localhost';
-    let uri = 'ws://' + host + ':4002' + path;
+    let uri = 'ws://' + host + ':4003' + path;
 
     let Socket = "MozWebSocket" in window ? MozWebSocket : WebSocket;
     return new Socket(uri);
