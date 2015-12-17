@@ -21,7 +21,7 @@ var monadIter = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' }
 
 var steps = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '\n    mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret)\n     .bnd(() => mM1\n     .ret(\'Click mMI2.release() to proceed\')\n     .bnd(refresh)\n     .bnd(() => mMI2\n         .block()\n     .bnd(() => mM2\n     .ret(\'Click it again.\')\n     .bnd(refresh)\n     .bnd(() => mMI2\n         .block()\n     .bnd(() => mM3.ret(\'Keep going\')\n     .bnd(refresh)\n     .bnd(() => mMI2\n         .block()\n     .bnd(() => mM4\n     .ret(\'One more\')\n     .bnd(refresh)\n     .bnd(() => mMI2\n         .block()\n     .bnd(() => mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret)\n     .bnd(mM4.ret).bnd(refresh)\n      ))))))))) \n');
 
-var dice = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '\n    function updateNums(e) {\n      mM2.ret([e.target.value, e.target.textContent]) \n      .bnd(() => mM3)\n      .bnd(push,mM2.x[1])\n      .bnd(() => {mM1.x[mM2.x[0]] = ""; return mMI1;})    \n      .block()\n        .bnd(() => mM3\n        .bnd(toFloat)\n        .bnd(() => mM1\n        .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])\n        .bnd(clean)\n        .bnd(displayOff, mM1.x.length)\n        .bnd(() => mM3\n        .ret([])\n        .bnd(() => mM4\n        .ret(0).bnd(mM8.ret)\n        .bnd(() => mM5.ret(\'Done\')\n        .bnd(update)   )) ))  \n        .bnd(() => mMI2\n        .block()\n          .bnd(() => mM13.ret(mM13.x + 1).bnd(() => send()))))    \n    \n      mM5.ret(\'Waiting\')     \n      .bnd(next,(mM8.x !== 0 && mM3.x.length === 2), mMI1)\n      .bnd(next, (mM1.x[mM1.x.length - 1] == 20), mMI2)\n      .bnd(update) \n    }\n    \n    function updateOp(e) {\n      mM8.ret(e.target.textContent)\n      .bnd(update)\n      .bnd(() => mMI1)\n      .block()\n        .bnd(() => mM3\n        .bnd(toFloat)\n        .bnd(() => mM1\n        .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])\n        .bnd(clean)\n        .bnd(displayOff, mM1.x.length)\n        .bnd(() => mM3\n        .ret([])\n        .bnd(() => mM4\n        .ret(0).bnd(mM8.ret)\n        .bnd(() => mM5.ret(\'Done\')\n        .bnd(update)   )) )) \n        .bnd(() => mMI2\n        .block()\n          .bnd(() => mM13.ret(mM13.x + 1).bnd(() => send()))))\n    \n      mM5.ret(\'Waiting\')\n      .bnd(next, (mM3.x.length == 2),  mMI1)\n      .bnd(next, (mM1.x[mM1.x.length - 1] == 20), mMI2)\n      .bnd(update) \n}\n');
+var dice = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '\n  function updateNums(e) {\n    mM2.ret([e.target.value, e.target.textContent]) \n    .bnd(() => mM3)\n    .bnd(push,mM2.x[1])\n    .bnd(() => {mM1.x[mM2.x[0]] = ""; return mM5;})\n    .bnd(update)\n    .bnd(next,(mM8.x !== 0 && mM3.x.length === 2), mMI1)\n    .bnd(next, (mM1.x[mM1.x.length - 1] == 18), mMI4).bnd(update)\n    .bnd(next, (mM1.x[mM1.x.length - 1] == 20), mMI2).bnd(update) \n    .bnd(() => \n        ( mMI1.block()\n                      .bnd(() => mM3\n                      .bnd(toFloat)\n                      .bnd(() => mM1\n                      .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])\n                      .bnd(clean)\n                      .bnd(displayOff, mM1.x.length)\n                      .bnd(() => mM3\n                      .ret([])\n                      .bnd(() => mM4\n                      .ret(0).bnd(mM8.ret)\n                      .bnd(() => mM5.ret(\'Done\')\n                      .bnd(update)   ))))) ),\n        ( mMI2.block()\n                      .bnd(() => mM13\n                      .ret(mM13.x + 1)\n                      .bnd(() => send())) ),\n        ( mMI4.block()\n                      .bnd(() => mM13\n                      .ret(mM13.x + 3)\n                      .bnd(() => send())) )\n    )   \n  }\n  \n  function updateOp(e) {\n    mM8.ret(e.target.textContent)\n    .bnd(next, (mM3.x.length === 2), mMI1)\n    .bnd(next, (mM1.x[mM1.x.length - 1] == 18), mMI4).bnd(update)\n    .bnd(next, (mM1.x[mM1.x.length - 1] == 20), mMI2).bnd(update) \n    .bnd(() => \n        ( mMI1.block()\n                      .bnd(() => mM3\n                      .bnd(toFloat)\n                      .bnd(() => mM1\n                      .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])\n                      .bnd(clean)\n                      .bnd(displayOff, mM1.x.length)\n                      .bnd(() => mM3\n                      .ret([])\n                      .bnd(() => mM4\n                      .ret(0).bnd(mM8.ret)\n                      .bnd(() => mM5.ret(\'Done\')\n                      .bnd(update)   ))))) ),\n        ( mMI2.block()\n                      .bnd(() => mM13\n                      .ret(mM13.x + 1)\n                      .bnd(() => send())) ),\n        ( mMI4.block()\n                      .bnd(() => mM13\n                      .ret(mM13.x + 3)\n                      .bnd(() => send())) )\n    )   \n  }\n');
 
 var next = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '\n    var next = function next(x,mon,bool,mon2) {  \n      if (bool) {\n        mon2.release();\n      }\n      return mon\n    }\n');
 
@@ -132,27 +132,27 @@ function updateNums(e) {
 }
 
 function updateOp(e) {
-  mM8.ret(e.target.textContent).bnd(update).bnd(function () {
-    return mMI1;
-  }).block().bnd(function () {
-    return mM3.bnd(toFloat).bnd(function () {
-      return mM1.bnd(calc, mM3.x[0], mM8.x, mM3.x[1]).bnd(clean).bnd(displayOff, mM1.x.length).bnd(function () {
-        return mM3.ret([]).bnd(function () {
-          return mM4.ret(0).bnd(mM8.ret).bnd(function () {
-            return mM5.ret('Done').bnd(update);
+  mM8.ret(e.target.textContent).bnd(next, mM3.x.length === 2, mMI1).bnd(next, mM1.x[mM1.x.length - 1] == 18, mMI4).bnd(update).bnd(next, mM1.x[mM1.x.length - 1] == 20, mMI2).bnd(update).bnd(function () {
+    return mMI1.block().bnd(function () {
+      return mM3.bnd(toFloat).bnd(function () {
+        return mM1.bnd(calc, mM3.x[0], mM8.x, mM3.x[1]).bnd(clean).bnd(displayOff, mM1.x.length).bnd(function () {
+          return mM3.ret([]).bnd(function () {
+            return mM4.ret(0).bnd(mM8.ret).bnd(function () {
+              return mM5.ret('Done').bnd(update);
+            });
           });
         });
       });
-    }).bnd(function () {
-      return mMI2.block().bnd(function () {
-        return mM13.ret(mM13.x + 1).bnd(function () {
-          return send();
-        });
-      });
     });
-  });
-
-  mM5.ret('Waiting').bnd(next, mM3.x.length == 2, mMI1).bnd(next, mM1.x[mM1.x.length - 1] == 20, mMI2).bnd(update);
+  }, mMI2.block().bnd(function () {
+    return mM13.ret(mM13.x + 1).bnd(function () {
+      return send();
+    });
+  }), mMI4.block().bnd(function () {
+    return mM13.ret(mM13.x + 3).bnd(function () {
+      return send();
+    });
+  }));
 }
 
 function updateLogin(e) {
