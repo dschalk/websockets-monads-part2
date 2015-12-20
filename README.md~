@@ -9,7 +9,7 @@ This demonstration will soon be third on the list at [http://schalk.net](http://
 cd websockets-monads-part2
 dist/build/server/server
 ```
-the running app should appear at localhost:4003.
+the running app should appear at localhost:3093.
 
 
 
