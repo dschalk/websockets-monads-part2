@@ -47,12 +47,10 @@ var _cowJs = require('./cow.js');
 
 var _cowJs2 = _interopRequireDefault(_cowJs);
 
-// const socket = new WebSocket("ws://schalk.net:4002");
-
 function createWebSocket(path) {
   var host = window.location.hostname;
   if (host == '') host = 'localhost';
-  var uri = 'ws://' + host + ':4003' + path;
+  var uri = 'ws://' + host + ':3093' + path;
 
   var Socket = "MozWebSocket" in window ? MozWebSocket : WebSocket;
   return new Socket(uri);
@@ -105,76 +103,60 @@ function update0() {
   oldVnode = patch(oldVnode, newVnode());
 }
 
+function updateCalc() {
+  if (mM8.x === 0 || mM3.x.length !== 2) {
+    return;
+  };
+  mM19.bnd(function () {
+    return mM3.bnd(toFloat).bnd(function () {
+      return mM1.bnd(calc, mM3.x[0], mM8.x, mM3.x[1]).bnd(displayOff, mM1.x.length).bnd(function () {
+        return mM3.ret([]).bnd(function () {
+          return mM4.ret(0).bnd(mM8.ret).bnd(function () {
+            return mM5.ret('Done').bnd(update);
+          });
+        });
+      });
+    }), mMI2.block().bnd(function () {
+      return mM13.ret(mM13.x + 1).bnd(function () {
+        return send();
+      });
+    }), mMI4.block().bnd(function () {
+      return mM13.ret(mM13.x + 3).bnd(function () {
+        return send();
+      });
+    });
+  });
+}
+
 function updateNums(e) {
+  console.log('updateNums entry ', mM8.x !== 0, mM3.x.length === 2);
   mM2.ret([e.target.value, e.target.textContent]).bnd(function () {
     return mM3;
   }).bnd(push, mM2.x[1]).bnd(function () {
     mM1.x[mM2.x[0]] = "";return mM5;
-  }).bnd(update).bnd(next, mM8.x !== 0 && mM3.x.length === 2, mMI1).bnd(next, mM1.x[mM1.x.length - 1] == 18, mMI4).bnd(update).bnd(next, mM1.x[mM1.x.length - 1] == 20, mMI2).bnd(update).bnd(function () {
-    return mMI1.block().bnd(function () {
-      return mM3.bnd(toFloat).bnd(function () {
-        return mM1.bnd(calc, mM3.x[0], mM8.x, mM3.x[1]).bnd(clean).bnd(displayOff, mM1.x.length).bnd(function () {
-          return mM3.ret([]).bnd(function () {
-            return mM4.ret(0).bnd(mM8.ret).bnd(function () {
-              return mM5.ret('Done').bnd(update);
-            });
-          });
-        });
-      });
-    });
-  }, mMI2.block().bnd(function () {
-    return mM13.ret(mM13.x + 1).bnd(function () {
-      return send();
-    });
-  }), mMI4.block().bnd(function () {
-    return mM13.ret(mM13.x + 3).bnd(function () {
-      return send();
-    });
-  }));
+  }).bnd(update);
+  updateCalc();
 }
 
 function updateOp(e) {
-  mM8.ret(e.target.textContent).bnd(next, mM3.x.length === 2, mMI1).bnd(next, mM1.x[mM1.x.length - 1] == 18, mMI4).bnd(update).bnd(next, mM1.x[mM1.x.length - 1] == 20, mMI2).bnd(update).bnd(function () {
-    return mMI1.block().bnd(function () {
-      return mM3.bnd(toFloat).bnd(function () {
-        return mM1.bnd(calc, mM3.x[0], mM8.x, mM3.x[1]).bnd(clean).bnd(displayOff, mM1.x.length).bnd(function () {
-          return mM3.ret([]).bnd(function () {
-            return mM4.ret(0).bnd(mM8.ret).bnd(function () {
-              return mM5.ret('Done').bnd(update);
-            });
-          });
-        });
-      });
-    });
-  }, mMI2.block().bnd(function () {
-    return mM13.ret(mM13.x + 1).bnd(function () {
-      return send();
-    });
-  }), mMI4.block().bnd(function () {
-    return mM13.ret(mM13.x + 3).bnd(function () {
-      return send();
-    });
-  }));
+  mM8.ret(e.target.textContent);
+  updateCalc();
 }
 
 function updateLogin(e) {
-
   var v = e.target.value;
   if (v == '') {
     return;
   }
   if (e.keyCode == 13) {
-    console.log("CC#$42" + v);
     socket.send("CC#$42" + v);
     LoginName = v;
-    console.log(LoginName);
     inputStyle1 = inputStyleB;
     update0();
   }
 }
 
 function updateR(event) {
-  console.log(socket.readyState);
   mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret).bnd(mM5.ret).bnd(mM6.ret).bnd(mM7.ret).bnd(mM8.ret).bnd(mMI1.ret).bnd(mMI2.ret);
   oldVnode = patch(oldVnode, newVnode());
 }
@@ -199,19 +181,16 @@ function updateSteps(event) {
       });
     });
   });
-  console.log(mM1.x, mM2.x);
   oldVnode = patch(oldVnode, newVnode());
 }
 
 function updateNext(event) {
   mMI2.release();
-  console.log(mM1.x, mM2.x);
   oldVnode = patch(oldVnode, newVnode());
 }
 
 function updateEvent(event) {
   mMI2.ret(event);
-  console.log(event);
   oldVnode = patch(oldVnode, newVnode());
 }
 
@@ -220,8 +199,6 @@ oldVnode = patch(oldVnode, newVnode());
 socket.onmessage = function (event) {
   console.log('cow', event);
   var gameArray = event.data.split(",");
-  console.log(event);
-  console.log(gameArray);
   var makeStr = function makeStr(x) {
     var l = x.length;
     var str = '';

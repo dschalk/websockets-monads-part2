@@ -4,48 +4,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 "use strict";
-/*
-var MonadFork = function MonadFork(z) {
-  var _this = this;
-
-  _classCallCheck(this, MonadFork);
-
-  this.x = z;
-
-  this.bnd = function (func, skip) {
-    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      args[_key - 2] = arguments[_key];
-    }
-
-    if (skip) {
-      return _this;
-    };
-    return func.apply(undefined, [_this.x, _this].concat(args));
-  };
-
-  this.ret = function (a, skip) {
-    if (skip) {
-      return _this;
-    };
-    _this.x = a;
-    return _this;
-  };
-
-  this.fmap = function (f, mon, skip) {
-    for (var _len2 = arguments.length, args = Array(_len2 > 3 ? _len2 - 3 : 0), _key2 = 3; _key2 < _len2; _key2++) {
-      args[_key2 - 3] = arguments[_key2];
-    }
-
-    if (mon === undefined) mon = _this;
-
-    if (skip) {
-      return _this;
-    };
-    mon.ret(f.apply(undefined, [mon.x].concat(args)));
-    return mon;
-  };
-};
-*/
 
 var Monad = function Monad(z) {
   var _this = this;
@@ -93,10 +51,12 @@ var MonadIter = function MonadIter(z, g) {
 
   this.block = function () {
     _this2.flag = true;
+    console.log(this.id, ": block()")
     return _this2;
   };
 
   this.release = function () {
+    console.log(this.id, ": release()")
     var self = _this2;
     var p = _this2.p;
 
@@ -236,19 +196,25 @@ var toNums = function toNums(x,mon) {
 }
 
 var calc = function calc(x,mon,a,op,b) { 
+  var result;
   switch (op) {
-      case "add": mon.x.push( (a) + (b));
+      case "add": result = (a + b);
       break;
-      case "subtract": mon.x.push( (a) - (b));
+      case "subtract": result = (a - b);
       break;
-      case "mult": mon.x.push( (a) * (b));
+      case "mult": result = (a * b);
       break;
       case "div": mon.x.push( (a) / (b));
       break;
-      case "concat": mon.x.push( (a+""+b));
+      case "concat": result = (a+""+b)*1.0;
       break;
       default : 'Major Malfunction in calc.';
   }
+  mM1.x.push(result);
+  mM7.ret(result);
+  mM1.bnd(clean);
+  if (result == 18) {mMI4.release()};
+  if (result == 20) {mMI2.release()};
   return mon;
 }
 
@@ -284,7 +250,7 @@ var blank = function blank(v,mon,i) {
 }
 
 var clean = function clean(x,mon) {
-  mon.x = mon.x.filter(x => (x !== ""));
+  mon.x = mon.x.filter(x => (x !== "" && x !== undefined));
   return mon;
 }
   
