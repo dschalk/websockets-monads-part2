@@ -88,23 +88,16 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
             m17[4]   ),
       h('p', '  '  ),
 
-      h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: send }, style: style5},
+      h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: send }, style: styleRoll},
                      `ROLL`   ),
-/*
-      h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: updateScore }, style: style5},
-                     `SCORE`   ),
-      h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: updateImpossible }, style: style5},
-                     `IMPOSSIBLE`   ),
-*/
-
-      h('p', 'Now click ROLL. '  ),
+      h('p', {style: styleRoll}, 'Now click ROLL. '  ),
       h('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. ',  ),
       h('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. '  ),
-      h('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. I think the code (below) rather plainly predicts this behavior. Certain conditions release certain MonadIter instances. Look down several lines and you see what happens after the release. ' ),
+      h('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updageCalc (below) clearly displays the algorithm. Certain conditions release certain MonadIter instances. If you look at "m.bnd(next, <condition>, <MonadIterator instance released if condition returns true>) and then scan down several lines to the specified MonadIter instance, you see what happens when the condition is met. "send" requests a new dice roll from the server. ' ),
       cow.dice,
       h('p', 'When numbers are clicked, they get pushed into mM3.x, an initially empty array. When an operator is clicked, it replaces "0" as the value of mM8. So when mM3.x.length === 2 and mM8.x !== 0, it is time for the computation to go forward. '  ),
-      h('p', 'mM1 hold the initial dice roll and the subsequent arrays of available numbers. When the last element in the mM1.x array (mMx.x[mM1.x.length -1] is "20", the player get an additional point and a new roll of the dice. The same holds for the number 18, only you get three points for that. '   ), 
-      h('span', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. Here is the code for the decision function "next": '    ),
+      h('p', 'mM1 holdd the initial dice roll and the subsequent arrays of available numbers. When calc returns "20", the player get an additional point and a new roll of the dice. If calc returns 18, you get three points. '   ), 
+      h('span', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad. m.fmap(f) assigns f(m.x) to m; m.fmap(() f((a,b,c)) assigns the return value of f(a,b,c) to m. In other words, m.x = f(a,b,c). That is how the return value of calc gets assigned to mM7. Here is the code for the decision function "next": '    ),
       cow.next,
       h('span', 'And here is "send": '  ),
       cow.send,
@@ -205,8 +198,12 @@ function updateCalc() {
   mM19.bnd(() => (
        (mM3
                     .bnd(toFloat)
-                    .bnd(() => mM1
-                    .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])
+                    .bnd(() => mM7
+                    .fmap(() => {return calc(mM3.x[0], mM8.x, mM3.x[1])})
+                    .bnd(() => mM1.bnd(push, mM7.x)
+                    .bnd(clean)
+                    .bnd(next, (mM7.x == 18), mMI4)
+                    .bnd(next, (mM7.x == 20), mMI2) )
                     .bnd(displayOff, mM1.x.length)
                     .bnd(() => mM3
                     .ret([])
@@ -324,6 +321,7 @@ socket.onmessage = function(event) {
               },2000);
             }
             else {
+              styleRoll = style2;
               mM6.ret(sender + '\'s socket is now open');
               // mM9.ret([
               update0();
@@ -434,6 +432,8 @@ var style3 = { marginTop: '40px', backgroundColor: '#000', height: '100%' , widt
 var styleM = {color: '#FF000A', marginLeft: '13px', marginBottom: '2px', fontSize: '21px' };
 
 var styleMI = {color: '#FF000A', marginLeft: '7px', marginBottom: '2px', fontSize: '21px' };
+
+var styleRoll = {display: 'none'};
 
 var style0 = style2;
 

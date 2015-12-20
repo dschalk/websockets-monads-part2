@@ -95,72 +95,52 @@ const dice = h('pre', {style: {color: '#AFEEEE' }},
     .bnd(push,mM2.x[1])
     .bnd(() => {mM1.x[mM2.x[0]] = ""; return mM5;})
     .bnd(update)
-    .bnd(next,(mM8.x !== 0 && mM3.x.length === 2), mMI1)
-    .bnd(next, (mM1.x[mM1.x.length - 1] == 18), mMI4).bnd(update)
-    .bnd(next, (mM1.x[mM1.x.length - 1] == 20), mMI2).bnd(update) 
-    .bnd(() => 
-        ( mMI1.block()
-                      .bnd(() => mM3
-                      .bnd(toFloat)
-                      .bnd(() => mM1
-                      .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])
-                      .bnd(clean)
-                      .bnd(displayOff, mM1.x.length)
-                      .bnd(() => mM3
-                      .ret([])
-                      .bnd(() => mM4
-                      .ret(0).bnd(mM8.ret)
-                      .bnd(() => mM5.ret('Done')
-                      .bnd(update)   ))))) ),
-        ( mMI2.block()
-                      .bnd(() => mM13
-                      .ret(mM13.x + 1)
-                      .bnd(() => send())) ),
-        ( mMI4.block()
-                      .bnd(() => mM13
-                      .ret(mM13.x + 3)
-                      .bnd(() => send())) )
-    )   
+    updateCalc();
   }
   
   function updateOp(e) {
-    mM8.ret(e.target.textContent)
-    .bnd(next, (mM3.x.length === 2), mMI1)
-    .bnd(next, (mM1.x[mM1.x.length - 1] == 18), mMI4).bnd(update)
-    .bnd(next, (mM1.x[mM1.x.length - 1] == 20), mMI2).bnd(update) 
-    .bnd(() => 
-        ( mMI1.block()
-                      .bnd(() => mM3
-                      .bnd(toFloat)
-                      .bnd(() => mM1
-                      .bnd(calc,mM3.x[0], mM8.x, mM3.x[1])
-                      .bnd(clean)
-                      .bnd(displayOff, mM1.x.length)
-                      .bnd(() => mM3
-                      .ret([])
-                      .bnd(() => mM4
-                      .ret(0).bnd(mM8.ret)
-                      .bnd(() => mM5.ret('Done')
-                      .bnd(update)   ))))) ),
-        ( mMI2.block()
-                      .bnd(() => mM13
-                      .ret(mM13.x + 1)
-                      .bnd(() => send())) ),
-        ( mMI4.block()
-                      .bnd(() => mM13
-                      .ret(mM13.x + 3)
-                      .bnd(() => send())) )
-    )   
-  } `
+    mM8.ret(e.target.textContent);
+    updateCalc();
+  }  
+
+  function updateCalc() {  
+    if ((mM8.x === 0) || (mM3.x.length !== 2)) {return};
+    mM19.bnd(() => (
+    (mM3
+      .bnd(toFloat)
+      .bnd(() => mM7
+      .fmap(() => {return calc(mM3.x[0], mM8.x, mM3.x[1])})
+      .bnd(() => mM1.bnd(push, mM7.x)
+      .bnd(clean)
+      .bnd(next, (mM7.x == 18), mMI4)
+      .bnd(next, (mM7.x == 20), mMI2) )
+      .bnd(displayOff, mM1.x.length)
+      .bnd(() => mM3
+      .ret([])
+      .bnd(() => mM4
+      .ret(0).bnd(mM8.ret)
+      .bnd(() => mM5.ret('Done')
+      .bnd(update)   )))) ),
+    (mMI2.block()
+      .bnd(() => mM13
+      .ret(mM13.x + 1)
+      .bnd(() => send())) ),
+    (mMI4.block()
+      .bnd(() => mM13
+      .ret(mM13.x + 3)
+      .bnd(() => send())) )  
+    )) 
+  }
+  
 );  
 
 const next = h('pre', {style: {color: '#AFEEEE' }}, 
-`    var next = function next(x,mon,bool,mon2) {  
+    var next = function next(x,mon,bool,mon2) {  
       if (bool) {
         mon2.release();
       }
       return mon
-    }`
+    }  `
 );  
 
 

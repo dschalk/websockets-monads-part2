@@ -195,7 +195,7 @@ var toNums = function toNums(x,mon) {
   return mon; 
 }
 
-var calc = function calc(x,mon,a,op,b) { 
+var calc = function calc(a,op,b) { 
   var result;
   switch (op) {
       case "add": result = (a + b);
@@ -210,12 +210,7 @@ var calc = function calc(x,mon,a,op,b) {
       break;
       default : 'Major Malfunction in calc.';
   }
-  mM1.x.push(result);
-  mM7.ret(result);
-  mM1.bnd(clean);
-  if (result == 18) {mMI4.release()};
-  if (result == 20) {mMI2.release()};
-  return mon;
+  return result;
 }
 
 var push = function push(a,mon,v) {

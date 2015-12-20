@@ -210,11 +210,12 @@ var calc = function calc(x,mon,a,op,b) {
       break;
       default : 'Major Malfunction in calc.';
   }
-  mM1.x.push(result);
-  mM7.ret(result);
-  mM1.bnd(clean);
-  if (result == 18) {mMI4.release()};
-  if (result == 20) {mMI2.release()};
+  mM1.bnd(push, result)
+  .bnd(clean)
+  .bnd(() => mM7
+  .ret(result)
+  .bnd(next, (result == 18), mMI4)
+  .bnd(next, (result == 20), mMI2) )
   return mon;
 }
 
