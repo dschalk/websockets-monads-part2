@@ -13,13 +13,7 @@ function createWebSocket(path) {
 }
 
 var socket = createWebSocket('/');
-
 var LoginName;
-var xyz = 0;
-var numsA = [];
-var numsB = [];
-var numsC = [];
-var CYCLE = 1;
 
 socket.onopen = function (event) {
     console.log('cow onopen ', event);
@@ -209,6 +203,12 @@ function updateCalc() {
                     .bnd(() => mM13
                     .ret(mM13.x + 3)
                     .bnd(() => send()))) ),
+      ( mMI5.block()
+                    .bnd(() => mM14
+                    .ret('Score: ' + (mM13.x + 5))
+                    .bnd(() => mM13
+                    .ret(mM13.x + 5)
+                    .bnd(() => send()))) ),
        (mM3
                     .bnd(toFloat)
                     .bnd(() => mM7
@@ -217,6 +217,7 @@ function updateCalc() {
                     .bnd(clean)
                     .bnd(next, (mM7.x == 18), mMI4)
                     .bnd(next, (mM7.x == 20), mMI2) 
+                    .bnd(next, ((mM7.x == 20 || mM7.x == 18) && (mM7.x % 5) === 0), mMI5) 
                     .bnd(displayOff, mM1.x.length)
                     .bnd(() => mM3
                     .ret([])
