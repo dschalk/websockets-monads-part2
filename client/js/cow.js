@@ -106,6 +106,14 @@ const dice = h('pre', {style: {color: '#AFEEEE' }},
   function updateCalc() {  
     if ((mM8.x === 0) || (mM3.x.length !== 2)) {return};
     mM19.bnd(() => (
+    (mMI2.block()
+      .bnd(() => mM13
+      .ret(mM13.x + 1)
+      .bnd(() => send())) ),
+    (mMI4.block()
+      .bnd(() => mM13
+      .ret(mM13.x + 3)
+      .bnd(() => send())) ),  
     (mM3
       .bnd(toFloat)
       .bnd(() => mM7
@@ -120,15 +128,7 @@ const dice = h('pre', {style: {color: '#AFEEEE' }},
       .bnd(() => mM4
       .ret(0).bnd(mM8.ret)
       .bnd(() => mM5.ret('Done')
-      .bnd(update)   )))) ),
-    (mMI2.block()
-      .bnd(() => mM13
-      .ret(mM13.x + 1)
-      .bnd(() => send())) ),
-    (mMI4.block()
-      .bnd(() => mM13
-      .ret(mM13.x + 3)
-      .bnd(() => send())) )  
+      .bnd(update)   )))) )
     )) 
   }
   
@@ -148,6 +148,15 @@ const send = h('pre', {style: {color: '#AFEEEE' }},
 `    var send = function(event) {
         socket.send("CA#$42,solo," + LoginName +",6,6,12,20");
     };`
+);  
+
+const nex = h('pre', {style: {color: '#AFEEEE' }}, 
+`  var next = function next(x,mon,bool,mon2) {
+    if (bool) {
+      mon2.release();
+    }
+    return mon
+  }  `
 );  
 
 
