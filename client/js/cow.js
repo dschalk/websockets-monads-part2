@@ -34,7 +34,6 @@ const monadIter = h('pre', {style: {color: '#AFEEEE' }}, `  class MonadSeq {
 
       this.bnd = (func, ...args) => {
         let self = this;
-        if (self.p.length > 0) {return}
         let fun = func;
         (function retry(func, ...args) {
           if (self.flag === false) {
@@ -54,7 +53,6 @@ const monadIter = h('pre', {style: {color: '#AFEEEE' }}, `  class MonadSeq {
 
       this.fmap = (f, mon = this, ...args) => {      
         let self = this;
-        if (self.p.length > 0) {return}
         (function retry() {
           if (MFLAG === false) {
             console.log('Hello from fmap');

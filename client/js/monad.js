@@ -81,7 +81,6 @@ var MonadIter = function MonadIter(z, g) {
 
   this.bnd = function (func) {
     var self = _this2;
-    if (self.p.length > 0) {return};
     for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
       args[_key3 - 1] = arguments[_key3];
     }
@@ -97,7 +96,6 @@ var MonadIter = function MonadIter(z, g) {
   };
 
   this.fmap = function (f) {
-    var self = _this2;
     if (self.p.length > 0) {return};
     for (var _len4 = arguments.length, args = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
       args[_key4 - 2] = arguments[_key4];
