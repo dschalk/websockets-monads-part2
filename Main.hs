@@ -210,6 +210,7 @@ talk conn state (_, _, _, _) = forever $ do
                 st <- atomically $ readTMVar state
                 let subSt = subState sender group st
                 broadcast msg subSt
+                print msg
 
     else if "CG#$42" `T.isPrefixOf` msg
         then

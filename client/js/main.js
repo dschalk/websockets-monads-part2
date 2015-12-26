@@ -1,13 +1,21 @@
 "use strict";
+
+import cow from './cow';
 import snabbdom from 'snabbdom';
 import h from 'snabbdom/h';
-import cow from './cow.js';
+
+var newMessage = (v,mon) => {
+  let ar = mM11.x;
+  ar.push(h('div', mM16.x));
+  mM11.ret(ar);
+  return mon;
+};
+mM16.ret('One').bnd(newMessage);
 
 function createWebSocket(path) {
     let host = window.location.hostname;
     if(host == '') host = 'localhost';
     let uri = 'ws://' + host + ':3093' + path;
-
     let Socket = "MozWebSocket" in window ? MozWebSocket : WebSocket;
     return new Socket(uri);
 }
@@ -36,18 +44,21 @@ var oldVnode = document.getElementById('placeholder');
 function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2) { 
     return h('div',{style: style3}, 
     [  h('div',{style: { width: '65%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px'}}, 
-    [ h('h1', {style: {textAlign: 'center', color: '#ffba66'}}, 'Websockets Monads'),
-      h('span', 'This is the second page in the new Javascript Monads series. Detailed explanations of the basic monad constructor, "Monad" and its methods and the arguments they take can be found at '),
+    [ h('h1', {style: {textAlign: 'center', color: '#ffba66'}}, 'Websockets Monads Part 2'),
+      h('span', 'This is the third page in the new Javascript Monads series. Links to the detailed explanations of the basic monad constructor, "Monad" and its methods and the arguments they take can be found at '),
       h('a', {props: {href: 'http://schalk.net:4001' },  style: {color: '#EECCFF'}},' http://schalk.net:4001'), 
       h('span', ' and a code repo at '),
       h('a', {props: {href: 'https://github.com/dschalk/fun-with-monads'}, style: {color: '#EECCFF'}}, ' github repo' ),
       h('span', 'The original site, which was largely exploratory, is at: '  ),
       h('a', {props: {href: 'http://transcendent.ninja' },  style: {color: '#EECCFF'}},' http://transcendent.ninja'), 
+      h('span', 'Links to all of the online demos can be found at: '  ),
+      h('a', {props: {href: 'http://schalk.net' },  style: {color: '#EECCFF'}},' http://schalk.net'), 
       h('span', ' and a code repo at '),
       h('a', {props: {href: 'https://github.com/dschalk/javascript-monads'}, style: {color: '#EECCFF'}}, ' repo' ),
       h('span', '. The older site functions well, but it was bloated and unwieldy with React. I say "bloated" because I didn\'t need most of its core features. I didn\'t even use the state object and frequently called React.forceUpdate. Now I am at peace, using the '  ),
       h('a', {props: {href: 'https://github.com/paldepind/snabbdom' },  style: {color: '#EECCFF'}},' snabbdom library. '), 
-      h('span', ' and a code repo at '),
+      h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'Why I Call Them "Monads"' ),
+      h('p', 'Since the Monad and MonadIter instances are uniquely determined by their values (m.x for all monads m), and the values can be any value the is legal in ES6, it is immediately clear that there is a one to one correspondence between the infinite sets of all possible monads and all possible ES6 values, including primitives, arrays, functions, etc. The method "bnd" in combination with functions of the form f = (x,mon) => {do stuff without side effectsoutside the monad class; return mon } seem to obey the Haskell monad laws without types. The method "ret" is the left and right identity and chains of monad operations are commutative, as I believe I showed in previous pages. But "bnd" will accept functions of the type f = (x,mon) {do anything that can be done in ES6; return mon }. if mM1.x === 3, mM2.x === 4, and mM3.x === 0 (or anything else), after "mM1.bnd(() => cube(mM2.x, mM2))", mM1 and mM2 are unchanged, but mM3.x === 64. Monad methods can return ordinary values. For example, "bnd" with an ordinary function or a lambda leaves the calling monad unchanged, but returns the return value of the function operating on the monad\'s value. so mM1.bnd(_ => 52) leaves mM1 unchanged and returns 52, and  mM1.bnd(x => x*x) + 33 === 42 is true. This project is not about mathematics, it is about writing well organized, efficient, and easy to follow and modify code. This sitedisplays the monad values in the right column which sometimes provides instant debugging information. The values of all of the monads can be found by typing them in the browser console since they are provided by a script, rather than a module. Perhaps the mathematical term for the monads presented here could be "isomorphic anarchical pseudo-monads". But them behave very well in chains. I\'ll present a monad that propagates errors, kind of like the Haskell Maybe monad only without types. By the way, speaking of Haskell, if I modified monads by replacing m.x rather than mutating, which would require only a minor adjustment, the monads would be pure in the sense that Haskell MVar instances are pure. MVar instance\'s values are removed and replaced, but the MVar instance is said to be immutable. That sort of thinking would seem to make Javascript objects immutable while attributes and methods change and come and go. As I said, this project is about web development, not mathematics, but interesting ideas come to mind when you are simultaneously working with Javascript and Haskell. '  ), 
       h('p', ),
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'MonadIter' ),
       h('p', 'The basic monad is shown and demonstrated elsewhere. It is also in a script named "monad.js" in the "index.html" file, so you can experiment with the monads in the browser consol. Here is the other constructor in this project: '  ),
@@ -80,10 +91,9 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       h('button', {on: { mouseenter: update16e, mouseleave: update16l, click: updateOp }, style: style16},
             m17[4]   ),
       h('p', '  '  ),
-
       h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: function() {styleRoll2 = {display: 'none'}; send()} }, style: styleRoll},
                      `ROLL`   ),
-      h('p', {style: styleRoll2}, 'Now click ROLL. '  ),
+      h('p', {style: styleRoll}, 'Now click ROLL. '  ),
       h('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. ',  ),
       h('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. '  ),
       h('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMI2 and mMI4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMI2 and mMI4. "send" requests a new dice roll from the server. ' ),
@@ -92,15 +102,21 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       cow.dice,
       h('p', 'When numbers are clicked, they get pushed into mM3.x, an initially empty array. When an operator is clicked, it replaces "0" as the value of mM8. So when mM3.x.length === 2 and mM8.x !== 0, it is time for the computation to go forward. '  ),
       h('p', 'mM1 holdd the initial dice roll and the subsequent arrays of available numbers. When calc returns "20", the player get an additional point and a new roll of the dice. If calc returns 18, you get three points. '   ), 
-      h('span', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad. m.fmap(f) assigns f(m.x) to m; m.fmap(() f((a,b,c)) assigns the return value of f(a,b,c) to m. In other words, m.x = f(a,b,c). That is how the return value of calc gets assigned to mM7. Here is the code for the decision function "next": '    ),
+      h('span', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad.  m.fmap(f) assigns f(m.x) to m; in other words, m.x === f(m.x) is true.  Using ordinary functions with bnd does not modify the calling monad, but it does compute values using either the calling monad\'s value or a value provided in the argument provided to bnd. For example, "mM1.bnd(() => cu(2)) + mM1.bnd(cu) === 54 and mMx === 3 are both true. I don\'t have an example in which there would be any advantage in using bnd with an ordinary function. I like the robustness of bnd as it is, but if bnd took only the functions specifically made for it, inadvertent use of ordinary functions as arguments would return a helpful error message.'  ),
+      h('span', 'Moving on, here is "next": '    ),
       cow.next,
       h('span', 'And here is "send": '  ),
       cow.send,
       h('p', 'Using "bnd" with "next", any monad can release any block. A chain in the tree (sorry about the mixed metaphore) can branch into 2, 3, or any number of chains you decide to place in a tupple. You wouldn\'t be required to do it, but it seems that any application could be organized into one tree. '  ),
+      h('span', {style: styleRoll}, 'Enter message here: ' ),
+      h('input', {on: {keydown: updateMessage}, style: styleRoll } ),
       h('span', 'The code for this along with some other demonstrations can be found at ' ),
       h('a', {props: {href: 'https://github.com/dschalk?tab=repositories'}, style: {color: '#EECCFF'}}, 'github.com/dschalk/' ),
+      h('span', 'In order to create a unique socket, please enter some name.'  ),
+      h('input', {style: inputStyle1, on: {keydown: updateLogin},  } ),
+      h('div', {props: {id:'chat'}}, mM11.x ),
+      h('p', 'You bet!'  ),
       h('div', {style: {height: '300px'}} ),
-        ] ), 
       h ('div',{style: { width: '30%', position: 'fixed', top: '40px', right: '15px', color: '#CCFDDA'}},
         [
           h('br'),
@@ -175,8 +191,8 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
           h('br', ),           
            
         ] )        
-    ] )
-}  
+        ]  ) ]  )  }  
+  
 
 var newVnode  = () => {
   var newVnode = view(mM1.x, mM2.x, mM3.x, mM4.x, mM5.x, mM6.x, mM7.x, mM8.x, mM9.x,
@@ -257,9 +273,15 @@ function updateLogin(e) {
      }
 }
 
+function updateMessage(e) {
+    if( e.keyCode == 13 ) {
+      socket.send("CD#$42,solo," + LoginName + ',' + e.target.value);
+    }
+  }
+
 function updateR(event) {
   mM2.ret(0).bnd(mM3.ret).bnd(mM4.ret).bnd(mM5.ret)
-  .bnd(mM6.ret).bnd(mM7.ret).bnd(mM8.ret).bnd(mM9.ret).bnd(mM10.ret).bnd(mM11.ret).bnd(mM12.ret).bnd(mM13.ret).bnd(mM15.ret).bnd(mM16.ret).bnd(mM17.ret).bnd(mM18.ret).bnd(mM19.ret).bnd(mMI1.ret).bnd(mMI2.ret).bnd(() => mM1.ret([])).bnd(() => mM14.ret('Score: ' + mM13.x));
+  .bnd(mM6.ret).bnd(mM7.ret).bnd(mM8.ret).bnd(mM9.ret).bnd(mM10.ret).bnd(mM15.ret).bnd(mM16.ret).bnd(mM17.ret).bnd(mM18.ret).bnd(mM19.ret).bnd(mMI1.ret).bnd(mMI2.ret).bnd(() => mM1.ret([])).bnd(() => mM14.ret('Score: ' + mM13.x));
   oldVnode = patch(oldVnode, newVnode());
 }
 
@@ -292,7 +314,6 @@ function updateEvent(event) {
 oldVnode = patch(oldVnode, newVnode());
 
 socket.onmessage = function(event) {
-  console.log('cow', event);
   let gameArray = event.data.split(",");
   let makeStr = x => {
     let l = x.length;
@@ -312,12 +333,13 @@ socket.onmessage = function(event) {
   let ext6 = gameArray[6];
   let ext7 = gameArray[7];
   let ext8 = gameArray[8];
-  // let group = that.data.group;
-  // let name = that.state.name;
-  let ar = extra.split("<br>");
+
+  /* let group = that.data.group;
+   let name = that.state.name;
+   let ar = extra.split("<br>");
   let ar2 = ar.map(function (x) {
     return x.split("_")
-  })
+  })  */
       switch (d2) {
           case "CC#$42":                         // Not broadcast. Login message.
             if (extra === '%#8*&&^1#$%^')  {
@@ -363,6 +385,10 @@ socket.onmessage = function(event) {
           break;
 
           case "CD#$42":
+            mM16.ret('Two').bnd(newMessage);
+            mM16.ret('extra').bnd(newMessage);
+            console.log('extra: ', extra);
+            mM16.ret(extra).bnd(newMessage).bnd(update);
           break;
 
           case "CF#$42":                              // Re-set after a each clculation.
@@ -760,4 +786,6 @@ var update = function update(x,mon) {
   oldVnode = patch(oldVnode, newVnode);
   return mon;
 }
+
+
 

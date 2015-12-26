@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 
@@ -51,12 +51,10 @@ var MonadIter = function MonadIter(z, g) {
 
   this.block = function () {
     _this2.flag = true;
-    console.log(this.id, ": block()")
     return _this2;
   };
 
   this.release = function () {
-    console.log(this.id, ": release()")
     var self = _this2;
     var p = _this2.p;
 
@@ -159,6 +157,8 @@ var M = function M(a) {
   return new Monad(a);
 };
 
+
+
 var mM1 = M([]);
 var mM2 = M(0);
 var mM3 = M(0);
@@ -169,7 +169,7 @@ var mM7 = M(0);
 var mM8 = M(0);
 var mM9 = M(0);
 var mM10 = M(0);
-var mM11 = M(0);
+var mM11 = M([]);
 var mM12 = M(0);
 var mM13 = M(0);
 var mM14 = M(0);
@@ -215,6 +215,11 @@ var calc = function calc(a,op,b) {
 
 var push = function push(a,mon,v) {
     mon.x.push(v);
+    return mon;
+}
+
+var keys = function keys(a,mon,mon2) {
+    mon2.ret(Object.keys(mon.x));
     return mon;
 }
 
@@ -448,3 +453,4 @@ var delay = function delay(x, mon) {
 var increment = function increment() {
   VAL = VAL + 1;
 };
+
