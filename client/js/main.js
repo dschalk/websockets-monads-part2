@@ -43,22 +43,23 @@ var oldVnode = document.getElementById('placeholder');
 
 function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2) { 
     return h('div',{style: style3}, 
-    [  h('div',{style: { width: '65%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px'}}, 
+    [  h('div',{style: { width: '60%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px'}}, 
     [ h('h1', {style: {textAlign: 'center', color: '#ffba66'}}, 'Websockets Monads Part 2'),
       h('span', 'This is the third page in the new Javascript Monads series. Links to the detailed explanations of the basic monad constructor, "Monad" and its methods and the arguments they take can be found at '),
       h('a', {props: {href: 'http://schalk.net:4001' },  style: {color: '#EECCFF'}},' http://schalk.net:4001'), 
       h('span', ' and a code repo at '),
       h('a', {props: {href: 'https://github.com/dschalk/fun-with-monads'}, style: {color: '#EECCFF'}}, ' github repo' ),
-      h('span', 'The original site, which was largely exploratory, is at: '  ),
+      h('span', ' The original site, which was largely exploratory, is at: '  ),
       h('a', {props: {href: 'http://transcendent.ninja' },  style: {color: '#EECCFF'}},' http://transcendent.ninja'), 
-      h('span', 'Links to all of the online demos can be found at: '  ),
+      h('span', ' Links to all of the online demos can be found at: '  ),
       h('a', {props: {href: 'http://schalk.net' },  style: {color: '#EECCFF'}},' http://schalk.net'), 
       h('span', ' and a code repo at '),
       h('a', {props: {href: 'https://github.com/dschalk/javascript-monads'}, style: {color: '#EECCFF'}}, ' repo' ),
       h('span', '. The older site functions well, but it was bloated and unwieldy with React. I say "bloated" because I didn\'t need most of its core features. I didn\'t even use the state object and frequently called React.forceUpdate. Now I am at peace, using the '  ),
       h('a', {props: {href: 'https://github.com/paldepind/snabbdom' },  style: {color: '#EECCFF'}},' snabbdom library. '), 
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'Why I Call Them "Monads"' ),
-      h('p', 'Since the Monad and MonadIter instances are uniquely determined by their values (m.x for all monads m), and the values can be any value the is legal in ES6, it is immediately clear that there is a one to one correspondence between the infinite sets of all possible monads and all possible ES6 values, including primitives, arrays, functions, etc. The method "bnd" in combination with functions of the form f = (x,mon) => {do stuff without side effectsoutside the monad class; return mon } seem to obey the Haskell monad laws without types. The method "ret" is the left and right identity and chains of monad operations are commutative, as I believe I showed in previous pages. But "bnd" will accept functions of the type f = (x,mon) {do anything that can be done in ES6; return mon }. if mM1.x === 3, mM2.x === 4, and mM3.x === 0 (or anything else), after "mM1.bnd(() => cube(mM2.x, mM2))", mM1 and mM2 are unchanged, but mM3.x === 64. Monad methods can return ordinary values. For example, "bnd" with an ordinary function or a lambda leaves the calling monad unchanged, but returns the return value of the function operating on the monad\'s value. so mM1.bnd(_ => 52) leaves mM1 unchanged and returns 52, and  mM1.bnd(x => x*x) + 33 === 42 is true. This project is not about mathematics, it is about writing well organized, efficient, and easy to follow and modify code. This sitedisplays the monad values in the right column which sometimes provides instant debugging information. The values of all of the monads can be found by typing them in the browser console since they are provided by a script, rather than a module. Perhaps the mathematical term for the monads presented here could be "isomorphic anarchical pseudo-monads". But them behave very well in chains. I\'ll present a monad that propagates errors, kind of like the Haskell Maybe monad only without types. By the way, speaking of Haskell, if I modified monads by replacing m.x rather than mutating, which would require only a minor adjustment, the monads would be pure in the sense that Haskell MVar instances are pure. MVar instance\'s values are removed and replaced, but the MVar instance is said to be immutable. That sort of thinking would seem to make Javascript objects immutable while attributes and methods change and come and go. As I said, this project is about web development, not mathematics, but interesting ideas come to mind when you are simultaneously working with Javascript and Haskell. '  ), 
+      h('p', 'Since the Monad and MonadIter instances are uniquely determined by their values (m.x for all monads m), and the values can be any value the is legal in ES6, it is immediately clear that there is a one to one correspondence between the infinite sets of all possible monads and all possible ES6 values, including primitives, arrays, functions, etc. The method "bnd" in combination with functions of the form f = (x,mon) => {do stuff without side effects outside the monad class; return mon } seem to obey the Haskell monad laws without types. The method "ret" is the left and right identity and chains of monad operations are commutative, as I believe I showed in previous pages. But "bnd" will accept functions of the type f = (x,mon) {do anything that can be done in ES6; return mon }. if mM1.x === 3, mM2.x === 4, and mM3.x === 0 (or anything else), after "mM1.bnd(() => cube(mM2.x, mM3))", mM1 and mM2 are unchanged, but mM3.x === 64. Monad methods can return ordinary values. For example, "bnd" with an ordinary function or a lambda leaves the calling monad unchanged, but returns the return value of the function operating on the monad\'s value. So mM1.bnd(_ => 52) leaves mM1 unchanged and returns 52, and  mM1.bnd(x => x*x) + 33 === 42 is true. So while the set of all possible instances of Monad and MonadIters along with the isomorphisms mapping them to one another might constitute a monad, the methods "bnd", "fmap", and "ret" are not restricted to taking only arguments that map within that set. '  ),
+      h('p', 'This project is not about mathematics, it is about writing well organized, efficient, and easy to follow and modify code. This site displays the monad values in the right column which sometimes provides instant debugging information. The values of all of the monads can be found by typing them in the browser console since they are provided by a script, rather than a module. These entities which I am calling "monads" are versitile and rebust, and they function well in chains, propagating values from link to link as far as they are needed and always having access to one another.  I\'ll present a monad that propagates errors, kind of like the Haskell Maybe monad only without types. By the way, speaking of Haskell, if I modified monads by replacing m.x rather than mutating, which would require only a minor adjustment, the monads would be pure in the sense that Haskell MVar instances are pure. MVar instances\' values are removed and replaced, but the MVar instances are said to be immutable. That sort of thinking would seem to make Javascript objects immutable, even as attributes and methods come, go, and mutate. '  ), 
       h('p', ),
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'MonadIter' ),
       h('p', 'The basic monad is shown and demonstrated elsewhere. It is also in a script named "monad.js" in the "index.html" file, so you can experiment with the monads in the browser consol. Here is the other constructor in this project: '  ),
@@ -107,15 +108,15 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       cow.next,
       h('span', 'And here is "send": '  ),
       cow.send,
-      h('p', 'Using "bnd" with "next", any monad can release any block. A chain in the tree (sorry about the mixed metaphore) can branch into 2, 3, or any number of chains you decide to place in a tupple. You wouldn\'t be required to do it, but it seems that any application could be organized into one tree. '  ),
+      h('p', 'Using "bnd" with "next", any monad can release any block. At any link, a chain of monads can divide into 2, 3, or any number of chains going there separate ways but still communicating with one another. Large applications can be organized into a single tree. '  ),
       h('span', {style: styleRoll}, 'Enter message here: ' ),
       h('input', {on: {keydown: updateMessage}, style: styleRoll } ),
-      h('span', 'The code for this along with some other demonstrations can be found at ' ),
-      h('a', {props: {href: 'https://github.com/dschalk?tab=repositories'}, style: {color: '#EECCFF'}}, 'github.com/dschalk/' ),
       h('span', 'In order to create a unique socket, please enter some name.'  ),
       h('input', {style: inputStyle1, on: {keydown: updateLogin},  } ),
       h('div', {props: {id:'chat'}}, mM11.x ),
-      h('p', 'You bet!'  ),
+      h('p', ''  ),
+      h('span', 'The code for this along with some other demonstrations can be found at ' ),
+      h('a', {props: {href: 'https://github.com/dschalk?tab=repositories'}, style: {color: '#EECCFF'}}, 'github.com/dschalk/' ),
       h('div', {style: {height: '300px'}} ),
       h ('div',{style: { width: '30%', position: 'fixed', top: '40px', right: '15px', color: '#CCFDDA'}},
         [
@@ -386,8 +387,6 @@ socket.onmessage = function(event) {
 
           case "CD#$42":
             mM16.ret('Two').bnd(newMessage);
-            mM16.ret('extra').bnd(newMessage);
-            console.log('extra: ', extra);
             mM16.ret(extra).bnd(newMessage).bnd(update);
           break;
 
@@ -460,7 +459,7 @@ var style1 = {backgroundColor: 'blue', textAlign: 'left', borderColor: 'lightblu
 
 var styleHide = {display: 'none'};
 
-var style3 = { marginTop: '40px', backgroundColor: '#000', height: '100%' , width: '100%', color: '#FFE4C4', fontSize: '18px', textAlign: 'left' };
+var style3 = { marginTop: '40px', marginLeft: '5%', marginRight: '5%', backgroundColor: '#000', height: '100%' , width: '100%', color: '#FFE4C4', fontSize: '18px', textAlign: 'left' };
 
 var styleM = {color: '#FF000A', marginLeft: '13px', marginBottom: '2px', fontSize: '21px' };
 
