@@ -209,9 +209,15 @@ const nex = h('pre', {style: {color: '#AFEEEE' }},
 );  
 
 
+const updateNext = h('pre', {style: {color: '#AFEEEE' }}, 
+`  function updateNext() {
+  mMI2.release()  
+  oldVnode = patch(oldVnode, newVnode());
+  }  `
+);  
 
 
-export default {monad, monadIter, steps, next, dice, send, nex};
+export default {monad, monadIter, steps, dice, send, nex, updateNext};
 
 
 

@@ -68,12 +68,15 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'MonadIter' ),
       h('p', 'The basic monad is shown and demonstrated elsewhere. It is also in a script named "monad.js" in the "index.html" file, so you can experiment with the monads in the browser consol. Here is the other constructor in this project: '  ),
       cow.monadIter,
-      h('p', 'As a refresher, Click the next button to execute the indicated code, then click the mMI2.release() button "NEXT" four times.'  ),
+      h('p', 'As a refresher, Click the following button to execute the indicated code, then click the mMI2.release() button four times.'  ),
       h('button', {on: { mouseenter: update4e, mouseleave: update4l, click: updateSteps }, style: style4},
             [ cow.steps ],  ),
       h('br', ),    
       h('br', ),    
-      h('button', {on: { mouseenter: update6e, mouseleave: update6l, click: updateNext }, style: style6}, 'NEXT'  ),  
+      h('button', {on: { mouseenter: update6e, mouseleave: update6l, click: updateNext }, style: style6}, [ cow.updateNext ],  ),  
+      h('br', ),    
+      h('p', 'Here is the code for "next": '    ),
+      cow.nex,
       h('p', 'Now, a demonstration of monads handling websockets messages. In order to create a unique socket, please enter some name.'  ),
       h('input', {style: inputStyle1, on: {keydown: updateLogin},  } ),
       h('button', {on: { mouseenter: update8e, mouseleave: update8l, click: updateNums }, props: {value: 0, id: '0'}, style: style8},
@@ -107,9 +110,7 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       cow.dice,
       h('p', 'When numbers are clicked, they get pushed into mM3.x, an initially empty array. When an operator is clicked, it replaces "0" as the value of mM8. So when mM3.x.length === 2 and mM8.x !== 0, it is time for the computation to go forward. '  ),
       h('p', 'mM1 holdd the initial dice roll and the subsequent arrays of available numbers. When calc returns "20", the player get an additional point and a new roll of the dice. If calc returns 18, you get three points. '   ), 
-      h('span', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad.  m.fmap(f) assigns f(m.x) to m; in other words, m.x === f(m.x) is true.  Using ordinary functions with bnd does not modify the calling monad, but it does compute values using either the calling monad\'s value or a value provided in the argument provided to bnd. For example, "mM1.bnd(() => cu(2)) + mM1.bnd(cu) === 54 and mMx === 3 are both true. I don\'t have an example in which there would be any advantage in using bnd with an ordinary function. I like the robustness of bnd as it is, but if bnd took only the functions specifically made for it, inadvertent use of ordinary functions as arguments would return a helpful error message.'  ),
-      h('span', 'Moving on, here is "next": '    ),
-      cow.next,
+      h('span', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad.  m.fmap(f) assigns f(m.x) to m; in other words, m.x === f(m.x) is true.  Using ordinary functions with bnd does not modify the calling monad, but it does compute values using either the calling monad\'s value or a value provided in the argument provided to bnd. For example, "mM1.bnd(() => cu(2)) + mM1.bnd(cu) === 54 and mMx === 3 where cu = function cu(x) {return x*x*x}. I don\'t have an example in which there would be any advantage in using bnd with an ordinary function. I like the robustness of bnd as it is, but if bnd took only the functions specifically made for it, inadvertent use of ordinary functions as arguments would return a helpful error message. Still, I don\'t plan to restrict the functions bnd can accept as arguments. '  ),
       h('span', 'And here is "send": '  ),
       cow.send,
       h('p', 'Using "bnd" with "next", any monad can release any block. At any link, a chain of monads can divide into 2, 3, or any number of chains going there separate ways but still communicating with one another. Large applications can be organized into a single tree. '  ),
@@ -307,7 +308,7 @@ function updateSteps(event) {
   oldVnode = patch(oldVnode, newVnode());
 }
 
-function updateNext(event) {
+function updateNext() {
   mMI2.release()  
   oldVnode = patch(oldVnode, newVnode());
 }
