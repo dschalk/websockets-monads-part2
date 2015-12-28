@@ -129,57 +129,67 @@ const steps = h('pre', {style: {color: '#AFEEEE' }},
  );  
 
 const dice = h('pre', {style: {color: '#AFEEEE' }}, 
-`  function updateNums(e) {
-    mM2.ret([e.target.value, e.target.textContent]) 
-    .bnd(() => mM3)
-    .bnd(push,mM2.x[1])
-    .bnd(() => {mM1.x[mM2.x[0]] = ""; return mM5;})
-    .bnd(update)
-    updateCalc();
-  }
-  
-  function updateOp(e) {
-    mM8.ret(e.target.textContent);
-    updateCalc();
-  }  
+`function updateNums(e) {
+  mM2.ret([e.target.value, e.target.textContent]) 
+  .bnd(() => mM3)
+  .bnd(push,mM2.x[1])
+  .bnd(() => {mM1.x[mM2.x[0]] = ""; return mM5;})
+  .bnd(update)
+  updateCalc();
+}
 
-  function updateCalc() {  
-    if ((mM8.x === 0) || (mM3.x.length !== 2)) {return};
-    mM19.bnd(() => (
-    (mMI2.block()
-      .bnd(() => mM13
-      .ret(mM13.x + 1)
-      .bnd(() => send())) ),
-    (mMI4.block()
-      .bnd(() => mM13
-      .ret(mM13.x + 3)
-      .bnd(() => send())) ),  
-    (mM3
-      .bnd(toFloat)
-      .bnd(() => mM7
-      .fmap(() => {return calc(mM3.x[0], mM8.x, mM3.x[1])})
-      .bnd(() => mM1.bnd(push, mM7.x)
-      .bnd(clean)
-      .bnd(next, (mM7.x == 18), mMI4)
-      .bnd(next, (mM7.x == 20), mMI2) )
-      .bnd(displayOff, mM1.x.length)
-      .bnd(() => mM3
-      .ret([])
-      .bnd(() => mM4
-      .ret(0).bnd(mM8.ret)
-      .bnd(() => mM5.ret('Done')
-      .bnd(update)   )))) )
-    )) 
-  }
-  
-);  
+function updateOp(e) {
+       console.log('updateOp: mMI1.p, mMI2.p, mMI4.p ', mMI1.p, mMI2.p, mMI4.p);
+  mM8.ret(e.target.textContent);
+  updateCalc();
+}
 
-  var next = function next(x,mon,bool,mon2) {  
-    if (bool) {
-      mon2.release();
-    }
-    return mon
-    }  `
+function updateCalc() {  
+  if ((mM8.x === 0) || (mM3.x.length !== 2)) {return};
+  mM19.bnd(() => (
+      ( mMI2.block()
+                    .bnd(() => mM14
+                    .ret('Score: ' + (mM13.x + 1))
+                    .bnd(() => mM13
+                    .ret(mM13.x + 1)
+                    .bnd(() => send()))) ),
+      ( mMI4.block()
+                    .bnd(() => mM14
+                    .ret('Score: ' + (mM13.x + 3))
+                    .bnd(() => mM13
+                    .ret(mM13.x + 3)
+                    .bnd(() => send()))) ),
+      ( mMI5.block()
+                    .bnd(() => mM14
+                    .ret('Score: ' + (mM13.x + 5))
+                    .bnd(() => mM13
+                    .ret(mM13.x + 5)
+                    .bnd(() => send()))) ),
+       (mM3
+                    .bnd(toFloat)
+                    .bnd(() => mM7
+                    .fmap(() => {return calc(mM3.x[0], mM8.x, mM3.x[1])})
+                    .bnd(() => mM1.bnd(push, mM7.x)
+                    .bnd(clean)
+                    .bnd(next, (mM7.x == 18), mMI4)
+                    .bnd(next, (mM7.x == 20), mMI2) 
+                    .bnd(next, ((mM7.x == 20 || mM7.x == 18) && (mM13.x % 5) === 0), mMI5) 
+                    .bnd(displayOff, mM1.x.length)
+                    .bnd(() => mM3
+                    .ret([])
+                    .bnd(() => mM4
+                    .ret(0).bnd(mM8.ret)
+                    .bnd(() => mM5.ret('Done')
+                    .bnd(update)   ))))) )
+  )) 
+}
+
+var next = function next(x,mon,bool,mon2) {  
+  if (bool) {
+    mon2.release();
+  }
+  return mon
+}  `
 );  
 
 
