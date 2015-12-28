@@ -4,13 +4,17 @@ import cow from './cow';
 import snabbdom from 'snabbdom';
 import h from 'snabbdom/h';
 
+var CX = 0;
+
 var newMessage = (v,mon) => {
+  CX += 1;
   let ar = mM11.x;
-  ar.push(h('div', mM16.x));
+  ar.push(h('div#'+CX, mM16.x));
   mM11.ret(ar);
   return mon;
 };
 mM16.ret('One').bnd(newMessage);
+mM16.ret('Two').bnd(newMessage);
 
 function createWebSocket(path) {
     let host = window.location.hostname;
@@ -42,8 +46,8 @@ https://github.com/paldepind/snabbdom
 var oldVnode = document.getElementById('placeholder');
 
 function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2) { 
-    return h('div',{style: style3}, 
-    [  h('div',{style: { width: '60%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px'}}, 
+  return h('div',{style: style3}, 
+   [  h('div',{style: { width: '60%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px'}}, 
     [ h('h1', {style: {textAlign: 'center', color: '#ffba66'}}, 'Websockets Monads Part 2'),
       h('span', 'This is the third page in the new Javascript Monads series. Links to the detailed explanations of the basic monad constructor, "Monad" and its methods and the arguments they take can be found at '),
       h('a', {props: {href: 'http://schalk.net:4001' },  style: {color: '#EECCFF'}},' http://schalk.net:4001'), 
@@ -97,7 +101,7 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       h('p', {style: styleRoll}, 'Now click ROLL. '  ),
       h('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. ',  ),
       h('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. '  ),
-      h('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMI2 and mMI4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMI2 and mMI4. "send" requests a new dice roll from the server. ' ),
+      h('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Every time you score becomes a multiple of 5, your score increases by 5. Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMI2 and mMI4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMI2 and mMI4. "send" requests a new dice roll from the server. ' ),
       h('p', 'We could have substituted ordinary callbacks for the blocked MonadIter instances and called them when the test conditions were met. Indeed, we could dispense with the monads altogether. But, at no significant cost in browser resources, the code is neatly organized and easy to reason about. ' ),
       h('p', 'The one gotcha that might have caused the code to fail on the first run is the order of three parts of the tupple. The tests in part 3 are run after mMI2 and mMI4 have acquired the code that didn\'t run. Had the code in part three been placed in part one, mMI2.release() and mMI4.release() would have no code to execute in their p attributes. Here is the code:'  ),
       cow.dice,
@@ -190,9 +194,10 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
                      `REFRESH`   ),
           h('br', ),           
           h('br', ),           
-           
-        ] )        
-        ]  ) ]  )  }  
+      ])        
+    ]) 
+  ])  
+}  
   
 
 var newVnode  = () => {
@@ -275,10 +280,10 @@ function updateLogin(e) {
 }
 
 function updateMessage(e) {
-    if( e.keyCode == 13 ) {
-      socket.send("CD#$42,solo," + LoginName + ',' + e.target.value);
-    }
+  if( e.keyCode == 13 ) {
+    socket.send("CD#$42,solo," + LoginName + ',' + e.target.value);
   }
+}
 
 function updateR(event) {
   mM2.ret(0).bnd(mM3.ret).bnd(mM4.ret).bnd(mM5.ret)
@@ -386,7 +391,7 @@ socket.onmessage = function(event) {
           break;
 
           case "CD#$42":
-            mM16.ret('Two').bnd(newMessage);
+            mM16.ret('Three').bnd(newMessage);
             mM16.ret(extra).bnd(newMessage).bnd(update);
           break;
 
