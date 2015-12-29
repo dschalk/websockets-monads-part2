@@ -50,17 +50,12 @@ var _snabbdomH = require('snabbdom/h');
 var _snabbdomH2 = _interopRequireDefault(_snabbdomH);
 
 var ar7 = [];
-var newMessage7 = function newMessage7(x) {
-  ar7.push(x);
-  ar7.push((0, _snabbdomH2['default'])('br'));
-};
-ar7.push('alpha');
 
 var ar8 = function ar8(x) {
   var ar = [];
   var keys = Object.keys(ar7);
   for (var k in keys) {
-    ar.push(ar7[k]);
+    ar.push(LoginName + ': ' + ar7[k]);
     ar.push((0, _snabbdomH2['default'])('br'));
   }
   return ar;
@@ -317,7 +312,6 @@ socket.onmessage = function (event) {
       break;
 
     case "CD#$42":
-      ar7.push('beta');
       ar7.push(extra);
       update0();
       break;

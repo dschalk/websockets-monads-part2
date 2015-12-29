@@ -5,17 +5,12 @@ import snabbdom from 'snabbdom';
 import h from 'snabbdom/h';
 
 var ar7 = [];
-var newMessage7 = function newMessage7(x) {
-  ar7.push(x);
-  ar7.push(h('br'));
-}
-ar7.push('alpha');
 
 var ar8 = function ar8(x) {
   let ar = [];
   let keys = Object.keys(ar7);
   for (let k in keys) {
-    ar.push(ar7[k]);
+    ar.push(LoginName + ': ' + ar7[k]);
     ar.push(h('br'));
   }
   return ar;
@@ -408,7 +403,6 @@ socket.onmessage = function(event) {
           break;
 
           case "CD#$42":
-            ar7.push('beta');
             ar7.push(extra);
             update0();
           break;
