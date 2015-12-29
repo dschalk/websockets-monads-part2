@@ -4,17 +4,13 @@ import cow from './cow';
 import snabbdom from 'snabbdom';
 import h from 'snabbdom/h';
 
-var CX = 0;
+var messageAr = [];
 
-var newMessage = (v,mon) => {
-  CX += 1;
-  let ar = mM11.x;
-  ar.push(h('div#'+CX, mM16.x));
-  mM11.ret(ar);
-  return mon;
+var newMessage = (x) => {
+  messageAr.push(h('li', x));
 };
-mM16.ret('One').bnd(newMessage);
-mM16.ret('Two').bnd(newMessage);
+
+newMessage('One');
 
 function createWebSocket(path) {
     let host = window.location.hostname;
@@ -46,6 +42,7 @@ https://github.com/paldepind/snabbdom
 var oldVnode = document.getElementById('placeholder');
 
 function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2) { 
+  console.log('messageAr: ', messageAr);
   return h('div',{style: style3}, 
    [  h('div',{style: { width: '60%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px'}}, 
     [ h('h1', {style: {textAlign: 'center', color: '#ffba66'}}, 'Websockets Monads Part 2'),
@@ -113,10 +110,10 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       cow.send,
       h('p', 'Using "bnd" with "next", any monad can release any block. At any link, a chain of monads can divide into 2, 3, or any number of chains going there separate ways but still communicating with one another. Large applications can be organized into a single tree. '  ),
       h('span', {style: styleRoll}, 'Enter message here: ' ),
-      h('input', {on: {keydown: updateMessage}, style: styleRoll } ),
+      h('input', {on: {keydown: updateMessage}, style: messageStyle } ),
       h('span', 'In order to create a unique socket, please enter some name.'  ),
       h('input', {style: inputStyle1, on: {keydown: updateLogin},  } ),
-      h('div', {props: {id:'chat'}}, mM11.x ),
+      h('div', {props: {id:'chat'}}, messageAr ),
       h('p', ''  ),
       h('span', 'The code for this along with some other demonstrations can be found at ' ),
       h('a', {props: {href: 'https://github.com/dschalk?tab=repositories'}, style: {color: '#EECCFF'}}, 'github.com/dschalk/' ),
@@ -273,6 +270,7 @@ function updateLogin(e) {
        socket.send("CC#$42" + v);
        LoginName = v;
        inputStyle1 = inputStyleB;
+       messageStyle = inputStyleA;
        mM3.ret([]).bnd(mM2.ret);
        update0();
      }
@@ -390,8 +388,9 @@ socket.onmessage = function(event) {
           break;
 
           case "CD#$42":
-            mM16.ret('Three').bnd(newMessage);
-            mM16.ret(extra).bnd(newMessage).bnd(update);
+            newMessage('Two');
+            newMessage(extra);
+            update0();
           break;
 
           case "CF#$42":                              // Re-set after a each clculation.
@@ -452,6 +451,8 @@ var inputStyle1 = inputStyleA;
 var inputStyleA = { backgroundColor: '#d8d17d', display: 'inline'} ;
 
 var inputStyleB = { display: 'none'} ;
+
+var messageStyle = inputStyleB;
 
 var style2 = {backgroundColor: '#000', textAlign: 'left', borderColor: 'darkred', outline: '0px',
   color: '#CCFDCB', borderRadius: '10px', paddingTop: '1.1px', paddingBottom: '2px', marginRight: '3px',
