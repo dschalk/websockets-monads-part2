@@ -192,11 +192,31 @@ var next = function next(x,mon,bool,mon2) {
 }  `
 );  
 
-
 const send = h('pre', {style: {color: '#AFEEEE' }}, 
 `    var send = function(event) {
         socket.send("CA#$42,solo," + LoginName +",6,6,12,20");
     };`
+);  
+
+const pause = h('pre', {style: {color: '#AFEEEE' }}, 
+`  var pause = function(x,mon,t,mon2) {   
+     mon2.block();
+     let time = t*1000;
+     setTimeout( function() {
+       mon2.release();
+     },time );
+     return mon;
+  }  `
+);
+
+const pauseDemo = h('pre', {style: {color: '#AFEEEE' }}, 
+`  mM1.bnd(pause,4,mMI1)
+    .bnd(() => mMI1
+    .bnd(() => mM2.ret("Hello")
+    .bnd(() => mM3.ret(3)
+    .bnd(mM4.ret)
+    .bnd(cube)
+    .bnd(update))))  `
 );  
 
 const nex = h('pre', {style: {color: '#AFEEEE' }}, 
@@ -210,14 +230,14 @@ const nex = h('pre', {style: {color: '#AFEEEE' }},
 
 
 const updateNext = h('pre', {style: {color: '#AFEEEE' }}, 
-`  function updateNext(event) {
+`  function updateNext() {
   mMI2.release()  
   oldVnode = patch(oldVnode, newVnode());
   }  `
 );  
 
 
-export default {monad, monadIter, steps, dice, send, nex, updateNext};
+export default {monad, monadIter, steps, dice, send, nex, updateNext, pause, pauseDemo};
 
 
 

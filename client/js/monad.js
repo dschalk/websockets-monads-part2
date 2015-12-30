@@ -213,6 +213,15 @@ var calc = function calc(a,op,b) {
   return result;
 }
 
+var pause = function(x,mon,t,mon2) {
+  mon2.block();
+  let time = t*1000;
+  setTimeout( function() {
+    mon2.release();
+  },time );
+  return mon;
+}
+
 var push = function push(a,mon,v) {
     mon.x.push(v);
     return mon;
@@ -267,8 +276,8 @@ var splice = function splice(x,mon,i) {
   return mon;
 }
 
-var next = function next(x,mon,bool,mon2) {
-  if (bool) {
+var next = function next(x,mon,condition,mon2) {
+  if (condition) {
     mon2.release();
   }
   return mon
