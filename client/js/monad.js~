@@ -4,6 +4,38 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var Monad = function Monad(z) {
+  var _this = this;
+
+  _classCallCheck(this, Monad);
+
+  this.x = z;
+
+  this.bnd = function (func) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    return func.apply(undefined, [_this.x, _this].concat(args));
+  };
+
+  this.ret = function (a) {
+    _this.x = a;
+    return _this;
+  };
+
+  this.fmap = function (f) {
+    for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+      args[_key2 - 2] = arguments[_key2];
+    }
+
+    var mon = arguments.length <= 1 || arguments[1] === undefined ? _this : arguments[1];
+
+    mon.ret(f.apply(undefined, [mon.x].concat(args)));
+    return mon;
+  };
+};
+
 var MonadIter = function MonadIter(z, g) {
   var _this = this;
 
@@ -88,38 +120,6 @@ var MonadIter = function MonadIter(z, g) {
   };
 };
 
-var Monad = function Monad(z) {
-  var _this = this;
-
-  _classCallCheck(this, Monad);
-
-  this.x = z;
-
-  this.bnd = function (func) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    return func.apply(undefined, [_this.x, _this].concat(args));
-  };
-
-  this.ret = function (a) {
-    _this.x = a;
-    return _this;
-  };
-
-  this.fmap = function (f) {
-    for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-      args[_key2 - 2] = arguments[_key2];
-    }
-
-    var mon = arguments.length <= 1 || arguments[1] === undefined ? _this : arguments[1];
-
-    mon.ret(f.apply(undefined, [mon.x].concat(args)));
-    return mon;
-  };
-};
-
 ;
 
 var pure = function pure(x,mon) {
@@ -180,12 +180,12 @@ var MI = function MI(a, b) {
   return new MonadIter(a, b);
 };
 
-var mMI1 = MI(0, 'mMI1');
-var mMI2 = MI(0, 'mMI2');
-var mMI3 = MI(0, 'mMI3');
-var mMI4 = MI(0, 'mMI4');
-var mMI5 = MI(0, 'mMI5');
-var mMI6 = MI(0, 'mMI6');
+var mMI1 = MI(false, 'mMI1');
+var mMI2 = MI(false, 'mMI2');
+var mMI3 = MI(false, 'mMI3');
+var mMI4 = MI(false, 'mMI4');
+var mMI5 = MI(false, 'mMI5');
+var mMI6 = MI(false, 'mMI6');
 
 var toNums = function toNums(x,mon) {
   mon.x = mon.x.map(x => parseFloat(x));
