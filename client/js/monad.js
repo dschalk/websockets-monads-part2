@@ -3,7 +3,6 @@
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-"use strict";
 
 var Monad = function Monad(z) {
   var _this = this;
@@ -37,93 +36,91 @@ var Monad = function Monad(z) {
   };
 };
 
-;
-
 var MonadIter = function MonadIter(z, g) {
-  var _this2 = this;
+  var _this = this;
 
   _classCallCheck(this, MonadIter);
 
   this.x = z;
   this.id = g;
-  this.flag = false;
   this.p = [];
 
   this.block = function () {
-    _this2.flag = true;
-    return _this2;
+    _this.x = true;
+    return _this;
   };
 
   this.release = function () {
-    var self = _this2;
-    var p = _this2.p;
+    _this.x = false;
+    var self = _this;
+    var p = _this.p;
 
     if (p[1] === 'bnd') {
       p[2].apply(p, [self.x, self].concat(_toConsumableArray(p[3])));
-      self.flag = false;
+
       return self;
     }
 
     if (p[1] === 'ret') {
       self.x = p[2];
-      self.flag = false;
       return self;
     }
 
     if (p[1] === 'fmap') {
       p[3].ret(p[2].apply(p, [p[3].x].concat(_toConsumableArray(p[4]))));
-      self.flag = false;
       return p[3];
     }
   };
 
   this.bnd = function (func) {
-    var self = _this2;
-    for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-      args[_key3 - 1] = arguments[_key3];
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
 
-    if (self.flag === false) {
+    var self = _this;
+    if (self.x === false) {
       func.apply(undefined, [self.x, self].concat(args));
       return self;
     }
-    if (self.flag === true) {
+    if (self.x === true) {
       self.p = [self.id, 'bnd', func, args];
       return self;
     }
   };
 
   this.fmap = function (f) {
-    if (self.p.length > 0) {return};
-    for (var _len4 = arguments.length, args = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
-      args[_key4 - 2] = arguments[_key4];
+    for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+      args[_key2 - 2] = arguments[_key2];
     }
 
-    var mon = arguments.length <= 1 || arguments[1] === undefined ? _this2 : arguments[1];
+    var mon = arguments.length <= 1 || arguments[1] === undefined ? _this : arguments[1];
 
-    if (self.flag === false) {
+    var self = _this;
+    if (self.x === false) {
       mon.ret(f.apply(undefined, [mon.x].concat(args)));
       return mon;
     }
-    if (self.flag === true) {
+    if (self.x === true) {
       self.p = [self.id, 'fmap', f, mon, args];
       return self;
     }
   };
 
   this.ret = function (a) {
-    var self = _this2;
-    if (self.flag === false) {
+    var self = _this;
+    if (self.x === false) {
       self.x = a;
     }
-    if (self.flag === true) {
+    if (self.x === true) {
       self.p = [self.id, 'ret', a];
       return self;
     }
-    _this2.flag = false;
-    return _this2;
+    _this.x = false;
+    return _this;
   };
 };
+
+;
 
 var pure = function pure(x,mon) {
   if (typeof mon.x.x == 'undefined') {
@@ -183,12 +180,12 @@ var MI = function MI(a, b) {
   return new MonadIter(a, b);
 };
 
-var mMI1 = MI(0, 'mMI1');
-var mMI2 = MI(0, 'mMI2');
-var mMI3 = MI(0, 'mMI3');
-var mMI4 = MI(0, 'mMI4');
-var mMI5 = MI(0, 'mMI5');
-var mMI6 = MI(0, 'mMI6');
+var mMI1 = MI(false, 'mMI1');
+var mMI2 = MI(false, 'mMI2');
+var mMI3 = MI(false, 'mMI3');
+var mMI4 = MI(false, 'mMI4');
+var mMI5 = MI(false, 'mMI5');
+var mMI6 = MI(false, 'mMI6');
 
 var toNums = function toNums(x,mon) {
   mon.x = mon.x.map(x => parseFloat(x));
@@ -430,18 +427,6 @@ var id = function id(x) {
 };
 var lo = function lo(x) {
   return console.log(x);
-};
-
-var block = function block(x, mon, mon2) {
-  mon2.flag = true;
-  console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$', mon2.id, mon2.x, mon2.flag);
-  return mon;
-};
-
-var release = function release(x, mon, mon2) {
-  mon2.flag = false;
-  console.log('***************************', mon2.id, mon2.x, mon2.flag);
-  return mon;
 };
 
 var test5 = function test5(m) {

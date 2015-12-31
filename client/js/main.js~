@@ -306,13 +306,16 @@ function updateMessage(e) {
 }
 
 function updatePauseDemo() {
-  mM1.bnd(pause,4,mMI1)
+  mM1.ret("Wait two seconds.")
+    .bnd(update)
+    .bnd(pause,2,mMI1)
     .bnd(() => mMI1
     .bnd(() => mM2.ret("Hello")
     .bnd(() => mM3.ret(3)
     .bnd(mM4.ret)
     .bnd(cube)
-    .bnd(update))))
+    .bnd(() => mM1.ret("Goodbye")
+    .bnd(update)))))
 }
 
 function updateR(event) {

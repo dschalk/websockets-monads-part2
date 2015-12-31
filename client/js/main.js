@@ -125,6 +125,7 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
    h('p', 'If you click the button below, some monads will update four seconds later. '  ),
    h('button', {on: { mouseenter: update4e, mouseleave: update4l, click: updatePauseDemo }, style: style4},
             [ cow.pauseDemo ],  ),
+      h('p', 'If you pull your mouse away quickly, you can see mMI2 change from true to false. It was inconvenient to update the display, but "mouseleave" causes an update. '  ),     
       h('p', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad.  m.fmap(f) assigns f(m.x) to m; in other words, m.x === f(m.x\') where x\' is the previous value of m.  Using ordinary functions with bnd does not modify the calling monad, but it does compute values using either the calling monad\'s value or a value provided in the argument provided to bnd. For example, "mM1.bnd(() => cu(2)) + mM1.bnd(cu) === 54 and mMx === 3 where cu = function cu(x) {return x*x*x}. I don\'t have an example in which there would be any advantage in using bnd with an ordinary function. I like the robustness of bnd as it is, but if bnd took only the functions specifically made for it, inadvertent use of ordinary functions as arguments would return a helpful error message. Still, I don\'t plan to restrict the functions bnd can accept as arguments. '  ),
       h('span', 'And here is "send": '  ),
       cow.send,
@@ -306,13 +307,16 @@ function updateMessage(e) {
 }
 
 function updatePauseDemo() {
-  mM1.bnd(pause,4,mMI1)
+  mM1.ret("Wait two seconds.")
+    .bnd(update)
+    .bnd(pause,2,mMI1)
     .bnd(() => mMI1
     .bnd(() => mM2.ret("Hello")
     .bnd(() => mM3.ret(3)
     .bnd(mM4.ret)
     .bnd(cube)
-    .bnd(update))))
+    .bnd(() => mM1.ret("Goodbye")
+    .bnd(update)))))
 }
 
 function updateR(event) {

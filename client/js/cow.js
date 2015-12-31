@@ -31,44 +31,42 @@ const monadIter = h('pre', {style: {color: '#AFEEEE' }}, `  class MonadIter {
 
       this.x = z;
       this.id = g;
-      this.flag = false;
       this.p = [];
 
       this.block = () => {
-        this.flag = true;
+        this.x = true;
         return this;
         }
 
       this.release = () => {
+        this.x = false;
         let self = this;
         let p = this.p;
 
         if (p[1] === 'bnd') {
           p[2](self.x, self, ...p[3]);
-          self.flag = false;
+
           return self;
         }
 
         if (p[1] === 'ret') {
           self.x = p[2];
-          self.flag = false;
           return self;
         }
 
         if (p[1] === 'fmap') { 
           p[3].ret(p[2](p[3].x, ...p[4]));
-          self.flag = false;
           return p[3];
         }
      }
 
       this.bnd = (func, ...args) => {
         let self = this;
-        if (self.flag === false) {
+        if (self.x === false) {
           func(self.x, self, ...args);
           return self;
         }
-        if (self.flag === true) {
+        if (self.x === true) {
           self.p = [self.id, 'bnd', func, args];
           return self;
         }
@@ -76,11 +74,11 @@ const monadIter = h('pre', {style: {color: '#AFEEEE' }}, `  class MonadIter {
 
       this.fmap = (f, mon = this, ...args) => {   
         let self = this;
-          if (self.flag === false) {
+          if (self.x === false) {
             mon.ret(f(mon.x,  ...args));
             return mon;
           }
-          if (self.flag === true) {
+          if (self.x === true) {
             self.p = [self.id, 'fmap', f, mon, args];
             return self;
           }
@@ -88,14 +86,14 @@ const monadIter = h('pre', {style: {color: '#AFEEEE' }}, `  class MonadIter {
 
       this.ret = a => { 
         let self = this;
-          if (self.flag === false) {
+          if (self.x === false) {
             self.x = a;
           }
-          if (self.flag === true) {
+          if (self.x === true) {
           self.p = [self.id, 'ret', a];
           return self;
           }
-        this.flag = false;
+        this.x = false;
         return this;
       }
     }
@@ -103,30 +101,22 @@ const monadIter = h('pre', {style: {color: '#AFEEEE' }}, `  class MonadIter {
 ` );  
 
 const steps = h('pre', {style: {color: '#AFEEEE' }}, 
-`    mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret)
-     .bnd(() => mM1
-     .ret('Click mMI2.release() to proceed')
-     .bnd(refresh)
-     .bnd(() => mMI2
-         .block()
-     .bnd(() => mM2
-     .ret('Click it again.')
-     .bnd(refresh)
-     .bnd(() => mMI2
-         .block()
+`  function updateSteps(event) {
+     mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret)
+     .bnd(() => mM1.ret('Click the mMI2.release() button to proceed')
+     .bnd(() => mMI2.block()
+     .bnd(() => mM2.ret('Click it again.')
+     .bnd(() => mMI2.block()
      .bnd(() => mM3.ret('Keep going')
-     .bnd(refresh)
-     .bnd(() => mMI2
-         .block()
-     .bnd(() => mM4
-     .ret('One more')
-     .bnd(refresh)
-     .bnd(() => mMI2
-         .block()
+     .bnd(() => mMI2.block()
+     .bnd(() => mM4.ret('One more')
+     .bnd(() => mMI2.block()
      .bnd(() => mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret)
-     .bnd(mM4.ret).bnd(refresh)
-      ))))))))) `
- );  
+     .bnd(mM4.ret)
+      ))))))))) 
+     oldVnode = patch(oldVnode, newVnode());
+  }  ` 
+);  
 
 const dice = h('pre', {style: {color: '#AFEEEE' }}, 
 `function updateNums(e) {
@@ -210,13 +200,15 @@ const pause = h('pre', {style: {color: '#AFEEEE' }},
 );
 
 const pauseDemo = h('pre', {style: {color: '#AFEEEE' }}, 
-`  mM1.bnd(pause,4,mMI1)
+`  mM1.ret("Wait two seconds")
+    .bnd(pause,2,mMI1)
     .bnd(() => mMI1
     .bnd(() => mM2.ret("Hello")
     .bnd(() => mM3.ret(3)
     .bnd(mM4.ret)
     .bnd(cube)
-    .bnd(update))))  `
+    .bnd(() => mM1.ret("Goodbye")
+    .bnd(update)))))  `
 );  
 
 const nex = h('pre', {style: {color: '#AFEEEE' }}, 
