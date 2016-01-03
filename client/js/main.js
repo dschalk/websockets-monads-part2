@@ -4,13 +4,14 @@ import cow from './cow';
 import snabbdom from 'snabbdom';
 import h from 'snabbdom/h';
 
+var Group = 'solo';
 var ar7 = [];
 
-var ar8 = function ar8(x) {
+var ar8 = function ar8() {
   let ar = [];
   let keys = Object.keys(ar7);
   for (let k in keys) {
-    ar.push(LoginName + ': ' + ar7[k]);
+    ar.push(ar7[k]);
     ar.push(h('br'));
   }
   return ar;
@@ -37,7 +38,7 @@ function createWebSocket(path) {
 }
 
 var socket = createWebSocket('/');
-var LoginName;
+var Name;
 
 socket.onopen = function (event) {
     console.log('cow onopen ', event);
@@ -45,7 +46,7 @@ socket.onopen = function (event) {
 };
 
 var send = function(event) {
-      socket.send("CA#$42,solo," + LoginName +",6,6,12,20");
+      socket.send(`CA#$42,${Group},${Name},6,6,12,20`);
 };
 
 const patch = snabbdom.init([
@@ -125,6 +126,7 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
    h('p', 'If you click the button below, some monads will update four seconds later. '  ),
    h('button', {on: { mouseenter: update4e, mouseleave: update4l, click: updatePauseDemo }, style: style4},
             [ cow.pauseDemo ],  ),
+      h('p', 'If you pull your mouse away quickly, you can see mMI2 change from true to false. It was inconvenient to update the display, but "mouseleave" causes an update. '  ),     
       h('p', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad.  m.fmap(f) assigns f(m.x) to m; in other words, m.x === f(m.x\') where x\' is the previous value of m.  Using ordinary functions with bnd does not modify the calling monad, but it does compute values using either the calling monad\'s value or a value provided in the argument provided to bnd. For example, "mM1.bnd(() => cu(2)) + mM1.bnd(cu) === 54 and mMx === 3 where cu = function cu(x) {return x*x*x}. I don\'t have an example in which there would be any advantage in using bnd with an ordinary function. I like the robustness of bnd as it is, but if bnd took only the functions specifically made for it, inadvertent use of ordinary functions as arguments would return a helpful error message. Still, I don\'t plan to restrict the functions bnd can accept as arguments. '  ),
       h('span', 'And here is "send": '  ),
       cow.send,
@@ -140,6 +142,9 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       h('p', ''  ),
       h('span', 'The code for this along with some other demonstrations can be found at ' ),
       h('a', {props: {href: 'https://github.com/dschalk?tab=repositories'}, style: {color: '#EECCFF'}}, 'github.com/dschalk/' ),
+      h('span', 'Change group: '  ),   
+      h('input', {style: messageStyle, on: {keydown: updateGroup}} ),
+      h('p', ' '  ),
       h('div', {style: {height: '300px'}} ),
       h ('div',{style: { width: '30%', position: 'fixed', top: '40px', right: '15px', color: '#CCFDDA'}},
         [
@@ -291,7 +296,7 @@ function updateLogin(e) {
      } 
      if( e.keyCode == 13 ) {
        socket.send("CC#$42" + v);
-       LoginName = v;
+       Name = v;
        inputStyle1 = inputStyleB;
        messageStyle = inputStyleA;
        mM3.ret([]).bnd(mM2.ret);
@@ -301,7 +306,7 @@ function updateLogin(e) {
 
 function updateMessage(e) {
   if( e.keyCode == 13 ) {
-    socket.send("CD#$42,solo," + LoginName + ',' + e.target.value);
+    socket.send(`CD#$42,${Group},${Name},${e.target.value}`);
   }
 }
 
@@ -316,6 +321,14 @@ function updatePauseDemo() {
     .bnd(cube)
     .bnd(() => mM1.ret("Goodbye")
     .bnd(update)))))
+  oldVnode = patch(oldVnode, newVnode());
+}
+
+function updateGroup(e) {
+  Group = e.target.value;
+  if( e.keyCode == 13 ) {
+    socket.send(`CO#$42,${e.target.value},${Name},${e.target.value}`);
+  }
   oldVnode = patch(oldVnode, newVnode());
 }
 
@@ -394,6 +407,7 @@ socket.onmessage = function(event) {
               styleRoll2 = style2;
               mM6.ret(sender + '\'s socket is now open');
               // mM9.ret([
+              // socket.send( `CO#$42,groupB,Name` );
               update0();
             }
       
@@ -425,8 +439,11 @@ socket.onmessage = function(event) {
           break;
 
           case "CD#$42":
-            ar7.push(extra);
-            update0();
+          gameArray.splice(0,3);
+          let message = gameArray.reduce((a,b) => a + ", " + b)
+          let ar3 = sender + ': ' + message;
+          ar7.push(ar3);
+          update0();
           break;
 
           case "CF#$42":                              // Re-set after a each clculation.
