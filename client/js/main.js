@@ -161,7 +161,10 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       h('a', {props: {href: 'https://github.com/dschalk?tab=repositories'}, style: {color: '#EECCFF'}}, 'github.com/dschalk/' ),
       h('div', {style: {height: '300px'}} ),
       h('div', {style: monadStyle}, [  
-      h('div',{style: { width: '30%', position: 'fixed', top: '40px', right: '15px', color: '#CCFDDA'}}, [ 
+      h('div',{style: { width: '30%', position: 'fixed', top: '15px', right: '15px', color: '#CCFDDA'}}, [ 
+        h('div', {style: linkStyle}, [
+        h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: updateGotochat }, style: style5},
+            'Go To Chat'  ) ] ),
         h('br'),
         h('span', 'mM1.x: '),
         h('span', {style: styleM}, '  ' + m1),
@@ -241,7 +244,9 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
             'Go Back'  ),
         h('br', ),    
         h('span', 'Change group: '  ),   
+        h('div', `Group: ${Group}` ),
         h('input', {style: messageStyle, on: {keydown: updateGroup}} ),
+        h('div', `Group: ${Group}` ),
         h('h2', {style: {text: 'center'}}, 'Score Board' ),
         h('div', {props: {id:'scoreboard'}}, ar9() ),
         h('h2',  {style: {textAlign: 'center'}}, 'Chat Messages'   ),
@@ -348,7 +353,9 @@ function updateLogin(e) {
        messageStyle = inputStyleA;
        monadStyle = inputStyleB;
        chatStyle = inputStyleA;
+       linkStyle = {display: 'block'};
        mM3.ret([]).bnd(mM2.ret);
+       e.target.value = '';
        update0();
      }
 }
@@ -359,11 +366,18 @@ function updateGoback() {
        update0();
 }
 
+function updateGotochat() {
+       monadStyle = inputStyleB;
+       chatStyle = inputStyleA;
+       update0();
+}
+
 function updateMessage(e) {
   if( e.keyCode == 13 ) {
     socket.send(`CD#$42,${Group},${Name},${e.target.value}`);
     monadStyle = inputStyleB;
     chatStyle = inputStyleA;
+    e.target.value = '';
   }
 }
 
@@ -385,6 +399,7 @@ function updateGroup(e) {
   Group = e.target.value;
   if( e.keyCode == 13 ) {
     socket.send(`CO#$42,${e.target.value},${Name},${e.target.value}`);
+    e.target.value = '';
   }
   oldVnode = patch(oldVnode, newVnode());
 }
@@ -568,6 +583,7 @@ socket.onmessage = function(event) {
 
 var inputStyle1 = inputStyleA;
 var monadStyle = inputStyleA;
+var linkStyle = {display: 'none'};
 
 var inputStyleA = { backgroundColor: '#d8d17d', display: 'inline'} ;
 
