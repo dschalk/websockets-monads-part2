@@ -136,25 +136,31 @@ function updateOp(e) {
 
 function updateCalc() {  
   if ((mM8.x === 0) || (mM3.x.length !== 2)) {return};
+  monadStyle = inputStyleB;
+  chatStyle = inputStyleA;
   mM19.bnd(() => (
       ( mMI2.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 1))
                     .bnd(() => mM13
                     .ret(mM13.x + 1)
-                    .bnd(() => send()))) ),
+                    .bnd(score,1)
+                    .bnd(newRoll))) ),
+
       ( mMI4.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 3))
                     .bnd(() => mM13
                     .ret(mM13.x + 3)
-                    .bnd(() => send()))) ),
+                    .bnd(score,3)
+                    .bnd(newRoll))) ),
       ( mMI5.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 5))
                     .bnd(() => mM13
                     .ret(mM13.x + 5)
-                    .bnd(() => send()))) ),
+                    .bnd(score,5)
+                    .bnd(newRoll))) ),
        (mM3
                     .bnd(toFloat)
                     .bnd(() => mM7
