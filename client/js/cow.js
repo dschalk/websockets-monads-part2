@@ -180,11 +180,9 @@ function updateCalc() {
   )) 
 }
 
-var next = function next(x,mon,bool,mon2) {  
-  if (bool) {
-    mon2.release();
-  }
-  return mon
+var newRoll = function(x,mon) {
+  socket.send(\`CA#$42,${Group},${Name},6,6,12,20\`);
+  return mon;
 }  `
 );  
 
