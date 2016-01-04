@@ -2,6 +2,8 @@
 
 import snabbdom from 'snabbdom';
 import h from 'snabbdom/h';
+var Group = 'solo';
+var Name = 'Fred';
 
 const monad = h('pre', {style: {color: '#AFEEEE' }}, `  class Monad {
     constructor(z) {
