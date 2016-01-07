@@ -194,6 +194,52 @@ const send = h('pre', {style: {color: '#AFEEEE' }},
     };`
 );  
 
+const messages1 = h('pre', {style: {color: '#AFEEEE' }}, 
+`
+  var updateMessages = function msg(x,mon) {  
+    mon.ret([]);
+    let ar2 = mMmsg.x;
+    let keys = Object.keys(ar2);
+    for (let k in keys) {
+      mon.bnd(push, ar2[k])
+      .bnd(push, h('br'));
+    }
+    return mon;
+  }
+`
+);  
+
+const messages2 = h('pre', {style: {color: '#AFEEEE' }}, 
+`
+  case "CD#$42":
+    gameArray.splice(0,3);
+    let message = gameArray.reduce((a,b) => a + ", " + b)  
+    let str = sender + ': ' + message;
+    mMmsg
+    .bnd(push,str)
+    .bnd( () => mMmessage
+    .bnd(updateMessages)
+    .bnd(update) );
+  break;
+`
+);  
+
+const messages3 = h('pre', {style: {color: '#AFEEEE' }}, 
+`
+`
+);  
+
+const messages4 = h('pre', {style: {color: '#AFEEEE' }}, 
+`
+`
+);  
+
+const messages5 = h('pre', {style: {color: '#AFEEEE' }}, 
+`
+`
+);  
+
+
 const pause = h('pre', {style: {color: '#AFEEEE' }}, 
 `  var pause = function(x,mon,t,mon2) {   
      mon2.block();
@@ -235,7 +281,8 @@ const updateNext = h('pre', {style: {color: '#AFEEEE' }},
 );  
 
 
-export default {monad, monadIter, steps, dice, send, nex, updateNext, pause, pauseDemo};
+export default {monad, monadIter, steps, dice, send, nex, updateNext, 
+  pause, pauseDemo, messages1, messages2, messages3};
 
 
 
