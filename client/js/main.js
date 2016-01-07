@@ -337,7 +337,6 @@ function updateNums(e) {
 }
 
 function updateOp(e) {
-       console.log('updateOp: mMI1.p, mMI2.p, mMI4.p ', mMI1.p, mMI2.p, mMI4.p);
   mM8.ret(e.target.textContent);
   updateCalc();
 }
