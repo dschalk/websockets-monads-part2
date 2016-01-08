@@ -209,20 +209,24 @@ const messages1 = h('pre', {style: {color: '#AFEEEE' }},
 );  
 
 const messages2 = h('pre', {style: {color: '#AFEEEE' }}, 
-`  case "CD#$42":
-    gameArray.splice(0,3);
-    let message = gameArray.reduce((a,b) => a + ", " + b)  
-    let str = sender + ': ' + message;
-    mMmsg
-    .bnd(push,str)
-    .bnd( () => mMmessage
-    .bnd(updateMessages)
-    .bnd(update) );
-  break;
+`  mMmsg
+  .bnd(push,str)
+  .bnd( () => mMmessage
+  .bnd(updateChildren,mMmsg)
+  .bnd(update) );
+
 `
 );  
 
 const messages3 = h('pre', {style: {color: '#AFEEEE' }}, 
+`  mMscbd.ret(scores)
+  .bnd( () => mMscoreboard
+  .bnd(updateChildren,mMscbd)
+  .bnd(update) )
+`
+);  
+
+const messages6 = h('pre', {style: {color: '#AFEEEE' }}, 
 `
 `
 );  

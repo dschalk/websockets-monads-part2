@@ -32,7 +32,7 @@ var messages1 = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' }
 
 var messages2 = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '  mMmsg\n  .bnd(push,str)\n  .bnd( () => mMmessage\n  .bnd(updateChildren,mMmsg)\n  .bnd(update) );\n\n');
 
-var messages3 = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '  mMscbd\n  .bnd(push,str)\n  .bnd( () => mMscoreboard\n  .bnd(updateChildren,mMmsg)\n  .bnd(update) );\n\n');
+var messages3 = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '  mMscbd.ret(scores)\n  .bnd( () => mMscoreboard\n  .bnd(updateChildren,mMscbd)\n  .bnd(update) )\n');
 
 var messages6 = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '\n');
 

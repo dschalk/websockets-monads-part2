@@ -219,12 +219,10 @@ const messages2 = h('pre', {style: {color: '#AFEEEE' }},
 );  
 
 const messages3 = h('pre', {style: {color: '#AFEEEE' }}, 
-`  mMscbd
-  .bnd(push,str)
+`  mMscbd.ret(scores)
   .bnd( () => mMscoreboard
-  .bnd(updateChildren,mMmsg)
-  .bnd(update) );
-
+  .bnd(updateChildren,mMscbd)
+  .bnd(update) )
 `
 );  
 
