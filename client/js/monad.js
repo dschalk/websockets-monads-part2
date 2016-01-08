@@ -177,6 +177,8 @@ var mM18 = M(0);
 var mM19 = M(0);
 var mMmessage = M([]);
 var mMmsg = M([]);
+var mMscoreboard = M([]);
+var mMscbd = M([]);
 
 var MI = function MI(a, b) {
   return new MonadIter(a, b);

@@ -195,34 +195,40 @@ const send = h('pre', {style: {color: '#AFEEEE' }},
 );  
 
 const messages1 = h('pre', {style: {color: '#AFEEEE' }}, 
-`  var updateMessages = function msg(x,mon) {  
-    mon.ret([]);
-    let ar2 = mMmsg.x;
-    let keys = Object.keys(ar2);
-    for (let k in keys) {
-      mon.bnd(push, ar2[k])
-      .bnd(push, h('br'));
-    }
-    return mon;
+`  var updateChildren = function updateMessages(x,mon,mon2) {  
+  mon.ret([]);
+  let ar = mon2.x;
+  let keys = Object.keys(ar);
+  for (let k in keys) {
+    mon.bnd(push, ar[k])
+    .bnd(push, h('br'));
   }
+  return mon;
+}
 `
 );  
 
 const messages2 = h('pre', {style: {color: '#AFEEEE' }}, 
-`  case "CD#$42":
-    gameArray.splice(0,3);
-    let message = gameArray.reduce((a,b) => a + ", " + b)  
-    let str = sender + ': ' + message;
-    mMmsg
-    .bnd(push,str)
-    .bnd( () => mMmessage
-    .bnd(updateMessages)
-    .bnd(update) );
-  break;
+`  mMmsg
+  .bnd(push,str)
+  .bnd( () => mMmessage
+  .bnd(updateChildren,mMmsg)
+  .bnd(update) );
+
 `
 );  
 
 const messages3 = h('pre', {style: {color: '#AFEEEE' }}, 
+`  mMscbd
+  .bnd(push,str)
+  .bnd( () => mMscoreboard
+  .bnd(updateChildren,mMmsg)
+  .bnd(update) );
+
+`
+);  
+
+const messages6 = h('pre', {style: {color: '#AFEEEE' }}, 
 `
 `
 );  
