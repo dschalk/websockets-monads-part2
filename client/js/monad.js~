@@ -175,19 +175,25 @@ var mM16 = M(0);
 var mM17 = M(0);
 var mM18 = M(0);
 var mM19 = M(0);
-var mMmessage = M([]);
+var mMscbd = M([]);
+var mMmessages = M([]);
+var mMscoreboard = M([]);
 var mMmsg = M([]);
+var mMgoals = M([]);
 
 var MI = function MI(a, b) {
   return new MonadIter(a, b);
 };
 
-var mMI1 = MI(false, 'mMI1');
-var mMI2 = MI(false, 'mMI2');
-var mMI3 = MI(false, 'mMI3');
-var mMI4 = MI(false, 'mMI4');
-var mMI5 = MI(false, 'mMI5');
-var mMI6 = MI(false, 'mMI6');
+var mMZ1 = MI(false, 'mMZ1');
+var mMZ2 = MI(false, 'mMZ2');
+var mMZ3 = MI(false, 'mMZ3');
+var mMZ4 = MI(false, 'mMZ4');
+var mMZ5 = MI(false, 'mMZ5');
+var mMZ6 = MI(false, 'mMZ6');
+var mMZ7 = MI(false, 'mMZ7');
+var mMZ8 = MI(false, 'mMZ8');
+var mMZ9 = MI(false, 'mMZ9');
 
 var toNums = function toNums(x,mon) {
   mon.x = mon.x.map(x => parseFloat(x));

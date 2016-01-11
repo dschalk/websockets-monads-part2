@@ -24,7 +24,7 @@ var monadIter = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' }
 
 var steps = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '  function updateSteps(event) {\n     mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret)\n     .bnd(() => mM1.ret(\'Click the mMI2.release() button to proceed\')\n     .bnd(() => mMI2.block()\n     .bnd(() => mM2.ret(\'Click it again.\')\n     .bnd(() => mMI2.block()\n     .bnd(() => mM3.ret(\'Keep going\')\n     .bnd(() => mMI2.block()\n     .bnd(() => mM4.ret(\'One more\')\n     .bnd(() => mMI2.block()\n     .bnd(() => mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret)\n     .bnd(mM4.ret)\n      ))))))))) \n     oldVnode = patch(oldVnode, newVnode());\n  }  ');
 
-var dice = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, 'function updateNums(e) {\n  mM2.ret([e.target.value, e.target.textContent]) \n  .bnd(() => mM3)\n  .bnd(push,mM2.x[1])\n  .bnd(() => {mM1.x[mM2.x[0]] = ""; return mM5;})\n  .bnd(update)\n  updateCalc();\n}\n\nfunction updateOp(e) {\n       console.log(\'updateOp: mMI1.p, mMI2.p, mMI4.p \', mMI1.p, mMI2.p, mMI4.p);\n  mM8.ret(e.target.textContent);\n  updateCalc();\n}\n\nfunction updateCalc() {  \n  if ((mM8.x === 0) || (mM3.x.length !== 2)) {return};\n  monadStyle = inputStyleB;\n  chatStyle = inputStyleA;\n  mM19.bnd(() => (\n      ( mMI2.block()\n                    .bnd(() => mM14\n                    .ret(\'Score: \' + (mM13.x + 1))\n                    .bnd(() => mM13\n                    .ret(mM13.x + 1)\n                    .bnd(score,1)\n                    .bnd(newRoll))) ),\n\n      ( mMI4.block()\n                    .bnd(() => mM14\n                    .ret(\'Score: \' + (mM13.x + 3))\n                    .bnd(() => mM13\n                    .ret(mM13.x + 3)\n                    .bnd(score,3)\n                    .bnd(newRoll))) ),\n      ( mMI5.block()\n                    .bnd(() => mM14\n                    .ret(\'Score: \' + (mM13.x + 5))\n                    .bnd(() => mM13\n                    .ret(mM13.x + 5)\n                    .bnd(score,5)\n                    .bnd(newRoll))) ),\n       (mM3\n                    .bnd(toFloat)\n                    .bnd(() => mM7\n                    .fmap(() => {return calc(mM3.x[0], mM8.x, mM3.x[1])})\n                    .bnd(() => mM1.bnd(push, mM7.x)\n                    .bnd(clean)\n                    .bnd(next, (mM7.x == 18), mMI4)\n                    .bnd(next, (mM7.x == 20), mMI2) \n                    .bnd(next, ((mM7.x == 20 || mM7.x == 18) && (mM13.x % 5) === 0), mMI5) \n                    .bnd(displayOff, mM1.x.length)\n                    .bnd(() => mM3\n                    .ret([])\n                    .bnd(() => mM4\n                    .ret(0).bnd(mM8.ret)\n                    .bnd(() => mM5.ret(\'Done\')\n                    .bnd(update)   ))))) )\n  )) \n}\n\nvar newRoll = function(x,mon) {\n  socket.send(`CA#$42,' + Group + ',' + Name + ',6,6,12,20`);\n  return mon;\n}  ');
+var dice = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, 'function updateNums(e) {\n  socket.send(`EQ#$42,' + Group + ',' + Name + '`);\n  DS_T = 8000;\n  mM2.ret([e.target.value, e.target.textContent]) \n  .bnd(() => mM3)\n  .bnd(push,mM2.x[1])\n  .bnd(() => {mM1.x[mM2.x[0]] = ""; return mM5;})\n  .bnd(update)\n  updateCalc();\n}\n\nfunction updateOp(e) {\n  socket.send(`EQ#$42,' + Group + ',' + Name + '`);\n  DS_T = 8000;\n  mM8.ret(e.target.textContent);\n  updateCalc();\n}\n\nfunction updateCalc() {  \n  if ((mM8.x === 0) || (mM3.x.length !== 2)) {return};\n  monadStyle = inputStyleB;\n  chatStyle = inputStyleA;\n  mM19.bnd(() => (\n      ( mMZ2.block()\n                    .bnd(() => mM14\n                    .ret(\'Score: \' + (mM13.x + 1))\n                    .bnd(() => mM13\n                    .ret(mM13.x + 1)\n                    .bnd(score,1)\n                    .bnd(newRoll))) ),\n\n      ( mMZ4.block()\n                    .bnd(() => mM14\n                    .ret(\'Score: \' + (mM13.x + 3))\n                    .bnd(() => mM13\n                    .ret(mM13.x + 3)\n                    .bnd(score,3)\n                    .bnd(newRoll))) ),\n      ( mMZ5.block()\n                    .bnd(() => mM14\n                    .ret(\'Score: \' + (mM13.x + 5))\n                    .bnd(() => mM13\n                    .ret(mM13.x + 5)\n                    .bnd(score,5)\n                    .bnd(newRoll))) ),\n      ( mMZ6.block()\n                    .bnd(() => mM17\n                    .ret(\'Goals: \' + (mMgoals.x + 1))\n                    .bnd(() => mMgoals\n                    .ret(mMgoals.x + 1)\n                    .bnd(() => mM13\n                    .ret(0)\n                    .bnd(score,-25)\n                    .bnd(newRoll)))) ),     \n       (mM3\n                    .bnd(toFloat)\n                    .bnd(() => mM7\n                    .fmap(() => {return calc(mM3.x[0], mM8.x, mM3.x[1])})\n                    .bnd(() => mM1.bnd(push, mM7.x)\n                    .bnd(clean)\n                    .bnd(next, (mM7.x == 18), mMZ4)\n                    .bnd(next, (mM7.x == 20), mMZ2) \n                    .bnd(next, ((mM7.x == 20 || mM7.x == 18) && (mM13.x % 5) === 0), mMZ5) \n                    .bnd(next, (mM13.x == 25), mMZ6)\n                    .bnd(displayOff, mM1.x.length)\n                    .bnd(() => mM3\n                    .ret([])\n                    .bnd(() => mM4\n                    .ret(0).bnd(mM8.ret)\n                    .bnd(() => mM5.ret(\'Done\')\n                    .bnd(update)   ))))) ) )) \n}\n\nvar newRoll = function(x,mon) {\n  socket.send(`CA#$42,' + Group + ',' + Name + ',6,6,12,20`);\n  return mon;\n}  ');
 
 var send = (0, _snabbdomH2['default'])('pre', { style: { color: '#AFEEEE' } }, '    var send = function(event) {\n        socket.send("CA#$42,solo," + LoginName +",6,6,12,20");\n    };');
 
@@ -71,28 +71,20 @@ var _snabbdomH2 = _interopRequireDefault(_snabbdomH);
 
 var Group = 'solo';
 var afocus = { autofocus: false };
+var signinFocus = { autofocus: false };
+var DS_T = 8000;
+var SETINTERVAL = true;
 
 var updateChildren = function updateMessages(x, mon, mon2) {
   mon.ret([]);
   var ar = mon2.x;
   var keys = Object.keys(ar);
+  mon.bnd(push, 'player [score] [goals]').bnd(push, (0, _snabbdomH2['default'])('br'));
   for (var k in keys) {
     mon.bnd(push, ar[k]).bnd(push, (0, _snabbdomH2['default'])('br'));
   }
   return mon;
 };
-
-var testMess = [];
-testMess.push((0, _snabbdomH2['default'])('li', 'One'));
-
-var messageAr = [];
-messageAr.push((0, _snabbdomH2['default'])('li', 'Two'));
-
-var newMessage = function newMessage(x) {
-  messageAr.push((0, _snabbdomH2['default'])('li', x));
-};
-
-newMessage('Three'); // Diplays "Three" on page refresh.
 
 function createWebSocket(path) {
   var host = window.location.hostname;
@@ -122,18 +114,12 @@ require('snabbdom/modules/eventlisteners')]);
 https: //github.com/paldepind/snabbdom
 var oldVnode = document.getElementById('placeholder');
 
-function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2) {
-  return (0, _snabbdomH2['default'])('div', { style: style3 }, [(0, _snabbdomH2['default'])('div', { style: { width: '60%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px' } }, [(0, _snabbdomH2['default'])('h1', { style: { textAlign: 'center', color: '#ffba66' } }, 'Websockets Monads Part 2'), (0, _snabbdomH2['default'])('span', 'This is the third page in the new Javascript Monads series. Links to the detailed explanations of the basic monad constructor, "Monad" and its methods and the arguments they take can be found at '), (0, _snabbdomH2['default'])('a', { props: { href: 'http://schalk.net:4001' }, style: { color: '#EECCFF' } }, ' http://schalk.net:4001'), (0, _snabbdomH2['default'])('span', ' and a code repo at '), (0, _snabbdomH2['default'])('a', { props: { href: 'https://github.com/dschalk/fun-with-monads' }, style: { color: '#EECCFF' } }, ' github repo'), (0, _snabbdomH2['default'])('span', ' The original site, which was largely exploratory, is at: '), (0, _snabbdomH2['default'])('a', { props: { href: 'http://transcendent.ninja' }, style: { color: '#EECCFF' } }, ' http://transcendent.ninja'), (0, _snabbdomH2['default'])('span', ' Links to all of the online demos can be found at: '), (0, _snabbdomH2['default'])('a', { props: { href: 'http://schalk.net' }, style: { color: '#EECCFF' } }, ' http://schalk.net'), (0, _snabbdomH2['default'])('span', ' and a code repo at '), (0, _snabbdomH2['default'])('a', { props: { href: 'https://github.com/dschalk/javascript-monads' }, style: { color: '#EECCFF' } }, ' repo'), (0, _snabbdomH2['default'])('span', '. The older site functions well, but it was bloated and unwieldy with React. I say "bloated" because I didn\'t need most of its core features. I didn\'t even use the state object and frequently called React.forceUpdate. Now I am at peace, using the '), (0, _snabbdomH2['default'])('a', { props: { href: 'https://github.com/paldepind/snabbdom' }, style: { color: '#EECCFF' } }, ' snabbdom library. '), (0, _snabbdomH2['default'])('h2', { style: { textAlign: 'center', color: '#ffba66' } }, 'Why I Call Them "Monads"'), (0, _snabbdomH2['default'])('p', 'Since the Monad and MonadIter instances are uniquely determined by their values (m.x for all monads m), and the values can be any value the is legal in ES6, it is immediately clear that there is a one to one correspondence between the infinite sets of all possible monads and all possible ES6 values, including primitives, arrays, functions, etc. The method "bnd" in combination with functions of the form f = (x,mon) => {do stuff without side effects outside the monad class; return mon } seem to obey the Haskell monad laws without types. The method "ret" is the left and right identity and chains of monad operations are commutative, as I believe I showed in previous pages. But "bnd" will accept functions of the type f = (x,mon) {do anything that can be done in ES6; return mon }. if mM1.x === 3, mM2.x === 4, and mM3.x === 0 (or anything else), after "mM1.bnd(() => cube(mM2.x, mM3))", mM1 and mM2 are unchanged, but mM3.x === 64. Monad methods can return ordinary values. For example, "bnd" with an ordinary function or a lambda leaves the calling monad unchanged, but returns the return value of the function operating on the monad\'s value. So mM1.bnd(_ => 52) leaves mM1 unchanged and returns 52, and  mM1.bnd(x => x*x) + 33 === 42 is true. So while the set of all possible instances of Monad and MonadIters along with the isomorphisms mapping them to one another might constitute a monad, the methods "bnd", "fmap", and "ret" are not restricted to taking only arguments that map within that set. '), (0, _snabbdomH2['default'])('p', 'This project is not about mathematics, it is about writing well organized, efficient, and easy to follow and modify code. This site displays the monad values in the right column which sometimes provides instant debugging information. The values of all of the monads can be found by typing them in the browser console since they are provided by a script, rather than a module. These entities which I am calling "monads" are versitile and rebust, and they function well in chains, propagating values from link to link as far as they are needed and always having access to one another.  I\'ll present a monad that propagates errors, kind of like the Haskell Maybe monad only without types. By the way, speaking of Haskell, if I modified monads by replacing m.x rather than mutating, which would require only a minor adjustment, the monads would be pure in the sense that Haskell MVar instances are pure. MVar instances\' values are removed and replaced, but the MVar instances are said to be immutable. That sort of thinking would seem to make Javascript objects immutable, even as attributes and methods come, go, and mutate. '), (0, _snabbdomH2['default'])('p'), (0, _snabbdomH2['default'])('h2', { style: { textAlign: 'center', color: '#ffba66' } }, 'MonadIter'), (0, _snabbdomH2['default'])('p', 'The basic monad is shown and demonstrated elsewhere. It is also in a script named "monad.js" in the "index.html" file, so you can experiment with the monads in the browser consol. Here is the other constructor in this project: '), _cow2['default'].monadIter, (0, _snabbdomH2['default'])('p', 'As a refresher, Click the following button to execute the indicated code, then click the mMI2.release() button four times.'), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update4e, mouseleave: update4l, click: updateSteps }, style: style4 }, [_cow2['default'].steps]), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update6e, mouseleave: update6l, click: updateNext }, style: style6 }, [_cow2['default'].updateNext]), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('p', 'Now, a demonstration of monads handling websockets messages. In order to create a unique socket, please enter some name.'), (0, _snabbdomH2['default'])('input', { style: inputStyle1, on: { keydown: updateLogin } }), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update8e, mouseleave: update8l, click: updateNums }, props: { value: 0, id: '0' }, style: style8 }, m1[0]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update9e, mouseleave: update9l, click: updateNums }, props: { value: 1, id: '1' }, style: style9 }, m1[1]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update10e, mouseleave: update10l, click: updateNums }, props: { value: 2, id: '2' }, style: style10 }, m1[2]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update11e, mouseleave: update11l, click: updateNums }, props: { value: 3, id: '3' }, style: style11 }, m1[3]), (0, _snabbdomH2['default'])('p', ' '), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update12e, mouseleave: update12l, click: updateOp }, style: style12 }, m17[0]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update13e, mouseleave: update13l, click: updateOp }, style: style13 }, m17[1]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update14e, mouseleave: update14l, click: updateOp }, style: style14 }, m17[2]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update15e, mouseleave: update15l, click: updateOp }, style: style15 }, m17[3]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update16e, mouseleave: update16l, click: updateOp }, style: style16 }, m17[4]), (0, _snabbdomH2['default'])('p', '  '), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update5e, mouseleave: update5l, click: function click() {
-        styleRoll2 = { display: 'none' };
-        monadStyle = inputStyleB;
-        chatStyle = inputStyleA;
-        send();
-      } },
-    style: styleRoll }, 'ROLL'), (0, _snabbdomH2['default'])('p', { style: styleRoll }, 'Now click ROLL. '), (0, _snabbdomH2['default'])('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. '), (0, _snabbdomH2['default'])('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. '), (0, _snabbdomH2['default'])('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Every time your score becomes a multiple of 5, you get 5 more points. Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMI2 and mMI4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMI2 and mMI4. "send" requests a new dice roll from the server. '), (0, _snabbdomH2['default'])('p', 'We could have substituted ordinary callbacks for the blocked MonadIter instances and called them when the test conditions were met. Indeed, we could dispense with the monads altogether. But, at no significant cost in browser resources, the code is neatly organized and easy to reason about. '), (0, _snabbdomH2['default'])('p', 'The one gotcha that might have caused the code to fail on the first run is the order of three parts of the tupple. The tests in part 3 are run after mMI2 and mMI4 have acquired the code that didn\'t run. Had the code in part three been placed in part one, mMI2.release() and mMI4.release() would have no code to execute in their p attributes. Here is the code:'), _cow2['default'].dice, (0, _snabbdomH2['default'])('p', 'When numbers are clicked, they get pushed into mM3.x, an initially empty array. When an operator is clicked, it replaces "0" as the value of mM8. So when mM3.x.length === 2 and mM8.x !== 0, it is time for the computation to go forward. '), (0, _snabbdomH2['default'])('p', 'mM1 holdd the initial dice roll and the subsequent arrays of available numbers. When calc returns "20", the player get an additional point and a new roll of the dice. If calc returns 18, you get three points. '), (0, _snabbdomH2['default'])('p', 'MonadIter instances together with the function "pause" provide a way to delay progress along a chain. "pause" is defined as follows:'), _cow2['default'].pause, (0, _snabbdomH2['default'])('p', 'If you click the button below, some monads will update four seconds later. '), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update4e, mouseleave: update4l, click: updatePauseDemo }, style: style4 }, [_cow2['default'].pauseDemo]), (0, _snabbdomH2['default'])('p', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad.  m.fmap(f) assigns f(m.x) to m; in other words, m.x === f(m.x\') where x\' is the previous value of m.  Using ordinary functions with bnd does not modify the calling monad, but it does compute values using either the calling monad\'s value or a value provided in the argument provided to bnd. For example, "mM1.bnd(() => cu(2)) + mM1.bnd(cu) === 54 and mMx === 3 where cu = function cu(x) {return x*x*x}. I don\'t have an example in which there would be any advantage in using bnd with an ordinary function. I like the robustness of bnd as it is, but if bnd took only the functions specifically made for it, inadvertent use of ordinary functions as arguments would return a helpful error message. Still, I don\'t plan to restrict the functions bnd can accept as arguments. '), (0, _snabbdomH2['default'])('p', 'Using "bnd" with "next", any monad can release any block. At any link, a chain of monads can divide into 2, 3, or any number of chains going there separate ways but still communicating with one another. Large applications can be organized into a single tree. '), (0, _snabbdomH2['default'])('div', 'When you log in, the monad column on the right disappears and a scoreboard and chat section open up. You can\'t compete or chat as long as you remain in the default group "solo", even if other people are in group "solo". But if you change to, say, group "chat54" in two separate browser windows, you will see that both windows share rolls of the dice and chat messages they enter. People in separate locations can agree on a group name and compete and chat. If the name is cryptic, something like "c#*&%@@9J#lu88", the chat and the game will likely remain private. If you change to group "test", you might encounter me fine tuning this page, or maybe someone else looking for company by changing to group "test".  '), (0, _snabbdomH2['default'])('span', { style: inputStyle1 }, 'You will need a socket in order to participate in chats and play the game. A socket is created when you log in. '), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', { style: inputStyle1 }, 'Enter some name here: '), (0, _snabbdomH2['default'])('input', { style: inputStyle1, on: { keydown: updateLogin } }), (0, _snabbdomH2['default'])('h2', { style: { textAlign: 'center', color: '#ffba66' } }, 'Dynamic List Display'), (0, _snabbdomH2['default'])('p', 'The lists of group members and their scores, and the lists of messages broadcast within each group, are subject to change as scores change and players join or leave the group, and as messages get sent and broadcast to the group. When a group member\'s score changes and when a group member sends a message, the information goes to the server and the server broadcasts the updated state (maintained in a Haskell TMVar) to all group members. In socket.onmessage, the incoming messages are sorted according to their prefixes in a switch block and the following function is called: '), _cow2['default'].messages1, (0, _snabbdomH2['default'])('p', 'x is just a place holder needed in the bnd method. If the incoming message is a chat message, the reserved monads mMmsg and mMmessage perform as follow: '), _cow2['default'].messages2, (0, _snabbdomH2['default'])('p', 'When a chat message comes in, mMmsg updates itself with the new message and then hands over processing to mMmessage. mMmessage then calls updateChildren with its bnd method, designating mMmsg as the text source, and then calls .bnd(update). That\'s all there is to it. The array mMmessage.x sits quietly in view() as an array of children of its parent div. '), (0, _snabbdomH2['default'])('p', 'Similarly, the scoreboard is updated by: '), _cow2['default'].messages3, (0, _snabbdomH2['default'])('span', 'The repository for this open source project is at '), (0, _snabbdomH2['default'])('a', { props: { href: 'https://github.com/dschalk?tab=repositories' }, style: { color: '#EECCFF' } }, 'github.com/dschalk/'), (0, _snabbdomH2['default'])('div', { style: { height: '300px' } }), (0, _snabbdomH2['default'])('div', { style: monadStyle }, [(0, _snabbdomH2['default'])('div', { style: { width: '30%', position: 'fixed', top: '15px', right: '15px', color: '#CCFDDA' } }, [(0, _snabbdomH2['default'])('div', { style: linkStyle }, [(0, _snabbdomH2['default'])('button', { on: { mouseenter: update5e, mouseleave: update5l, click: updateGotochat }, style: style5 }, 'Go To Chat')]), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM1.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m1), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM2.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m2), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM3.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m3), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM4.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m4), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM5.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m5), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM6.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m6), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM7.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m7), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM8.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m8), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM9.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m9), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM10.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m10), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM11.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m11), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM12.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m12), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM13.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m13), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM14.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m14), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM15.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m15), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM16.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m16), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM17.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m17), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM18.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m18), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM19.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m19), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mMI1.x: '), (0, _snabbdomH2['default'])('span', { style: styleMI }, '  ' + mI1), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mMI2.x: '), (0, _snabbdomH2['default'])('span', { style: styleMI }, '  ' + mI2), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('button', { on: { mouseenter: updateRe, mouseleave: updateRl, click: updateR }, style: styleR }, 'REFRESH'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('br')])]), (0, _snabbdomH2['default'])('div', { style: chatStyle }, [(0, _snabbdomH2['default'])('div', { style: { width: '30%', position: 'fixed', top: '40px', right: '15px', color: '#CCFDDA' } }, [(0, _snabbdomH2['default'])('button', { on: { mouseenter: update5e, mouseleave: update5l, click: updateGoback }, style: style5 }, 'Go Back'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'Change group: '), (0, _snabbdomH2['default'])('input', { style: messageStyle, on: { keydown: updateGroup }, props: afocus }), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('div', 'Group: ' + Group), (0, _snabbdomH2['default'])('h2', { style: { text: 'center' } }, 'Score Board'), (0, _snabbdomH2['default'])('div', { props: { id: 'scoreboard' } }, mMscoreboard.x), (0, _snabbdomH2['default'])('h2', { style: { textAlign: 'center' } }, 'Chat Messages'), (0, _snabbdomH2['default'])('span', { style: styleRoll }, 'Enter message here: '), (0, _snabbdomH2['default'])('input', { on: { keydown: updateMessage }, style: messageStyle }), (0, _snabbdomH2['default'])('div', { props: { id: 'chat3' } }, mMmessage.x)])])])]);
+function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8, mI9) {
+  return (0, _snabbdomH2['default'])('div', { style: style3 }, [(0, _snabbdomH2['default'])('div', { style: { width: '60%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px' } }, [(0, _snabbdomH2['default'])('div', [(0, _snabbdomH2['default'])('a', { props: { href: '#signin' }, style: { color: '#FFBBBB' }, on: { click: updateFocus } }, 'Game/Chat')]), (0, _snabbdomH2['default'])('h1', { style: { textAlign: 'center', color: '#ffba66' } }, 'Websockets Monads Part 2'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'This is the third page in the new Javascript Monads series. Links to the detailed explanations of the basic monad constructor, "Monad" and its methods and the arguments they take can be found at '), (0, _snabbdomH2['default'])('a', { props: { href: 'http://schalk.net:4001' }, style: { color: '#EECCFF' } }, ' http://schalk.net:4001'), (0, _snabbdomH2['default'])('span', ' and a code repo at '), (0, _snabbdomH2['default'])('a', { props: { href: 'https://github.com/dschalk/fun-with-monads' }, style: { color: '#EECCFF' } }, ' github repo'), (0, _snabbdomH2['default'])('span', ' The original site, which was largely exploratory, is at: '), (0, _snabbdomH2['default'])('a', { props: { href: 'http://transcendent.ninja' }, style: { color: '#EECCFF' } }, ' http://transcendent.ninja'), (0, _snabbdomH2['default'])('span', ' Links to all of the online demos can be found at: '), (0, _snabbdomH2['default'])('a', { props: { href: 'http://schalk.net' }, style: { color: '#EECCFF' } }, ' http://schalk.net'), (0, _snabbdomH2['default'])('span', ' and a code repo at '), (0, _snabbdomH2['default'])('a', { props: { href: 'https://github.com/dschalk/javascript-monads' }, style: { color: '#EECCFF' } }, ' repo'), (0, _snabbdomH2['default'])('span', '. The older site functions well, but it was bloated and unwieldy with React. I say "bloated" because I didn\'t need most of its core features. I didn\'t even use the state object and frequently called React.forceUpdate. Now I am at peace, using the '), (0, _snabbdomH2['default'])('a', { props: { href: 'https://github.com/paldepind/snabbdom' }, style: { color: '#EECCFF' } }, ' snabbdom library. '), (0, _snabbdomH2['default'])('h2', { style: { textAlign: 'center', color: '#ffba66' } }, 'Why I Call Them "Monads"'), (0, _snabbdomH2['default'])('p', 'Since the Monad and MonadIter instances are uniquely determined by their values (m.x for all monads m), and the values can be any value the is legal in ES6, it is immediately clear that there is a one to one correspondence between the infinite sets of all possible monads and all possible ES6 values, including primitives, arrays, functions, etc. The method "bnd" in combination with functions of the form f = (x,mon) => {do stuff without side effects outside the monad class; return mon } seem to obey the Haskell monad laws without types. The method "ret" is the left and right identity and chains of monad operations are commutative, as I believe I showed in previous pages. But "bnd" will accept functions of the type f = (x,mon) {do anything that can be done in ES6; return mon }. if mM1.x === 3, mM2.x === 4, and mM3.x === 0 (or anything else), after "mM1.bnd(() => cube(mM2.x, mM3))", mM1 and mM2 are unchanged, but mM3.x === 64. Monad methods can return ordinary values. For example, "bnd" with an ordinary function or a lambda leaves the calling monad unchanged, but returns the return value of the function operating on the monad\'s value. So mM1.bnd(_ => 52) leaves mM1 unchanged and returns 52, and  mM1.bnd(x => x*x) + 33 === 42 is true. So while the set of all possible instances of Monad and MonadIters along with the isomorphisms mapping them to one another might constitute a monad, the methods "bnd", "fmap", and "ret" are not restricted to taking only arguments that map within that set. '), (0, _snabbdomH2['default'])('p', 'This project is not about mathematics, it is about writing well organized, efficient, and easy to follow and modify code. This site displays the monad values in the right column which sometimes provides instant debugging information. The values of all of the monads can be found by typing them in the browser console since they are provided by a script, rather than a module. These entities which I am calling "monads" are versitile and rebust, and they function well in chains, propagating values from link to link as far as they are needed and always having access to one another.  I\'ll present a monad that propagates errors, kind of like the Haskell Maybe monad only without types. By the way, speaking of Haskell, if I modified monads by replacing m.x rather than mutating, which would require only a minor adjustment, the monads would be pure in the sense that Haskell MVar instances are pure. MVar instances\' values are removed and replaced, but the MVar instances are said to be immutable. That sort of thinking would seem to make Javascript objects immutable, even as attributes and methods come, go, and mutate. '), (0, _snabbdomH2['default'])('p'), (0, _snabbdomH2['default'])('h2', { style: { textAlign: 'center', color: '#ffba66' } }, 'MonadIter'), (0, _snabbdomH2['default'])('p', 'The basic monad is shown and demonstrated elsewhere. It is also in a script named "monad.js" in the "index.html" file, so you can experiment with the monads in the browser consol. Here is the other constructor in this project: '), _cow2['default'].monadIter, (0, _snabbdomH2['default'])('p', { props: { id: 'signin' } }, 'As a refresher, Click the following button to execute the indicated code, then click the mMZ2.release() button four times.'), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update4e, mouseleave: update4l, click: updateSteps }, style: style4 }, [_cow2['default'].steps]), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update6e, mouseleave: update6l, click: updateNext }, style: style6 }, [_cow2['default'].updateNext]), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('p', { style: inputStyle1 }, 'Now, a demonstration of monads handling websockets messages. In order to create a unique socket, please enter some name.'), (0, _snabbdomH2['default'])('input', { on: { keydown: updateLogin, click: updateFocus }, style: inputStyle1, props: { signinFocus: signinFocus } }), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update8e, mouseleave: update8l, click: updateNums }, props: { value: 0, id: '0' }, style: style8 }, m1[0]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update9e, mouseleave: update9l, click: updateNums }, props: { value: 1, id: '1' }, style: style9 }, m1[1]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update10e, mouseleave: update10l, click: updateNums }, props: { value: 2, id: '2' }, style: style10 }, m1[2]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update11e, mouseleave: update11l, click: updateNums }, props: { value: 3, id: '3' }, style: style11 }, m1[3]), (0, _snabbdomH2['default'])('p', ' '), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update12e, mouseleave: update12l, click: updateOp }, style: style12 }, m17[0]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update13e, mouseleave: update13l, click: updateOp }, style: style13 }, m17[1]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update14e, mouseleave: update14l, click: updateOp }, style: style14 }, m17[2]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update15e, mouseleave: update15l, click: updateOp }, style: style15 }, m17[3]), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update16e, mouseleave: update16l, click: updateOp }, style: style16 }, m17[4]), (0, _snabbdomH2['default'])('p', '  '), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update4e, mouseleave: update4l, click: updateRoll }, style: styleRoll }, 'ROLL'), (0, _snabbdomH2['default'])('p', { style: styleRoll }, 'Now click ROLL. '), (0, _snabbdomH2['default'])('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. '), (0, _snabbdomH2['default'])('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. '), (0, _snabbdomH2['default'])('p', 'You get one goal for reaching the number 25. Here\'s how you get there: Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Every time your score becomes 0 mod 5, you get 5 more points. Every time you click ROLL you lose one point. The best way to get off to a good start is to click ROLL and then score 1 point by making the number 20. Five point! You can use the same technique when you reach 5, 10, 15, and 20. Click ROLL when you are at twenty, get a point, and jump to 25. Goal! But you can\'t get to 25 from 24. Computing 20 jumps you all the way to 30. '), (0, _snabbdomH2['default'])('p', 'Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMZ2 and mMZ4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMZ2 and mMZ4. "send" requests a new dice roll from the server. '), (0, _snabbdomH2['default'])('p', 'We could have substituted ordinary callbacks for the blocked MonadIter instances and called them when the test conditions were met. Indeed, we could dispense with the monads altogether. But, at no significant cost in browser resources, the code is neatly organized and easy to reason about. '), (0, _snabbdomH2['default'])('p', 'The one gotcha that might have caused the code to fail on the first run is the order of three parts of the tupple. The tests in part 3 are run after mMZ2 and mMZ4 have acquired the code that didn\'t run. Had the code in part three been placed in part one, mMZ2.release() and mMZ4.release() would have no code to execute in their p attributes. Here is the code:'), _cow2['default'].dice, (0, _snabbdomH2['default'])('p', 'When numbers are clicked, they get pushed into mM3.x, an initially empty array. When an operator is clicked, it replaces "0" as the value of mM8. So when mM3.x.length === 2 and mM8.x !== 0, it is time for the computation to go forward. '), (0, _snabbdomH2['default'])('p', 'mM1 holdd the initial dice roll and the subsequent arrays of available numbers. When calc returns "20", the player get an additional point and a new roll of the dice. If calc returns 18, you get three points. '), (0, _snabbdomH2['default'])('p', 'MonadIter instances together with the function "pause" provide a way to delay progress along a chain. "pause" is defined as follows:'), _cow2['default'].pause, (0, _snabbdomH2['default'])('p', 'If you click the button below, some monads will update four seconds later. '), (0, _snabbdomH2['default'])('button', { on: { mouseenter: update4e, mouseleave: update4l, click: updatePauseDemo }, style: style4 }, [_cow2['default'].pauseDemo]), (0, _snabbdomH2['default'])('p', 'The functions provided to bind are simple. They perform a task, and then return a monad so the chain can continue. The method "fmap" takes ordinary functions and assigns the return value to the calling monad.  m.fmap(f) assigns f(m.x) to m; in other words, m.x === f(m.x\') where x\' is the previous value of m.  Using ordinary functions with bnd does not modify the calling monad, but it does compute values using either the calling monad\'s value or a value provided in the argument provided to bnd. For example, "mM1.bnd(() => cu(2)) + mM1.bnd(cu) === 54 and mMx === 3 where cu = function cu(x) {return x*x*x}. I don\'t have an example in which there would be any advantage in using bnd with an ordinary function. I like the robustness of bnd as it is, but if bnd took only the functions specifically made for it, inadvertent use of ordinary functions as arguments would return a helpful error message. Still, I don\'t plan to restrict the functions bnd can accept as arguments. '), (0, _snabbdomH2['default'])('p', 'Using "bnd" with "next", any monad can release any block. At any link, a chain of monads can divide into 2, 3, or any number of chains going there separate ways but still communicating with one another. Large applications can be organized into a single tree. '), (0, _snabbdomH2['default'])('div', 'When you log in, the monad column on the right disappears and a scoreboard and chat section open up. You can\'t compete or chat as long as you remain in the default group "solo", even if other people are in group "solo". But if you change to, say, group "chat54" in two separate browser windows, you will see that both windows share rolls of the dice and chat messages they enter. People in separate locations can agree on a group name and compete and chat. If the name is cryptic, something like "c#*&%@@9J#lu88", the chat and the game will likely remain private. If you change to group "test", you might encounter me fine tuning this page, or maybe someone else looking for company by changing to group "test".  '), (0, _snabbdomH2['default'])('span', { style: inputStyle1 }, 'You will need a socket in order to participate in chats and play the game. A socket is created when you log in. '), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', { style: inputStyle1 }, 'Enter some name here: '), (0, _snabbdomH2['default'])('input', { style: inputStyle1, on: { keydown: updateLogin } }), (0, _snabbdomH2['default'])('h2', { style: { textAlign: 'center', color: '#ffba66' } }, 'Dynamic List Display'), (0, _snabbdomH2['default'])('p', 'The lists of group members and their scores, and the lists of messages broadcast within each group, are subject to change as scores change and players join or leave the group, and as messages get sent and broadcast to the group. When a group member\'s score changes and when a group member sends a message, the information goes to the server and the server broadcasts the updated state (maintained in a Haskell TMVar) to all group members. In socket.onmessage, the incoming messages are sorted according to their prefixes in a switch block and the following function is called: '), _cow2['default'].messages1, (0, _snabbdomH2['default'])('p', 'x is just a place holder needed in the bnd method. If the incoming message is a chat message, the reserved monads mMmsg and mMmessages perform as follow: '), _cow2['default'].messages2, (0, _snabbdomH2['default'])('p', 'When a chat message comes in, mMmsg updates itself with the new message and then hands over processing to mMmessages. mMmessages then calls updateChildren with its bnd method, designating mMmsg as the text source, and then calls .bnd(update). That\'s all there is to it. The array mMmessages.x sits quietly in view() as an array of children of its parent div. '), (0, _snabbdomH2['default'])('p', 'Similarly, the scoreboard is updated by: '), _cow2['default'].messages3, (0, _snabbdomH2['default'])('span', 'The repository for this open source project is at '), (0, _snabbdomH2['default'])('a', { props: { href: 'https://github.com/dschalk?tab=repositories' }, style: { color: '#EECCFF' } }, 'github.com/dschalk/'), (0, _snabbdomH2['default'])('div', { style: { height: '300px' } }), (0, _snabbdomH2['default'])('div', { style: monadStyle }, [(0, _snabbdomH2['default'])('div', { style: { width: '30%', position: 'fixed', top: '15px', right: '15px', color: '#CCFDDA' } }, [(0, _snabbdomH2['default'])('div', { style: linkStyle }, [(0, _snabbdomH2['default'])('button', { on: { mouseenter: update5e, mouseleave: update5l, click: updateGotochat }, style: style5 }, 'Go To Chat')]), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM1.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m1), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM2.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m2), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM3.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m3), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM4.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m4), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM5.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m5), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM6.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m6), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM7.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m7), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM8.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m8), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM9.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m9), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM10.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m10), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM11.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m11), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM12.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m12), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM13.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m13), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM14.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m14), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM15.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m15), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM16.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m16), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM17.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m17), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM18.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m18), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mM19.x: '), (0, _snabbdomH2['default'])('span', { style: styleM }, '  ' + m19), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mMZ1.x: '), (0, _snabbdomH2['default'])('span', { style: styleMI }, '  ' + mI1), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'mMZ2.x: '), (0, _snabbdomH2['default'])('span', { style: styleMI }, '  ' + mI2), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('button', { on: { mouseenter: updateRe, mouseleave: updateRl, click: updateR }, style: styleR }, 'REFRESH'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('br')])]), (0, _snabbdomH2['default'])('div', { style: chatStyle }, [(0, _snabbdomH2['default'])('div', { style: { width: '30%', position: 'fixed', top: '40px', right: '15px', color: '#CCFDDA' } }, [(0, _snabbdomH2['default'])('button', { on: { mouseenter: update5e, mouseleave: update5l, click: updateGoback }, style: style5 }, 'Go Back'), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('span', 'Change group: '), (0, _snabbdomH2['default'])('input', { style: messageStyle, on: { keydown: updateGroup }, props: afocus }), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('div', 'Group: ' + Group), (0, _snabbdomH2['default'])('hr'), (0, _snabbdomH2['default'])('h3', { style: { textAlign: 'center', color: '#F08080' } }, 'Score Board'), (0, _snabbdomH2['default'])('div', { props: { id: 'scoreboard' }, style: { color: '#F08080' } }, mMscoreboard.x), (0, _snabbdomH2['default'])('hr'), (0, _snabbdomH2['default'])('h3', { style: { textAlign: 'center', color: '#DDBBBB' } }, 'Chat Messages'), (0, _snabbdomH2['default'])('p', { style: styleRoll }, 'Enter message here: '), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('input', { on: { keydown: updateMessage }, style: messageStyle }), (0, _snabbdomH2['default'])('div', { props: { id: 'scoreboard' }, style: { color: '#DDBBBB' } }, mMmessages.x), (0, _snabbdomH2['default'])('br'), (0, _snabbdomH2['default'])('hr'), (0, _snabbdomH2['default'])('p'), (0, _snabbdomH2['default'])('span', 'Time remaining: '), (0, _snabbdomH2['default'])('span', { style: { color: '#FF0000', fontSize: '32px' } }, '' + DS_T / 1000)])])])]);
 }
 
 var newVnode = function newVnode() {
-  var newVnode = view(mM1.x, mM2.x, mM3.x, mM4.x, mM5.x, mM6.x, mM7.x, mM8.x, mM9.x, mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, mM18.x, mM19.x, mMI1.x, mMI2.x);
+  var newVnode = view(mM1.x, mM2.x, mM3.x, mM4.x, mM5.x, mM6.x, mM7.x, mM8.x, mM9.x, mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, mM18.x, mM19.x, mMZ1.x, mMZ2.x, mMZ3.x, mMZ4.x, mMZ5.x, mMZ6.x, mMZ7.x, mMZ8.x, mMZ9.x);
   return newVnode;
 };
 
@@ -142,7 +128,11 @@ function update0() {
 }
 
 var score = function score(x, mon, j) {
-  socket.send('CG#$42,' + Group + ',' + Name + ',' + j);
+  var k = 0;
+  if (mM13.x == 25) {
+    k = 1;
+  };
+  socket.send('CG#$42,' + Group + ',' + Name + ',' + j + ',' + k);
   return mon;
 };
 
@@ -158,23 +148,29 @@ function updateCalc() {
   monadStyle = inputStyleB;
   chatStyle = inputStyleA;
   mM19.bnd(function () {
-    return mMI2.block().bnd(function () {
+    return mMZ2.block().bnd(function () {
       return mM14.ret('Score: ' + (mM13.x + 1)).bnd(function () {
         return mM13.ret(mM13.x + 1).bnd(score, 1).bnd(newRoll);
       });
-    }), mMI4.block().bnd(function () {
+    }), mMZ4.block().bnd(function () {
       return mM14.ret('Score: ' + (mM13.x + 3)).bnd(function () {
         return mM13.ret(mM13.x + 3).bnd(score, 3).bnd(newRoll);
       });
-    }), mMI5.block().bnd(function () {
+    }), mMZ5.block().bnd(function () {
       return mM14.ret('Score: ' + (mM13.x + 5)).bnd(function () {
         return mM13.ret(mM13.x + 5).bnd(score, 5).bnd(newRoll);
+      });
+    }), mMZ6.block().bnd(function () {
+      return mM17.ret('Goals: ' + (mMgoals.x + 1)).bnd(function () {
+        return mMgoals.ret(mMgoals.x + 1).bnd(function () {
+          return mM13.ret(0).bnd(score, -25).bnd(newRoll);
+        });
       });
     }), mM3.bnd(toFloat).bnd(function () {
       return mM7.fmap(function () {
         return calc(mM3.x[0], mM8.x, mM3.x[1]);
       }).bnd(function () {
-        return mM1.bnd(push, mM7.x).bnd(clean).bnd(next, mM7.x == 18, mMI4).bnd(next, mM7.x == 20, mMI2).bnd(next, (mM7.x == 20 || mM7.x == 18) && mM13.x % 5 === 0, mMI5).bnd(displayOff, mM1.x.length).bnd(function () {
+        return mM1.bnd(push, mM7.x).bnd(clean).bnd(next, mM7.x == 18, mMZ4).bnd(next, mM7.x == 20, mMZ2).bnd(next, (mM7.x == 20 || mM7.x == 18) && mM13.x % 5 === 0, mMZ5).bnd(next, mM13.x == 25, mMZ6).bnd(displayOff, mM1.x.length).bnd(function () {
           return mM3.ret([]).bnd(function () {
             return mM4.ret(0).bnd(mM8.ret).bnd(function () {
               return mM5.ret('Done').bnd(update);
@@ -187,6 +183,8 @@ function updateCalc() {
 }
 
 function updateNums(e) {
+  socket.send('EQ#$42,' + Group + ',' + Name);
+  DS_T = 8000;
   mM2.ret([e.target.value, e.target.textContent]).bnd(function () {
     return mM3;
   }).bnd(push, mM2.x[1]).bnd(function () {
@@ -196,8 +194,17 @@ function updateNums(e) {
 }
 
 function updateOp(e) {
+  socket.send('EQ#$42,' + Group + ',' + Name);
+  DS_T = 8000;
   mM8.ret(e.target.textContent);
   updateCalc();
+}
+
+function updateFocus() {
+  signinFocus = { autofocus: true };
+  update0();
+  signinFocus = { autofocus: true };
+  update0();
 }
 
 function updateLogin(e) {
@@ -208,7 +215,8 @@ function updateLogin(e) {
   if (e.keyCode == 13) {
     socket.send("CC#$42" + v);
     Name = v;
-    inputStyle1 = inputStyleB;
+    inputStyle1 = { display: 'none' };
+    styleRoll = style4;
     messageStyle = inputStyleA;
     monadStyle = inputStyleB;
     chatStyle = inputStyleA;
@@ -224,6 +232,45 @@ function updateGoback() {
   monadStyle = inputStyleA;
   chatStyle = inputStyleB;
   update0();
+}
+
+function updateRoll() {
+  styleRoll2 = { display: 'none' };
+  monadStyle = inputStyleB;
+  chatStyle = inputStyleA;
+  mM14.ret('Score: ' + (mM13.x - 1)).bnd(function () {
+    return mM13.ret(mM13.x - 1).bnd(score, -1);
+  }).bnd(update);
+  console.log('About to leave updateRoll');
+  socket.send('CA#$42,' + Group + ',' + Name + ',6,6,12,20');
+}
+
+function rollDice() {
+  setInterval(function () {
+    DS_T -= 1000;
+    if (DS_T === 0) {
+      DS_T = 8000;
+      socket.send('EQ#$42,' + Group + ',' + Name);
+      socket.send('CA#$42,' + Group + ',' + Name + ',6,6,12,20');
+    }
+    update0();
+  }, 1000);
+}
+
+function rollD(x, mon) {
+  DS_T = 8000;
+  if (SETINTERVAL) {
+    setInterval(function () {
+      DS_T -= 1000;
+      update0();
+      if (DS_T === 0) {
+        DS_T = 8000;
+        socket.send('CA#$42,' + Group + ',' + Name + ',6,6,12,20');
+      }
+    }, 1000);
+  }
+  SETINTERVAL = false;
+  return mon;
 }
 
 function updateGotochat() {
@@ -242,8 +289,8 @@ function updateMessage(e) {
 }
 
 function updatePauseDemo() {
-  mM1.ret("Wait two seconds.").bnd(update).bnd(pause, 2, mMI1).bnd(function () {
-    return mMI1.bnd(function () {
+  mM1.ret("Wait two seconds.").bnd(update).bnd(pause, 2, mMZ1).bnd(function () {
+    return mMZ1.bnd(function () {
       return mM2.ret("Hello").bnd(function () {
         return mM3.ret(3).bnd(mM4.ret).bnd(cube).bnd(function () {
           return mM1.ret("Goodbye").bnd(update);
@@ -263,7 +310,7 @@ function updateGroup(e) {
 }
 
 function updateR(event) {
-  mM2.ret(0).bnd(mM3.ret).bnd(mM4.ret).bnd(mM5.ret).bnd(mM6.ret).bnd(mM7.ret).bnd(mM8.ret).bnd(mM9.ret).bnd(mM10.ret).bnd(mM15.ret).bnd(mM16.ret).bnd(mM17.ret).bnd(mM18.ret).bnd(mM19.ret).bnd(mMI1.ret).bnd(mMI2.ret).bnd(function () {
+  mM2.ret(0).bnd(mM3.ret).bnd(mM4.ret).bnd(mM5.ret).bnd(mM6.ret).bnd(mM7.ret).bnd(mM8.ret).bnd(mM9.ret).bnd(mM10.ret).bnd(mM15.ret).bnd(mM16.ret).bnd(mM17.ret).bnd(mM18.ret).bnd(mM19.ret).bnd(mMZ1.ret).bnd(mMZ2.ret).bnd(function () {
     return mM1.ret([]);
   }).bnd(function () {
     return mM14.ret('Score: ' + mM13.x);
@@ -273,14 +320,14 @@ function updateR(event) {
 
 function updateSteps(event) {
   mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret).bnd(function () {
-    return mM1.ret('Click the mMI2.release() button to proceed').bnd(function () {
-      return mMI2.block().bnd(function () {
+    return mM1.ret('Click the mMZ2.release() button to proceed').bnd(function () {
+      return mMZ2.block().bnd(function () {
         return mM2.ret('Click it again.').bnd(function () {
-          return mMI2.block().bnd(function () {
+          return mMZ2.block().bnd(function () {
             return mM3.ret('Keep going').bnd(function () {
-              return mMI2.block().bnd(function () {
+              return mMZ2.block().bnd(function () {
                 return mM4.ret('One more').bnd(function () {
-                  return mMI2.block().bnd(function () {
+                  return mMZ2.block().bnd(function () {
                     return mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret);
                   });
                 });
@@ -295,12 +342,12 @@ function updateSteps(event) {
 }
 
 function updateNext() {
-  mMI2.release();
+  mMZ2.release();
   oldVnode = patch(oldVnode, newVnode());
 }
 
 function updateEvent(event) {
-  mMI2.ret(event);
+  mMZ2.ret(event);
   oldVnode = patch(oldVnode, newVnode());
 }
 
@@ -344,11 +391,9 @@ socket.onmessage = function (event) {
           document.location.reload(false);
         }, 2000);
       } else {
-        styleRoll = style2;
+        styleRoll = style4;
         styleRoll2 = style2;
         mM6.ret(sender + '\'s socket is now open');
-        // mM9.ret([
-        // socket.send( `CO#$42,groupB,Name` );
         update0();
       }
 
@@ -360,16 +405,16 @@ socket.onmessage = function (event) {
 
     case "CA#$42":
       // Triggedarkred by ROLL
-      mM1.ret([extra, ext4, ext5, ext6]);
-      mM17.ret(['add', 'subtract', 'mult', 'div', 'concat']);
-      mM3.ret([]);
-      mM8.ret(0);
-      mM6.bnd(displayInline, 1);
-      mM6.bnd(displayInline, 2);
-      mM6.bnd(displayInline, 3);
-      // var senderScore = sender + "\u2019s score: " + mM13.x;
-      // mM14.ret(senderScore);
-      update0();
+      DS_T = 8000;
+      mM1.ret([extra, ext4, ext5, ext6]).bnd(function () {
+        return mM17.ret(['add', 'subtract', 'mult', 'div', 'concat']).bnd(function () {
+          return mM3.ret([]).bnd(function () {
+            return mM8.ret(0).bnd(function () {
+              return mM6.bnd(displayInline, 1).bnd(displayInline, 2).bnd(displayInline, 3).bnd(rollD).bnd(update);
+            });
+          });
+        });
+      });
       break;
 
     case "DI#$42":
@@ -395,7 +440,7 @@ socket.onmessage = function (event) {
       });
       var str = sender + ': ' + message;
       mMmsg.bnd(push, str).bnd(function () {
-        return mMmessage.bnd(updateChildren, mMmsg).bnd(update);
+        return mMmessages.bnd(updateChildren, mMmsg).bnd(update);
       });
       break;
 
@@ -417,6 +462,7 @@ socket.onmessage = function (event) {
       break;
 
     case "EQ#$42":
+      DS_T = 8000;
       break;
 
     case "FQ#$42":
@@ -463,7 +509,7 @@ var inputStyle1 = inputStyleA;
 var monadStyle = inputStyleA;
 var linkStyle = { display: 'none' };
 
-var inputStyleA = { backgroundColor: '#d8d17d', display: 'inline' };
+var inputStyleA = { backgroundColor: '#000000', color: '#FFBBBB', display: 'inline' };
 
 var inputStyleB = { display: 'none' };
 
@@ -801,7 +847,7 @@ function updateRl(event) {
 }
 
 var update = function update(x, mon) {
-  var newVnode = view(mM1.x, mM2.x, mM3.x, mM4.x, mM5.x, mM6.x, mM7.x, mM8.x, mM9.x, mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, mM18.x, mM19.x, mMI1.x, mMI2.x);
+  var newVnode = view(mM1.x, mM2.x, mM3.x, mM4.x, mM5.x, mM6.x, mM7.x, mM8.x, mM9.x, mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, mM18.x, mM19.x, mMZ1.x, mMZ2.x, mMZ3.x, mMZ4.x, mMZ5.x, mMZ6.x, mMZ7.x, mMZ8.x, mMZ9.x);
   oldVnode = patch(oldVnode, newVnode);
   return mon;
 };

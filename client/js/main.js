@@ -6,29 +6,22 @@ import h from 'snabbdom/h';
 
 var Group = 'solo';
 var afocus = {autofocus: false};
+var signinFocus = {autofocus: false};
+var DS_T = 8000;
+var SETINTERVAL = true;
 
 var updateChildren = function updateMessages(x,mon,mon2) {
   mon.ret([]);
   let ar = mon2.x;
   let keys = Object.keys(ar);
+  mon.bnd(push,'player [score] [goals]')
+  .bnd(push, h('br'));
   for (let k in keys) {
     mon.bnd(push, ar[k])
     .bnd(push, h('br'));
   }
   return mon;
 }
-
-let testMess = [];
-testMess.push(h('li', 'One' ));
-
-var messageAr = [];
-messageAr.push(h('li', 'Two' ));
-
-var newMessage = (x) => {
-  messageAr.push(h('li', x));
-};
-
-newMessage('Three');    // Diplays "Three" on page refresh.
 
 function createWebSocket(path) {
     let host = window.location.hostname;
@@ -59,10 +52,15 @@ const patch = snabbdom.init([
 https://github.com/paldepind/snabbdom 
 var oldVnode = document.getElementById('placeholder');
 
-function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2) { 
+function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, 
+                m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8, mI9) { 
   return h('div',{style: style3}, 
    [  h('div',{style: { width: '60%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px'}}, 
-    [ h('h1', {style: {textAlign: 'center', color: '#ffba66'}}, 'Websockets Monads Part 2'),
+    [ h('div', [
+      h('a', { props: {href: '#signin'}, style: {color: '#FFBBBB'}, on: {click: updateFocus}}, 'Game/Chat'  ),
+    ] ),
+      h('h1', {style: {textAlign: 'center', color: '#ffba66'}}, 'Websockets Monads Part 2'),
+      h('br'),  
       h('span', 'This is the third page in the new Javascript Monads series. Links to the detailed explanations of the basic monad constructor, "Monad" and its methods and the arguments they take can be found at '),
       h('a', {props: {href: 'http://schalk.net:4001' },  style: {color: '#EECCFF'}},' http://schalk.net:4001'), 
       h('span', ' and a code repo at '),
@@ -82,15 +80,15 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'MonadIter' ),
       h('p', 'The basic monad is shown and demonstrated elsewhere. It is also in a script named "monad.js" in the "index.html" file, so you can experiment with the monads in the browser consol. Here is the other constructor in this project: '  ),
       cow.monadIter,
-      h('p', 'As a refresher, Click the following button to execute the indicated code, then click the mMI2.release() button four times.'  ),
+      h('p', { props: { id: 'signin' }}, 'As a refresher, Click the following button to execute the indicated code, then click the mMZ2.release() button four times.'  ),
       h('button', {on: { mouseenter: update4e, mouseleave: update4l, click: updateSteps }, style: style4},
             [ cow.steps ],  ),
       h('br', ),    
       h('br', ),    
       h('button', {on: { mouseenter: update6e, mouseleave: update6l, click: updateNext }, style: style6}, [ cow.updateNext ],  ),  
       h('br', ),    
-      h('p', 'Now, a demonstration of monads handling websockets messages. In order to create a unique socket, please enter some name.'  ),
-      h('input', { style: inputStyle1, on: {keydown: updateLogin} } ),
+      h('p', {style: inputStyle1}, 'Now, a demonstration of monads handling websockets messages. In order to create a unique socket, please enter some name.'  ),
+      h('input', { on: {keydown: updateLogin, click: updateFocus}, style: inputStyle1, props: {signinFocus }} ),
       h('button', {on: { mouseenter: update8e, mouseleave: update8l, click: updateNums }, props: {value: 0, id: '0'}, style: style8},
             m1[0]   ),
       h('button', {on: { mouseenter: update9e, mouseleave: update9l, click: updateNums }, props: {value: 1, id: '1'}, style: style9},
@@ -111,20 +109,16 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       h('button', {on: { mouseenter: update16e, mouseleave: update16l, click: updateOp }, style: style16},
             m17[4]   ),
       h('p', '  '  ),
-      h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: function() {
-          styleRoll2 = {display: 'none'};    
-          monadStyle = inputStyleB;
-          chatStyle = inputStyleA;
-          send()
-        } }, 
-        style: styleRoll },
+      h('button', {on: { mouseenter: update4e, mouseleave: update4l, click: updateRoll }, style: styleRoll },
                      `ROLL`   ),
       h('p', {style: styleRoll}, 'Now click ROLL. '  ),
       h('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. ',  ),
       h('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. '  ),
-      h('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Every time your score becomes a multiple of 5, you get 5 more points. Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMI2 and mMI4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMI2 and mMI4. "send" requests a new dice roll from the server. ' ),
+      h('p', 'You get one goal for reaching the number 25. Here\'s how you get there: Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Every time your score becomes 0 mod 5, you get 5 more points. Every time you click ROLL you lose one point. The best way to get off to a good start is to click ROLL and then score 1 point by making the number 20. Five point! You can use the same technique when you reach 5, 10, 15, and 20. Click ROLL when you are at twenty, get a point, and jump to 25. Goal! But you can\'t get to 25 from 24. Computing 20 jumps you all the way to 30. '  ),
+        
+h('p', 'Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMZ2 and mMZ4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMZ2 and mMZ4. "send" requests a new dice roll from the server. ' ),
       h('p', 'We could have substituted ordinary callbacks for the blocked MonadIter instances and called them when the test conditions were met. Indeed, we could dispense with the monads altogether. But, at no significant cost in browser resources, the code is neatly organized and easy to reason about. ' ),
-      h('p', 'The one gotcha that might have caused the code to fail on the first run is the order of three parts of the tupple. The tests in part 3 are run after mMI2 and mMI4 have acquired the code that didn\'t run. Had the code in part three been placed in part one, mMI2.release() and mMI4.release() would have no code to execute in their p attributes. Here is the code:'  ),
+      h('p', 'The one gotcha that might have caused the code to fail on the first run is the order of three parts of the tupple. The tests in part 3 are run after mMZ2 and mMZ4 have acquired the code that didn\'t run. Had the code in part three been placed in part one, mMZ2.release() and mMZ4.release() would have no code to execute in their p attributes. Here is the code:'  ),
       cow.dice,
       h('p', 'When numbers are clicked, they get pushed into mM3.x, an initially empty array. When an operator is clicked, it replaces "0" as the value of mM8. So when mM3.x.length === 2 and mM8.x !== 0, it is time for the computation to go forward. '  ),
       h('p', 'mM1 holdd the initial dice roll and the subsequent arrays of available numbers. When calc returns "20", the player get an additional point and a new roll of the dice. If calc returns 18, you get three points. '   ),
@@ -143,9 +137,9 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'Dynamic List Display' ),
       h('p', 'The lists of group members and their scores, and the lists of messages broadcast within each group, are subject to change as scores change and players join or leave the group, and as messages get sent and broadcast to the group. When a group member\'s score changes and when a group member sends a message, the information goes to the server and the server broadcasts the updated state (maintained in a Haskell TMVar) to all group members. In socket.onmessage, the incoming messages are sorted according to their prefixes in a switch block and the following function is called: ' ),
       cow.messages1,
-      h('p', 'x is just a place holder needed in the bnd method. If the incoming message is a chat message, the reserved monads mMmsg and mMmessage perform as follow: '  ),
+      h('p', 'x is just a place holder needed in the bnd method. If the incoming message is a chat message, the reserved monads mMmsg and mMmessages perform as follow: '  ),
       cow.messages2, 
-      h('p', 'When a chat message comes in, mMmsg updates itself with the new message and then hands over processing to mMmessage. mMmessage then calls updateChildren with its bnd method, designating mMmsg as the text source, and then calls .bnd(update). That\'s all there is to it. The array mMmessage.x sits quietly in view() as an array of children of its parent div. '  ),
+      h('p', 'When a chat message comes in, mMmsg updates itself with the new message and then hands over processing to mMmessages. mMmessages then calls updateChildren with its bnd method, designating mMmsg as the text source, and then calls .bnd(update). That\'s all there is to it. The array mMmessages.x sits quietly in view() as an array of children of its parent div. '  ),
       h('p', 'Similarly, the scoreboard is updated by: '  ),
       cow.messages3,
       h('span', 'The repository for this open source project is at ' ),
@@ -214,10 +208,10 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
         h('span', 'mM19.x: '),
         h('span', {style: styleM}, '  ' + m19),
         h('br'),
-        h('span', 'mMI1.x: '),
+        h('span', 'mMZ1.x: '),
         h('span', {style: styleMI}, '  ' + mI1),
         h('br'),
-        h('span', 'mMI2.x: '),
+        h('span', 'mMZ2.x: '),
         h('span', {style: styleMI}, '  ' + mI2),
         h('br'),
         h('br'),
@@ -239,22 +233,30 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, 
         
         h('br', ),           
         h('div', `Group: ${Group}` ),
-        h('h2', {style: {text: 'center'}}, 'Score Board' ),
-        h('div', {props: {id:'scoreboard'}}, mMscoreboard.x ),
-        h('h2',  {style: {textAlign: 'center'}}, 'Chat Messages'   ),
-        h('span', {style: styleRoll}, 'Enter message here: ' ),
+        h('hr' ),
+        h('h3', {style: {textAlign: 'center', color: '#F08080'}}, 'Score Board' ),
+        h('div', {props: {id:'scoreboard'}, style: {color: '#F08080'}}, mMscoreboard.x ),
+        h('hr' ),
+        h('h3',  {style: {textAlign: 'center', color: '#DDBBBB' }}, 'Chat Messages'   ),
+        h('p', {style: styleRoll}, 'Enter message here: ' ),
+        h('br' ),
         h('input', {on: {keydown: updateMessage}, style: messageStyle } ),
-        h('div', {props: {id:'chat3'}}, mMmessage.x  ),
+        h('div', {props: {id:'scoreboard'}, style: {color: '#DDBBBB' }}, mMmessages.x ),
+        h('br' ),
+        h('hr' ),
+        h('p' ),
+        h('span', 'Time remaining: '  ),  
+        h('span', {style: {color: '#FF0000', fontSize: '32px' }}, ''+(DS_T/1000)  ),
         ]) 
       ])
     ]) 
   ])  
 }  
-  
 
 var newVnode  = () => {
   var newVnode = view(mM1.x, mM2.x, mM3.x, mM4.x, mM5.x, mM6.x, mM7.x, mM8.x, mM9.x,
-  mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, mM18.x, mM19.x, mMI1.x, mMI2.x);
+  mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, mM18.x, mM19.x, mMZ1.x, 
+  mMZ2.x, mMZ3.x, mMZ4.x, mMZ5.x, mMZ6.x, mMZ7.x, mMZ8.x, mMZ9.x);
   return newVnode;
 }
 
@@ -263,7 +265,9 @@ function update0() {
 }
 
 var score = function(x,mon,j) {
-  socket.send('CG#$42,' + Group + ',' + Name + ',' + j);
+  let k = 0;
+  if (mM13.x == 25) {k = 1};
+  socket.send('CG#$42,' + Group + ',' + Name + ',' + j + ',' + k);
   return mon;
 }
 
@@ -277,7 +281,7 @@ function updateCalc() {
   monadStyle = inputStyleB;
   chatStyle = inputStyleA;
   mM19.bnd(() => (
-      ( mMI2.block()
+      ( mMZ2.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 1))
                     .bnd(() => mM13
@@ -285,29 +289,39 @@ function updateCalc() {
                     .bnd(score,1)
                     .bnd(newRoll))) ),
 
-      ( mMI4.block()
+      ( mMZ4.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 3))
                     .bnd(() => mM13
                     .ret(mM13.x + 3)
                     .bnd(score,3)
                     .bnd(newRoll))) ),
-      ( mMI5.block()
+      ( mMZ5.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 5))
                     .bnd(() => mM13
                     .ret(mM13.x + 5)
                     .bnd(score,5)
                     .bnd(newRoll))) ),
+      ( mMZ6.block()
+                    .bnd(() => mM17
+                    .ret('Goals: ' + (mMgoals.x + 1))
+                    .bnd(() => mMgoals
+                    .ret(mMgoals.x + 1)
+                    .bnd(() => mM13
+                    .ret(0)
+                    .bnd(score,-25)
+                    .bnd(newRoll)))) ),     
        (mM3
                     .bnd(toFloat)
                     .bnd(() => mM7
                     .fmap(() => {return calc(mM3.x[0], mM8.x, mM3.x[1])})
                     .bnd(() => mM1.bnd(push, mM7.x)
                     .bnd(clean)
-                    .bnd(next, (mM7.x == 18), mMI4)
-                    .bnd(next, (mM7.x == 20), mMI2) 
-                    .bnd(next, ((mM7.x == 20 || mM7.x == 18) && (mM13.x % 5) === 0), mMI5) 
+                    .bnd(next, (mM7.x == 18), mMZ4)
+                    .bnd(next, (mM7.x == 20), mMZ2) 
+                    .bnd(next, ((mM7.x == 20 || mM7.x == 18) && (mM13.x % 5) === 0), mMZ5) 
+                    .bnd(next, (mM13.x == 25), mMZ6)
                     .bnd(displayOff, mM1.x.length)
                     .bnd(() => mM3
                     .ret([])
@@ -319,6 +333,8 @@ function updateCalc() {
 }
 
 function updateNums(e) {
+  socket.send(`EQ#$42,${Group},${Name}`);
+  DS_T = 8000;
   mM2.ret([e.target.value, e.target.textContent]) 
   .bnd(() => mM3)
   .bnd(push,mM2.x[1])
@@ -328,8 +344,17 @@ function updateNums(e) {
 }
 
 function updateOp(e) {
+  socket.send(`EQ#$42,${Group},${Name}`);
+  DS_T = 8000;
   mM8.ret(e.target.textContent);
   updateCalc();
+}
+
+function updateFocus() {
+  signinFocus = {autofocus: true};
+  update0();
+  signinFocus = {autofocus: true};
+  update0();
 }
 
 function updateLogin(e) {
@@ -340,7 +365,8 @@ function updateLogin(e) {
      if( e.keyCode == 13 ) {
        socket.send("CC#$42" + v);
        Name = v;
-       inputStyle1 = inputStyleB;
+       inputStyle1 = {display: 'none'};
+       styleRoll = style4;
        messageStyle = inputStyleA;
        monadStyle = inputStyleB;
        chatStyle = inputStyleA;
@@ -356,6 +382,48 @@ function updateGoback() {
        monadStyle = inputStyleA;
        chatStyle = inputStyleB;
        update0();
+}
+
+function updateRoll() {
+  styleRoll2 = {display: 'none'};    
+  monadStyle = inputStyleB;
+  chatStyle = inputStyleA;
+  mM14
+  .ret('Score: ' + (mM13.x - 1))
+  .bnd(() => mM13
+  .ret(mM13.x - 1)
+  .bnd(score,-1))
+  .bnd(update);
+  console.log('About to leave updateRoll');
+  socket.send(`CA#$42,${Group},${Name},6,6,12,20`);
+}
+
+function rollDice() { 
+  setInterval( function() {
+    DS_T -= 1000;
+    if (DS_T === 0) { 
+      DS_T = 8000;
+      socket.send(`EQ#$42,${Group},${Name}`);
+      socket.send(`CA#$42,${Group},${Name},6,6,12,20`);
+    }
+    update0();
+  },1000 );
+}
+
+function rollD(x,mon) { 
+  DS_T = 8000;
+  if (SETINTERVAL) {
+    setInterval( function() {
+      DS_T -= 1000;
+      update0();
+      if (DS_T === 0) { 
+        DS_T = 8000;
+        socket.send(`CA#$42,${Group},${Name},6,6,12,20`);
+      }
+    },1000 );
+  }
+  SETINTERVAL = false;
+  return mon;
 }
 
 function updateGotochat() {
@@ -376,8 +444,8 @@ function updateMessage(e) {
 function updatePauseDemo() {
   mM1.ret("Wait two seconds.")
     .bnd(update)
-    .bnd(pause,2,mMI1)
-    .bnd(() => mMI1
+    .bnd(pause,2,mMZ1)
+    .bnd(() => mMZ1
     .bnd(() => mM2.ret("Hello")
     .bnd(() => mM3.ret(3)
     .bnd(mM4.ret)
@@ -397,20 +465,20 @@ function updateGroup(e) {
 
 function updateR(event) {
   mM2.ret(0).bnd(mM3.ret).bnd(mM4.ret).bnd(mM5.ret)
-  .bnd(mM6.ret).bnd(mM7.ret).bnd(mM8.ret).bnd(mM9.ret).bnd(mM10.ret).bnd(mM15.ret).bnd(mM16.ret).bnd(mM17.ret).bnd(mM18.ret).bnd(mM19.ret).bnd(mMI1.ret).bnd(mMI2.ret).bnd(() => mM1.ret([])).bnd(() => mM14.ret('Score: ' + mM13.x));
+  .bnd(mM6.ret).bnd(mM7.ret).bnd(mM8.ret).bnd(mM9.ret).bnd(mM10.ret).bnd(mM15.ret).bnd(mM16.ret).bnd(mM17.ret).bnd(mM18.ret).bnd(mM19.ret).bnd(mMZ1.ret).bnd(mMZ2.ret).bnd(() => mM1.ret([])).bnd(() => mM14.ret('Score: ' + mM13.x));
   oldVnode = patch(oldVnode, newVnode());
 }
 
 function updateSteps(event) {
     mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret).bnd(mM4.ret)
-     .bnd(() => mM1.ret('Click the mMI2.release() button to proceed')
-     .bnd(() => mMI2.block()
+     .bnd(() => mM1.ret('Click the mMZ2.release() button to proceed')
+     .bnd(() => mMZ2.block()
      .bnd(() => mM2.ret('Click it again.')
-     .bnd(() => mMI2.block()
+     .bnd(() => mMZ2.block()
      .bnd(() => mM3.ret('Keep going')
-     .bnd(() => mMI2.block()
+     .bnd(() => mMZ2.block()
      .bnd(() => mM4.ret('One more')
-     .bnd(() => mMI2.block()
+     .bnd(() => mMZ2.block()
      .bnd(() => mM1.ret(0).bnd(mM2.ret).bnd(mM3.ret)
      .bnd(mM4.ret)
       ))))))))) 
@@ -418,12 +486,12 @@ function updateSteps(event) {
 }
 
 function updateNext() {
-  mMI2.release()  
+  mMZ2.release()  
   oldVnode = patch(oldVnode, newVnode());
 }
 
 function updateEvent(event) {
-  mMI2.ret(event);
+  mMZ2.ret(event);
   oldVnode = patch(oldVnode, newVnode());
 }
 
@@ -471,34 +539,32 @@ socket.onmessage = function(event) {
               },2000);
             }
             else {
-              styleRoll = style2;
+              styleRoll = style4;
               styleRoll2 = style2;
               mM6.ret(sender + '\'s socket is now open');
-              // mM9.ret([
-              // socket.send( `CO#$42,groupB,Name` );
               update0();
             }
       
           break;
 
-          case "CZ#$42":                             // Solutions.
+          case "CZ#$42":                  // Solutions.
           break;
           
-          case "CA#$42":                             // Triggedarkred by ROLL
-              mM1.ret([extra,  ext4,  ext5,  ext6]);
-              mM17.ret(['add', 'subtract', 'mult', 'div', 'concat']); 
-              mM3.ret([]);
-              mM8.ret(0);
-              mM6.bnd(displayInline,1);
-              mM6.bnd(displayInline,2);
-              mM6.bnd(displayInline,3);
-              // var senderScore = sender + "\u2019s score: " + mM13.x;
-              // mM14.ret(senderScore);
-              update0();
+          case "CA#$42":                    // Triggedarkred by ROLL
+              DS_T = 8000
+              mM1.ret([extra,  ext4,  ext5,  ext6])
+              .bnd(() => mM17.ret(['add', 'subtract', 'mult', 'div', 'concat']) 
+              .bnd(() => mM3.ret([])
+              .bnd(() => mM8.ret(0)
+              .bnd(() => mM6.bnd(displayInline,1)
+              .bnd(displayInline,2)
+              .bnd(displayInline,3)
+              .bnd(rollD)
+              .bnd(update)  ))));
           break;
 
           case "DI#$42":                              // Changes data.information .
-          break
+          break;
 
           case "CE#$42":                             // Updates numbers during play.
           break;
@@ -517,7 +583,7 @@ socket.onmessage = function(event) {
             let str = sender + ': ' + message;
             mMmsg
             .bnd(push,str)
-            .bnd( () => mMmessage
+            .bnd( () => mMmessages
             .bnd(updateChildren,mMmsg)
             .bnd(update) );
           break;
@@ -538,6 +604,7 @@ socket.onmessage = function(event) {
           break;
 
           case "EQ#$42":                 
+            DS_T = 8000;
           break;
 
           case "FQ#$42":                 
@@ -579,7 +646,7 @@ var inputStyle1 = inputStyleA;
 var monadStyle = inputStyleA;
 var linkStyle = {display: 'none'};
 
-var inputStyleA = { backgroundColor: '#d8d17d', display: 'inline'} ;
+var inputStyleA = { backgroundColor: '#000000', color: '#FFBBBB', display: 'inline'} ;
 
 var inputStyleB = { display: 'none'} ;
 
@@ -918,7 +985,8 @@ function updateRl(event) {
 
 var update = function update(x,mon) {
   const newVnode = view(mM1.x, mM2.x, mM3.x, mM4.x, mM5.x, mM6.x, mM7.x, mM8.x, mM9.x,
-  mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, mM18.x, mM19.x, mMI1.x, mMI2.x);
+  mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, 
+  mM18.x, mM19.x, mMZ1.x, mMZ2.x, mMZ3.x, mMZ4.x, mMZ5.x, mMZ6.x, mMZ7.x, mMZ8.x, mMZ9.x);
   oldVnode = patch(oldVnode, newVnode);
   return mon;
 }

@@ -122,6 +122,8 @@ const steps = h('pre', {style: {color: '#AFEEEE' }},
 
 const dice = h('pre', {style: {color: '#AFEEEE' }}, 
 `function updateNums(e) {
+  socket.send(\`EQ#$42,${Group},${Name}\`);
+  DS_T = 8000;
   mM2.ret([e.target.value, e.target.textContent]) 
   .bnd(() => mM3)
   .bnd(push,mM2.x[1])
@@ -131,7 +133,8 @@ const dice = h('pre', {style: {color: '#AFEEEE' }},
 }
 
 function updateOp(e) {
-       console.log('updateOp: mMI1.p, mMI2.p, mMI4.p ', mMI1.p, mMI2.p, mMI4.p);
+  socket.send(\`EQ#$42,${Group},${Name}\`);
+  DS_T = 8000;
   mM8.ret(e.target.textContent);
   updateCalc();
 }
@@ -141,7 +144,7 @@ function updateCalc() {
   monadStyle = inputStyleB;
   chatStyle = inputStyleA;
   mM19.bnd(() => (
-      ( mMI2.block()
+      ( mMZ2.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 1))
                     .bnd(() => mM13
@@ -149,37 +152,46 @@ function updateCalc() {
                     .bnd(score,1)
                     .bnd(newRoll))) ),
 
-      ( mMI4.block()
+      ( mMZ4.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 3))
                     .bnd(() => mM13
                     .ret(mM13.x + 3)
                     .bnd(score,3)
                     .bnd(newRoll))) ),
-      ( mMI5.block()
+      ( mMZ5.block()
                     .bnd(() => mM14
                     .ret('Score: ' + (mM13.x + 5))
                     .bnd(() => mM13
                     .ret(mM13.x + 5)
                     .bnd(score,5)
                     .bnd(newRoll))) ),
+      ( mMZ6.block()
+                    .bnd(() => mM17
+                    .ret('Goals: ' + (mMgoals.x + 1))
+                    .bnd(() => mMgoals
+                    .ret(mMgoals.x + 1)
+                    .bnd(() => mM13
+                    .ret(0)
+                    .bnd(score,-25)
+                    .bnd(newRoll)))) ),     
        (mM3
                     .bnd(toFloat)
                     .bnd(() => mM7
                     .fmap(() => {return calc(mM3.x[0], mM8.x, mM3.x[1])})
                     .bnd(() => mM1.bnd(push, mM7.x)
                     .bnd(clean)
-                    .bnd(next, (mM7.x == 18), mMI4)
-                    .bnd(next, (mM7.x == 20), mMI2) 
-                    .bnd(next, ((mM7.x == 20 || mM7.x == 18) && (mM13.x % 5) === 0), mMI5) 
+                    .bnd(next, (mM7.x == 18), mMZ4)
+                    .bnd(next, (mM7.x == 20), mMZ2) 
+                    .bnd(next, ((mM7.x == 20 || mM7.x == 18) && (mM13.x % 5) === 0), mMZ5) 
+                    .bnd(next, (mM13.x == 25), mMZ6)
                     .bnd(displayOff, mM1.x.length)
                     .bnd(() => mM3
                     .ret([])
                     .bnd(() => mM4
                     .ret(0).bnd(mM8.ret)
                     .bnd(() => mM5.ret('Done')
-                    .bnd(update)   ))))) )
-  )) 
+                    .bnd(update)   ))))) ) )) 
 }
 
 var newRoll = function(x,mon) {
