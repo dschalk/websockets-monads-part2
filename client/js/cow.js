@@ -251,7 +251,7 @@ const numbers2 = h('pre', {style: {color: '#AFEEEE' }},
   let j = 0;
   mM4.ret({});
   for (j=0; j<101; j+=1) {
-    for (k=0; k<10001; k+=1) {
+    for (k=0; k<5000; k+=1) {
       mMZ7.block().bnd(() => mM4
       .bnd(addObj, j, [j,k]))
       mM3.bnd(next, ((hyp(j,k) - Math.floor(hyp(j,k))) === 0), mMZ7)
