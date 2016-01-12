@@ -159,7 +159,7 @@ var M = function M(a) {
 var mM1 = M([]);
 var mM2 = M(0);
 var mM3 = M(0);
-var mM4 = M(0);
+var mM4 = M({});
 var mM5 = M(0);
 var mM6 = M(0);
 var mM7 = M(0);
@@ -180,6 +180,8 @@ var mMmessages = M([]);
 var mMscoreboard = M([]);
 var mMmsg = M([]);
 var mMgoals = M([]);
+var mMnbrs = M([]);
+var mMnumbers = M([]);
 
 var MI = function MI(a, b) {
   return new MonadIter(a, b);
@@ -198,7 +200,7 @@ var mMZ9 = MI(false, 'mMZ9');
 var toNums = function toNums(x,mon) {
   mon.x = mon.x.map(x => parseFloat(x));
   return mon; 
-}
+};
 
 var calc = function calc(a,op,b) { 
   var result;
@@ -216,7 +218,7 @@ var calc = function calc(a,op,b) {
       default : 'Major Malfunction in calc.';
   }
   return result;
-}
+};
 
 var pause = function(x,mon,t,mon2) {
   mon2.block();
@@ -225,48 +227,102 @@ var pause = function(x,mon,t,mon2) {
     mon2.release();
   },time );
   return mon;
-}
+};
 
 var push = function push(a,mon,v) {
     mon.x.push(v);
     return mon;
+};
+
+var addSet = function addSet(a,mon,v) {
+  mon.x.add(v);
+  return mon;
+}
+
+var addObj = function addObj(a,mon,key,val) {
+  mon.x[key] = val;
+  return mon;
+}
+
+var hyp = function hyp(x,y) {
+  return Math.sqrt(x*x + y*y);
+};
+
+var rand = function rand(min, max) {
+  return Math.round(Math.random() * (max - min) + min);
+};
+ 
+var ran = function ran(x, mon) {
+  mon.ret(Math.floor(Math.random() * -4 + 5));
+  return mon;
+};
+
+var test = function test() {
+  let k = 0;
+  mM4.ret({});
+  for (k=0; k<10000000; k+=1) {
+    mM1.ret(rand(1,100));
+    mM2.ret(rand(1,10000));
+    mMZ7.block().bnd(() => mM4
+    .bnd(addObj,mM1.x, [mM1.x, mM2.x]))
+    mM3.bnd(next, ((hyp(mM1.x,mM2.x) - Math.floor(hyp(mM1.x, mM2.x))) === 0),mMZ7)
+  }
+  return mM4.x;
+};
+
+var hyp = function hyp(x,y) {
+  return Math.sqrt(x*x + y*y);
+};
+
+var test2 = function test2() {
+  let k = 0;
+  let j = 0;
+  mM4.ret({});
+  for (j=0; j<101; j+=1) {
+    for (k=0; k<10001; k+=1) {
+      mMZ7.block().bnd(() => mM4
+      .bnd(addObj, j, [j,k]))
+      mM3.bnd(next, ((hyp(j,k) - Math.floor(hyp(j,k))) === 0), mMZ7)
+    }
+  }
+  return mM4.x;
 }
 
 var keys = function keys(a,mon,mon2) {
     mon2.ret(Object.keys(mon.x));
     return mon;
-}
+};
 
 var displayOff = function displayOff(x,mon,a) {
     document.getElementById(a).style.display = 'none';
     return mon;
-}
+};
 
 var displayInline = function displayInline(x,mon,a) {
     document.getElementById(a).style.display = 'inline';
     return mon;
-}
+};
 
 var displayBlock = function displayBlock(x,mon,a) {
     document.getElementById(a).style.display = 'block';
     return mon;
-}
+};
 
 var popPush = function popPush(x,mon,a) {
   mon.x.pop;
   mon.x.push(a);
   return mon;
-}
+};
 
 var blank = function blank(v,mon,i) {
   mon.x[i] = "";
   return mon;
-}
+};
 
 var clean = function clean(x,mon) {
   mon.x = mon.x.filter(x => (x !== "" && x !== undefined));
   return mon;
-}
+};
   
 var toFloat = function toFloat(x,mon) {
   var newx = mon.x.map(function (a) {
@@ -337,15 +393,6 @@ var branchT = function branchT(x, mon, a) {
   setTimeout(function () {
     return mon;
   }, 500);
-};
-
-var rand = function rand(a, b) {
-  return Math.floor(Math.random() * (a - b)) + b;
-};
-
-var ran = function ran(x, mon) {
-  mon.ret(Math.floor(Math.random() * -4 + 5));
-  return mon;
 };
 
 var chance = function chance(x, mon) {

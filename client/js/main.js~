@@ -14,8 +14,10 @@ var updateChildren = function updateMessages(x,mon,mon2) {
   mon.ret([]);
   let ar = mon2.x;
   let keys = Object.keys(ar);
-  mon.bnd(push,'player [score] [goals]')
-  .bnd(push, h('br'));
+  if (mon == mMscoreboard) {
+    mon.bnd(push,'player [score] [goals]')
+    .bnd(push, h('br'));
+  }
   for (let k in keys) {
     mon.bnd(push, ar[k])
     .bnd(push, h('br'));
@@ -76,7 +78,7 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11,
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'Why I Call Them "Monads"' ),
       h('p', 'Since the Monad and MonadIter instances are uniquely determined by their values (m.x for all monads m), and the values can be any value the is legal in ES6, it is immediately clear that there is a one to one correspondence between the infinite sets of all possible monads and all possible ES6 values, including primitives, arrays, functions, etc. The method "bnd" in combination with functions of the form f = (x,mon) => {do stuff without side effects outside the monad class; return mon } seem to obey the Haskell monad laws without types. The method "ret" is the left and right identity and chains of monad operations are commutative, as I believe I showed in previous pages. But "bnd" will accept functions of the type f = (x,mon) {do anything that can be done in ES6; return mon }. if mM1.x === 3, mM2.x === 4, and mM3.x === 0 (or anything else), after "mM1.bnd(() => cube(mM2.x, mM3))", mM1 and mM2 are unchanged, but mM3.x === 64. Monad methods can return ordinary values. For example, "bnd" with an ordinary function or a lambda leaves the calling monad unchanged, but returns the return value of the function operating on the monad\'s value. So mM1.bnd(_ => 52) leaves mM1 unchanged and returns 52, and  mM1.bnd(x => x*x) + 33 === 42 is true. So while the set of all possible instances of Monad and MonadIters along with the isomorphisms mapping them to one another might constitute a monad, the methods "bnd", "fmap", and "ret" are not restricted to taking only arguments that map within that set. '  ),
       h('p', 'This project is not about mathematics, it is about writing well organized, efficient, and easy to follow and modify code. This site displays the monad values in the right column which sometimes provides instant debugging information. The values of all of the monads can be found by typing them in the browser console since they are provided by a script, rather than a module. These entities which I am calling "monads" are versitile and rebust, and they function well in chains, propagating values from link to link as far as they are needed and always having access to one another.  I\'ll present a monad that propagates errors, kind of like the Haskell Maybe monad only without types. By the way, speaking of Haskell, if I modified monads by replacing m.x rather than mutating, which would require only a minor adjustment, the monads would be pure in the sense that Haskell MVar instances are pure. MVar instances\' values are removed and replaced, but the MVar instances are said to be immutable. That sort of thinking would seem to make Javascript objects immutable, even as attributes and methods come, go, and mutate. '  ), 
-      h('p', ),
+      h('p', {props: {id: 'rules'}}, ),
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'MonadIter' ),
       h('p', 'The basic monad is shown and demonstrated elsewhere. It is also in a script named "monad.js" in the "index.html" file, so you can experiment with the monads in the browser consol. Here is the other constructor in this project: '  ),
       cow.monadIter,
@@ -114,7 +116,10 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11,
       h('p', {style: styleRoll}, 'Now click ROLL. '  ),
       h('p', 'When you click a number, it disappears. After two numbers and an operator have been selected, in any order, a computation is performed and the result is placed at the end of the numbers row. Now there are three numbers. After another round, two are left and finally, the last computation can be performed. ',  ),
       h('p', 'You can click ROLL repeatedly and the Haskell server will obligingly provide new numbers. The numbers simulate the roll of four dice; two six-sided, one twelve-sided, and one twenty-sided. '  ),
-      h('p', 'Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Every time your score becomes a multiple of 5, you get 5 more points. Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMZ2 and mMZ4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMZ2 and mMZ4. "send" requests a new dice roll from the server. ' ),
+      h('p', {style: {color: '#EEBBBB'}}, 'RULES: You get one goal for reaching the number 25. Here\'s how you get there: Every time you compute the number 20, mM13.x (your score) gets incremented by 1. Every time you compute "18", your score increases by 3. Every time your score becomes 0 mod 5 (-5, 0, 5, 10, 15, ...) you get 5 more points. When you click ROLL you lose one point. Wheover has the most goals after five minutes wins.' ),
+      h('p', 'HINTS: The best way to get off to a good start is to click ROLL and then score 1 point by making the number 20. Score = 0! Right away you have five points. You can use the same technique when you reach 5, 10, 15, and 20. Click ROLL when you are at twenty, then compute 20 to get a point, and you jump to 25. Goal! But you can\'t get to 25 from 24. Computing 20 jumps you all the way to 30. '  ),
+        
+h('p', 'Clicking numbers and operators calls updateNums and UpdateOps, respectively. They call updateCalc. updateCalc (below) clearly displays the flow of the application. First, mMZ2 and mMZ4 get locked, acquiring the code that might eventually get executed in their "p" attribute arrays. Then, in the third part of the tupple, tests are performed that might release the code being held in mMZ2 and mMZ4. "send" requests a new dice roll from the server. ' ),
       h('p', 'We could have substituted ordinary callbacks for the blocked MonadIter instances and called them when the test conditions were met. Indeed, we could dispense with the monads altogether. But, at no significant cost in browser resources, the code is neatly organized and easy to reason about. ' ),
       h('p', 'The one gotcha that might have caused the code to fail on the first run is the order of three parts of the tupple. The tests in part 3 are run after mMZ2 and mMZ4 have acquired the code that didn\'t run. Had the code in part three been placed in part one, mMZ2.release() and mMZ4.release() would have no code to execute in their p attributes. Here is the code:'  ),
       cow.dice,
@@ -140,8 +145,30 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11,
       h('p', 'When a chat message comes in, mMmsg updates itself with the new message and then hands over processing to mMmessages. mMmessages then calls updateChildren with its bnd method, designating mMmsg as the text source, and then calls .bnd(update). That\'s all there is to it. The array mMmessages.x sits quietly in view() as an array of children of its parent div. '  ),
       h('p', 'Similarly, the scoreboard is updated by: '  ),
       cow.messages3,
+      h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'Using MonadIter In Large Computations' ),
+      h('p', 'MonadIter can be used to filter results while computations are in progress. For example, suppose I wanted to know if every integer x between 0 and 100 has a counterpart y between 0 and 10,000 such that the square root of x*x + y*7 is a whole number. 3 has 4 since the square root of 3*3 + 4*4 is 25, but what about 17, or 95? ' ),
+      h('p', 'here is a function for computing the hypotenuse of a right triangle: ' ),
+      cow.numbers,
+      h('p', 'And here is a function for computing our answer:'  ),
+      cow.numbers2,
+      h('p', 'Since the keys in objects are unique, if x: [x,y] is in the list and x: [x,y\'] is discovered, x: [x,y\'] displaces x: [x,y]. Since the numbers in the loops increase, we end up with the pair with the highest value of y. Notice that 0 is paired with 10,000, although all values of y between 0 and 10,000 work. I tried to find a match for x bigger than what we get checking y\'s up to 10,000 so I checked up to 1,000,000. The pairs were exactly what I get going up to 10,000. No y\'s were found above 4900 (for the pair 99 and 4900). So now I wonder, for all integers x greater than zero, is there one, and only one, integer y such that hyp(x,y) is an integer. If anyone knows of a proof or counter-example, please tell me about it at davidschalk42@gmail.com .'  ), 
+      h('p', 'It\'s so easy to obsess on numbers. If you click the following large button you can see the solutions obtained using MonadIter: '  ),
+      h('button', {on: { mouseenter: update4e, mouseleave: update4l, click: updateNumbers }, style: style4},
+            [ cow.numbers3 ],  ),
+      h('br' ),
+      h('br' ),
+      h('button', {on: { mouseenter: update12e, mouseleave: update12l, click: updateErase }, style: linkStyle2},
+            'ERASE'   ),
+      h('div', mMnumbers.x ),
+        h('br' ),
+        h('br' ),
+      h('button', {on: { mouseenter: update12e, mouseleave: update12l, click: updateErase }, style: linkStyle2},
+            'ERASE'   ),
+        h('br' ),
+        h('br' ),
+        h('br' ),
       h('span', 'The repository for this open source project is at ' ),
-      h('a', {props: {href: 'https://github.com/dschalk?tab=repositories'}, style: {color: '#EECCFF'}}, 'github.com/dschalk/' ),
+      h('a', {props: {href: 'https://github.com/dschalk?tab=repositories'}, style: {color: '#FFEBCD'}}, 'github.com/dschalk/' ),
       h('div', {style: {height: '300px'}} ),
       h('div', {style: monadStyle}, [  
       h('div',{style: { width: '30%', position: 'fixed', top: '15px', right: '15px', color: '#CCFDDA'}}, [ 
@@ -206,11 +233,8 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11,
         h('span', 'mM19.x: '),
         h('span', {style: styleM}, '  ' + m19),
         h('br'),
-        h('span', 'mMZ1.x: '),
-        h('span', {style: styleMI}, '  ' + mI1),
-        h('br'),
-        h('span', 'mMZ2.x: '),
-        h('span', {style: styleMI}, '  ' + mI2),
+        h('span', 'mMnbrs.x: '),
+        h('span', {style: styleM}, '  ' + mMnbrs),
         h('br'),
         h('br'),
         h('br'),
@@ -223,6 +247,7 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11,
 
       h('div', {style: chatStyle}, [  
         h('div',{style: { width: '30%', position: 'fixed', top: '40px', right: '15px', color: '#CCFDDA'}}, [ 
+        h('a', { props: {href: '#rules'}, style: {color: '#FFBBBB'}}, 'Game Rules'  ),
         h('button', {on: { mouseenter: update5e, mouseleave: update5l, click: updateGoback }, style: style5},
             'Go Back'  ),
         h('br', ),    
@@ -353,6 +378,25 @@ function updateFocus() {
   update0();
   signinFocus = {autofocus: true};
   update0();
+}
+
+function updateNumbers() {
+  linkStyle2 = style2;
+  mMnbrs.ret([]);
+  let ob = test2();
+  console.log('Amulus Quotomuls');
+  mMnbrs.x.push('The square root of the sum of the squares is a natural number:');
+  for (let ants in ob) {mMnbrs.x.push(ob[ants][0] + 
+    ' and  ' + ob[ants][1] + ' ________ result: ' + (hyp(ob[ants][0],ob[ants][1])) )};
+  mMnumbers
+  .bnd(updateChildren,mMnbrs)
+  .bnd(update);
+}
+
+function updateErase() {
+  linkStyle2 = {display: 'none'};
+  mMnumbers.ret([])
+  .bnd(update);
 }
 
 function updateLogin(e) {
@@ -586,6 +630,11 @@ socket.onmessage = function(event) {
             .bnd(update) );
           break;
 
+
+
+
+
+
           case "CF#$42":                              // Re-set after a each clculation.
           break;
 
@@ -643,6 +692,7 @@ socket.onmessage = function(event) {
 var inputStyle1 = inputStyleA;
 var monadStyle = inputStyleA;
 var linkStyle = {display: 'none'};
+var linkStyle2 = {display: 'none'};
 
 var inputStyleA = { backgroundColor: '#000000', color: '#FFBBBB', display: 'inline'} ;
 

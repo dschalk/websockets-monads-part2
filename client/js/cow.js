@@ -238,18 +238,38 @@ const messages3 = h('pre', {style: {color: '#AFEEEE' }},
 `
 );  
 
-const messages6 = h('pre', {style: {color: '#AFEEEE' }}, 
-`
-`
-);  
-
-const messages4 = h('pre', {style: {color: '#AFEEEE' }}, 
-`
+const numbers = h('pre', {style: {color: '#AFEEEE' }}, 
+`var hyp = function hyp(x,y) {
+  return Math.sqrt(x*x + y*y);
+};
 `
 );  
 
-const messages5 = h('pre', {style: {color: '#AFEEEE' }}, 
+const numbers2 = h('pre', {style: {color: '#AFEEEE' }}, 
+`var test2 = function test2() {
+  let k = 0;
+  let j = 0;
+  mM4.ret({});
+  for (j=0; j<101; j+=1) {
+    for (k=0; k<10001; k+=1) {
+      mMZ7.block().bnd(() => mM4
+      .bnd(addObj, j, [j,k]))
+      mM3.bnd(next, ((hyp(j,k) - Math.floor(hyp(j,k))) === 0), mMZ7)
+    }
+  }
+}
 `
+);  
+
+const numbers3 = h('pre', {style: {color: '#AFEEEE' }}, 
+`  mMnbrs.ret([]);
+  let ob = test2();
+  mMnbrs.x.push('The square root of the sum of the squares is a natural number:');
+  for (let ants in ob) {mMnbrs.x.push(ob[ants][0] + 
+    ' and  ' + ob[ants][1] + ' ________ result: ' + (hyp(ob[ants][0],ob[ants][1])) )};
+  mMnumbers
+  .bnd(updateChildren,mMnbrs)
+  .bnd(update);
 `
 );  
 
@@ -296,7 +316,7 @@ const updateNext = h('pre', {style: {color: '#AFEEEE' }},
 
 
 export default {monad, monadIter, steps, dice, send, nex, updateNext, 
-  pause, pauseDemo, messages1, messages2, messages3};
+  pause, pauseDemo, messages1, messages2, messages3, numbers, numbers2, numbers3};
 
 
 
