@@ -1,16 +1,15 @@
 {
-  "name": "snabbdom-starter",
+  "name": "websockets-monads-part2",
   "version": "0.0.0",
-  "description": "Simple snabbdom starter repository",
+  "description": "Experiments in organizing web applications",
   "main": "nant2.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:yelouafi/snabbdom-starter.git"
   },
-  "author": "Yassine Elouafi <yelouafi@gmail.com>",
+  "author": "David Schalk <fpschalk@gmail.com>",
   "dependencies": {
     "engine.io-client": "^1.6.4",
-    "react": "^0.14.3",
     "snabbdom": "^0.2.0",
     "snabbdom-jsx": "^0.3.0",
     "webpack": "^1.12.9"

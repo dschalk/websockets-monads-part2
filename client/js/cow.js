@@ -11,7 +11,7 @@ const monad = h('pre', {style: {color: '#AFEEEE' }}, `  class Monad {
       this.x = z;
 
       this.bnd = (func, ...args) => {
-        return func(this.x, this, ...args);
+        return func(this, ...args);
       };
 
       this.ret = a => {
@@ -65,7 +65,7 @@ const monadIter = h('pre', {style: {color: '#AFEEEE' }}, `  class MonadIter {
       this.bnd = (func, ...args) => {
         let self = this;
         if (self.x === false) {
-          func(self.x, self, ...args);
+          func(self, ...args);
           return self;
         }
         if (self.x === true) {

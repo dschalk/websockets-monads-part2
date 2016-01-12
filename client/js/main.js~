@@ -9,8 +9,9 @@ var afocus = {autofocus: false};
 var signinFocus = {autofocus: false};
 var DS_T = 8000;
 var SETINTERVAL = true;
+var READY = 0;
 
-var updateChildren = function updateMessages(x,mon,mon2) {
+var updateChildren = function updateMessages(mon,mon2) {
   mon.ret([]);
   let ar = mon2.x;
   let keys = Object.keys(ar);
@@ -56,6 +57,7 @@ var oldVnode = document.getElementById('placeholder');
 
 function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, 
                 m12, m13, m14, m15, m16, m17, m18, m19, mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8, mI9) { 
+      console.log('READY: ', READY);
   return h('div',{style: style3}, 
    [  h('div',{style: { width: '60%', textAlign: 'left', marginLeft: 40, marginRight: '17%', fontSize: '20px'}}, 
     [ h('div', [
@@ -76,8 +78,8 @@ function view(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11,
       h('span', '. The older site functions well, but it was bloated and unwieldy with React. I say "bloated" because I didn\'t need most of its core features. I didn\'t even use the state object and frequently called React.forceUpdate. Now I am at peace, using the '  ),
       h('a', {props: {href: 'https://github.com/paldepind/snabbdom' },  style: {color: '#EECCFF'}},' snabbdom library. '), 
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'Why I Call Them "Monads"' ),
-      h('p', 'Since the Monad and MonadIter instances are uniquely determined by their values (m.x for all monads m), and the values can be any value the is legal in ES6, it is immediately clear that there is a one to one correspondence between the infinite sets of all possible monads and all possible ES6 values, including primitives, arrays, functions, etc. The method "bnd" in combination with functions of the form f = (x,mon) => {alter the values of monads; return a monad } seem to obey the Haskell monad laws. The method "ret" makes any Javascript value into a monad with that value, and "ret"  is the left and right identity. Chains of monad operations using the bnd method are commutative; that is, m.bnd(f).bnd(g) is equivalent to m.bnd(x => f(g(x)). For example, "mM3.bnd(x => cube(x, add(x, mM3, 3))) === mM3.bnd(add,3).bnd(cube)" returns "true". Note that when we use "add" as a stand-alone function rather than an argument in the "bnd" method, we have to explicitly specify the value and the monad upon which add operates. ' ),
-      h('p', 'But "bnd" accepts arguments that do more than facilitate mapping among monads. It will accept functions of the type f = (x,mon) {do anything that can be done in ES6; return mon }. if mM1.x === 3, mM2.x === 4, and mM3.x === 0 (or anything else), after "mM1.bnd(() => cube(mM2.x, mM3))", mM1 and mM2 are unchanged, but mM3.x === 64. Monad methods can return ordinary values. For example, "bnd" with an ordinary function or a lambda leaves the calling monad unchanged, but returns the return value of the function operating on the monad\'s value. So mM1.bnd(_ => 52) leaves mM1 unchanged and returns 52, and  mM1.bnd(x => x*x) + 33 === 42 is true. So while the set of all possible instances of Monad and MonadIters along with the isomorphisms mapping them to one another might constitute a monad, the methods "bnd", "fmap", and "ret" are not restricted to taking only arguments that map within that set. '  ),
+      h('p', 'Since the Monad and MonadIter instances are uniquely determined by their values (m.x for all monads m), and the values can be any value the is legal in ES6, it is immediately clear that there is a one to one correspondence between the infinite sets of all possible monads and all possible ES6 values, including primitives, arrays, functions, etc. The method "bnd" in combination with functions of the form f = (mon) => {alter the values of monads; return a monad } seem to obey the Haskell monad laws. The method "ret" makes any Javascript value into a monad with that value, and "ret"  is the left and right identity. Chains of monad operations using the bnd method are commutative; that is, m.bnd(f).bnd(g) is equivalent to m.bnd(x => f(g(x)). For example, "mM3.bnd(x => cube(x, add(x, mM3, 3))) === mM3.bnd(add,3).bnd(cube)" returns "true". Note that when we use "add" as a stand-alone function rather than an argument in the "bnd" method, we have to explicitly specify the value and the monad upon which add operates. ' ),
+      h('p', 'But "bnd" accepts arguments that do more than facilitate mapping among monads. It will accept functions of the type f = (mon) {do anything that can be done in ES6; return mon }. if mM1.x === 3, mM2.x === 4, and mM3.x === 0 (or anything else), after "mM1.bnd(() => cube(mM2.x, mM3))", mM1 and mM2 are unchanged, but mM3.x === 64. Monad methods can return ordinary values. For example, "bnd" with an ordinary function or a lambda leaves the calling monad unchanged, but returns the return value of the function operating on the monad\'s value. So mM1.bnd(_ => 52) leaves mM1 unchanged and returns 52, and  mM1.bnd(x => x*x) + 33 === 42 is true. So while the set of all possible instances of Monad and MonadIters along with the isomorphisms mapping them to one another might constitute a monad, the methods "bnd", "fmap", and "ret" are not restricted to taking only arguments that map within that set. '  ),
       h('p', 'This project is not about mathematics, it is about organizing and streamlining code. The monad values displayed in the right column sometimes provide are there for demonstrations, but they can also provide instant debugging information. The values of all of the monads can be found by typing them in the browser console since they are provided by a script designated in index.html, rather than a module. These entities which I am calling "monads" are versitile and rebust, and they function well in chains, propagating values from link to link as far as they are needed and always having access to one another. They facilitate the writing of easy-to-understand and modify asynchronous code. I\'ll present a monad that propagates errors, kind of like the Haskell Maybe monad only without types. By the way, speaking of Haskell, if I modified monads by replacing m.x rather than mutating, which would require only a minor adjustment, the monads would be pure in the sense that Haskell MVar instances are pure. MVar instances\' values are removed and replaced, but the MVar instances are said to be immutable. That sort of thinking suggests that Javascript objects don\'t mutate when their attributes and methods come, go, and mutate. '  ), 
       h('p' ),
       h('h2', {style: {textAlign: 'center', color: '#ffba66'}}, 'MonadIter' ),
@@ -288,20 +290,21 @@ function update0() {
   oldVnode = patch(oldVnode, newVnode());
 }
 
-var score = function(x,mon,j) {
+var score = function(mon,j) {
   let k = 0;
   if (mM13.x == 25) {k = 1};
   socket.send('CG#$42,' + Group + ',' + Name + ',' + j + ',' + k);
   return mon;
 }
 
-var newRoll = function(x,mon) {
+var newRoll = function(mon) {
   socket.send(`CA#$42,${Group},${Name},6,6,12,20`);
   return mon;
 };
 
 function updateCalc() {  
-  if ((mM8.x === 0) || (mM3.x.length !== 2)) {return};
+  READY = 0;
+  console.log('IN updateCalc');
   monadStyle = inputStyleB;
   chatStyle = inputStyleA;
   mM19.bnd(() => (
@@ -359,19 +362,21 @@ function updateCalc() {
 function updateNums(e) {
   socket.send(`EQ#$42,${Group},${Name}`);
   DS_T = 8000;
+  READY += 1;
   mM2.ret([e.target.value, e.target.textContent]) 
   .bnd(() => mM3)
   .bnd(push,mM2.x[1])
   .bnd(() => {mM1.x[mM2.x[0]] = ""; return mM5;})
   .bnd(update)
-  updateCalc();
+  if (READY === 3) {updateCalc();}
 }
 
 function updateOp(e) {
   socket.send(`EQ#$42,${Group},${Name}`);
   DS_T = 8000;
+  READY += 1;
   mM8.ret(e.target.textContent);
-  updateCalc();
+  if (READY === 3) {updateCalc();}
 }
 
 function updateFocus() {
@@ -417,6 +422,7 @@ function updateLogin(e) {
        mM3.ret([]).bnd(mM2.ret);
        e.target.value = '';
        afocus = {autofocus: true};
+       READY = 0;
        update0();
      }
 }
@@ -453,7 +459,7 @@ function rollDice() {
   },1000 );
 }
 
-function rollD(x,mon) { 
+function rollD(mon) { 
   DS_T = 8000;
   if (SETINTERVAL) {
     setInterval( function() {
@@ -1032,7 +1038,7 @@ function updateRl(event) {
   oldVnode = patch(oldVnode, newVnode());
 }
 
-var update = function update(x,mon) {
+var update = function update(mon) {
   const newVnode = view(mM1.x, mM2.x, mM3.x, mM4.x, mM5.x, mM6.x, mM7.x, mM8.x, mM9.x,
   mM10.x, mM11.x, mM12.x, mM13.x, mM14.x, mM15.x, mM16.x, mM17.x, 
   mM18.x, mM19.x, mMZ1.x, mMZ2.x, mMZ3.x, mMZ4.x, mMZ5.x, mMZ6.x, mMZ7.x, mMZ8.x, mMZ9.x);
