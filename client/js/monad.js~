@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 
@@ -16,7 +16,7 @@ var Monad = function Monad(z) {
       args[_key - 1] = arguments[_key];
     }
 
-    return func.apply(undefined, [_this].concat(args));
+    return func.apply(undefined, [_this.x, _this].concat(args));
   };
 
   this.ret = function (a) {
@@ -36,10 +36,8 @@ var Monad = function Monad(z) {
   };
 };
 
-;
-
 var MonadIter = function MonadIter(z, g) {
-  var _this2 = this;
+  var _this = this;
 
   _classCallCheck(this, MonadIter);
 
@@ -48,14 +46,14 @@ var MonadIter = function MonadIter(z, g) {
   this.p = [];
 
   this.block = function () {
-    _this2.x = true;
-    return _this2;
+    _this.x = true;
+    return _this;
   };
 
   this.release = function () {
-    _this2.x = false;
-    var self = _this2;
-    var p = _this2.p;
+    _this.x = false;
+    var self = _this;
+    var p = _this.p;
 
     if (p[1] === 'bnd') {
       p[2].apply(p, [self.x, self].concat(_toConsumableArray(p[3])));
@@ -75,13 +73,13 @@ var MonadIter = function MonadIter(z, g) {
   };
 
   this.bnd = function (func) {
-    for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-      args[_key3 - 1] = arguments[_key3];
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
 
-    var self = _this2;
+    var self = _this;
     if (self.x === false) {
-      func.apply(undefined, [self].concat(args));
+      func.apply(undefined, [self.x, self].concat(args));
       return self;
     }
     if (self.x === true) {
@@ -91,13 +89,13 @@ var MonadIter = function MonadIter(z, g) {
   };
 
   this.fmap = function (f) {
-    for (var _len4 = arguments.length, args = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
-      args[_key4 - 2] = arguments[_key4];
+    for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+      args[_key2 - 2] = arguments[_key2];
     }
 
-    var mon = arguments.length <= 1 || arguments[1] === undefined ? _this2 : arguments[1];
+    var mon = arguments.length <= 1 || arguments[1] === undefined ? _this : arguments[1];
 
-    var self = _this2;
+    var self = _this;
     if (self.x === false) {
       mon.ret(f.apply(undefined, [mon.x].concat(args)));
       return mon;
@@ -109,7 +107,7 @@ var MonadIter = function MonadIter(z, g) {
   };
 
   this.ret = function (a) {
-    var self = _this2;
+    var self = _this;
     if (self.x === false) {
       self.x = a;
     }
@@ -117,14 +115,14 @@ var MonadIter = function MonadIter(z, g) {
       self.p = [self.id, 'ret', a];
       return self;
     }
-    _this2.x = false;
-    return _this2;
+    _this.x = false;
+    return _this;
   };
 };
 
 ;
 
-var pure = function pure(mon) {
+var pure = function pure(x,mon) {
   if (typeof mon.x.x == 'undefined') {
     return mon;
   }
@@ -199,7 +197,7 @@ var mMZ7 = MI(false, 'mMZ7');
 var mMZ8 = MI(false, 'mMZ8');
 var mMZ9 = MI(false, 'mMZ9');
 
-var toNums = function toNums(mon) {
+var toNums = function toNums(x,mon) {
   mon.x = mon.x.map(x => parseFloat(x));
   return mon; 
 };
@@ -222,26 +220,26 @@ var calc = function calc(a,op,b) {
   return result;
 };
 
-var pause = function(mon,t,mon2) {
+var pause = function(x,mon,t,mon2) {
   mon2.block();
-  var time = t*1000;
+  let time = t*1000;
   setTimeout( function() {
     mon2.release();
   },time );
   return mon;
 };
 
-var push = function push(mon,v) {
+var push = function push(a,mon,v) {
     mon.x.push(v);
     return mon;
 };
 
-var addSet = function addSet(mon,v) {
+var addSet = function addSet(a,mon,v) {
   mon.x.add(v);
   return mon;
 }
 
-var addObj = function addObj(mon,key,val) {
+var addObj = function addObj(a,mon,key,val) {
   mon.x[key] = val;
   return mon;
 }
@@ -254,13 +252,13 @@ var rand = function rand(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 };
  
-var ran = function ran(mon) {
+var ran = function ran(x, mon) {
   mon.ret(Math.floor(Math.random() * -4 + 5));
   return mon;
 };
 
 var test = function test() {
-  var k = 0;
+  let k = 0;
   mM4.ret({});
   for (k=0; k<10000000; k+=1) {
     mM1.ret(rand(1,100));
@@ -277,8 +275,8 @@ var hyp = function hyp(x,y) {
 };
 
 var test2 = function test2() {
-  var k = 0;
-  var j = 0;
+  let k = 0;
+  let j = 0;
   mM4.ret({});
   for (j=0; j<101; j+=1) {
     for (k=0; k<50000; k+=1) {
@@ -290,27 +288,27 @@ var test2 = function test2() {
   return mM4.x;
 }
 
-var keys = function keys(mon,mon2) {
+var keys = function keys(a,mon,mon2) {
     mon2.ret(Object.keys(mon.x));
     return mon;
 };
 
-var displayOff = function displayOff(mon,a) {
+var displayOff = function displayOff(x,mon,a) {
     document.getElementById(a).style.display = 'none';
     return mon;
 };
 
-var displayInline = function displayInline(mon,a) {
+var displayInline = function displayInline(x,mon,a) {
     document.getElementById(a).style.display = 'inline';
     return mon;
 };
 
-var displayBlock = function displayBlock(mon,a) {
+var displayBlock = function displayBlock(x,mon,a) {
     document.getElementById(a).style.display = 'block';
     return mon;
 };
 
-var popPush = function popPush(mon,a) {
+var popPush = function popPush(x,mon,a) {
   mon.x.pop;
   mon.x.push(a);
   return mon;
@@ -321,12 +319,12 @@ var blank = function blank(v,mon,i) {
   return mon;
 };
 
-var clean = function clean(mon) {
+var clean = function clean(x,mon) {
   mon.x = mon.x.filter(x => (x !== "" && x !== undefined));
   return mon;
 };
   
-var toFloat = function toFloat(mon) {
+var toFloat = function toFloat(x,mon) {
   var newx = mon.x.map(function (a) {
     return parseFloat(a);
   });
@@ -334,51 +332,51 @@ var toFloat = function toFloat(mon) {
   return mon;
 };
 
-var splice = function splice(mon,i) {
+var splice = function splice(x,mon,i) {
   mon.x.splice(i,1);
   return mon;
 }
 
-var next = function next(mon,condition,mon2) {
+var next = function next(x,mon,condition,mon2) {
   if (condition) {
     mon2.release();
   }
   return mon
 }
 
-var doub = function doub(mon) {
+var doub = function doub(x, mon) {
   mon.ret(x + x);
   return mon;
 };
 
-var square = function square(mon) {
+var square = function square(x, mon) {
   mon.ret(x * x);
   return mon;
 };
 
-var tripple = function tripple(mon) {
+var tripple = function tripple(x, mon) {
   mon.ret(x + x + x);
   return mon;
 };
 
-var cube =  function cube(mon) {
-  mon.ret(mon.x * mon.x * mon.x);
+var cube =  function cube(x, mon) {
+  mon.ret(x * x * x);
   return mon;
 };
 
-var add = function add(mon, y) {
+var add = function add(x, mon, y) {
   mon.ret(x + y);
   return mon;
 };
 
-var mult = function mult(mon, y) {
+var mult = function mult(x, mon, y) {
   mon.ret(x * y);
   return mon;
 };
 
 var lg = '';
 
-var log = function log(mon, y) {
+var log = function log(x, mon, y) {
   console.log(y);
   return mon;
 };
@@ -387,17 +385,17 @@ var fnc = function fnc(a, b) {
   return a.b;
 };
 
-var branch = function branch(mon, a) {
+var branch = function branch(x, mon, a) {
   return mon;
 };
 
-var branchT = function branchT(mon, a) {
+var branchT = function branchT(x, mon, a) {
   setTimeout(function () {
     return mon;
   }, 500);
 };
 
-var chance = function chance(mon) {
+var chance = function chance(x, mon) {
   var a = rand(1, 5);
   var b = rand(1, 5);
   var c = rand(1, 5);
@@ -416,7 +414,7 @@ var chance = function chance(mon) {
   return mon;
 };
 
-var ch = function ch(mon, a, b, c) {
+var ch = function ch(x, mon, a, b, c) {
   if (a === b && a === c) {
     mon.ret('Winner! Three of a kind');
     return mon;
@@ -429,7 +427,7 @@ var ch = function ch(mon, a, b, c) {
   return mon;
 };
 
-var jackpot = function jackpot(mon) {
+var jackpot = function jackpot(x, mon) {
   var k = 1;
   for (k; k < 5; k += 1) {
     if (x === [k, k, k, k, k, k]) {
@@ -441,7 +439,7 @@ var jackpot = function jackpot(mon) {
   return mon;
 };
 
-var bench = function bench(mon) {
+var bench = function bench(x, mon) {
   var self = undefined;
   var k = 0;
   var j = 0;
@@ -495,7 +493,7 @@ var test6 = function test6() {
   mMS1.ret(3).fmap(ad, mMS2, mMS1.x).fmap(du).fmap(ad, mM1, mMS1.x).fmap(cu).fmap(id, mMS3).bnd(add, mMS2.x + 1000);
 };
 
-var delay = function delay(mon) {
+var delay = function delay(x, mon) {
   return new Promise(function (resolve, reject) {
     setTimeout(resolve, 2000);
   });
